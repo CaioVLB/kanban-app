@@ -11,6 +11,8 @@
   "Add additional security to your account using two factor authentication.": "Adicione uma camada a mais de segurança para acessar sua conta usando autenticação de dois fatores.",
   "All rights reserved.": "Todos os direitos reservados.",
   "Already registered?": "Já registrado?",
+  "Are you sure you want to delete your account?": "Você tem certeza que quer deletar essa conta?",
+  "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Uma vez que sua conta é deletada, todos os dados serão permanentemente deletados. Por favor, entre com a sua senha para confirmar que você quer deletar permanentemente sua conta.",
   "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Você tem certeza que quer deletar essa conta? Uma vez que sua conta é deletada, todos os dados serão permanentemente deletados. Por favor, entre com a sua senha para confirmar que você quer deletar permanentemente sua conta.",
   "Are you sure you would like to delete this API token?": "Tem certeza de que deseja excluir este token de API?",
   "Before proceeding, please check your email for a verification link.": "Antes de prosseguir, por favor, veja se recebeu o link de verificação em seu e-mail",

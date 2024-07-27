@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Modules\Profile\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Modules\Profile\Requests\ProfileUpdateRequest;
+use App\Modules\_MainController\MainController;
+use App\Modules\Profile\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
+class ProfileController extends MainController
 {
-    /**
-     * Display the user's profile form.
-     */
+    public function __construct(
+        protected ProfileService $service
+    ){}
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -21,42 +23,27 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $data = $request->user()->fill($request->validated());
+        $user = $this->service->update($data->toArray());
+        if(!$user) {
+            return redirect()->back()->with('status', 'Falha na atualização do perfil.');
         }
-        
-        $request->user()->cpf = preg_replace('/[^0-9]/', '', $request->user()->cpf);
-        
-        $request->user()->save();
-
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
+        $success = $this->service->delete($request->user()->id);
+        if(!$success) {
+            return redirect()->back()->with('userDeletion', 'Falha interna durante execução.');
+        }
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return Redirect::to('/');
     }
 }
