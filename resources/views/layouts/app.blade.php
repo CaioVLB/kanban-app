@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     x-data="{ isDarkMode: localStorage.getItem('dark') === 'true' }"
     x-init="$watch('isDarkMode', val => localStorage.setItem('dark', val))"
     x-bind:class="{ 'dark': isDarkMode }" @toggle-dark-mode.window="isDarkMode = !isDarkMode">
@@ -19,13 +19,8 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+            @include('layouts.main')
         </div>
-        {{-- 
-            -> Trocar o nome do arquivo navigation para main (layout).
-            -> Fazer um componente sidebar, passar o parametro openSideBar para dentro do arquivo.
-            -> Tirar a barra de rolagem (h-screen overflow-y-auto)
-         --}}
 
         {{-- <div class="flex" id="wrapper" x-data="{ isOpen: true }">
             <div id="sidebar" class="h-screen overflow-y-auto transition-all duraction-200 bg-white dark:bg-gray-900"
