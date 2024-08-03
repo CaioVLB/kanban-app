@@ -3,12 +3,10 @@
     <div class="flex">
         @include('layouts.sidebar', ['openSideBar' => 'openSideBar'])
         <div class="w-full h-screen overflow-y-auto transition-all duraction-200 bg-gray-100 dark:bg-gray-900">
-{{--            <div class="p-2">--}}
-                <!-- Page Content -->
-                <main>
-                    {{ $slot }}
-                </main>
-{{--            </div>--}}
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
         </div>
     </div>
 </div>
