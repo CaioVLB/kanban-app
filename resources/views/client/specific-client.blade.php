@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-6 mx-auto lg:gap-4 md:gap-4 gap-y-4 px-4">
+        <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-1 mx-auto lg:gap-4 gap-y-4 px-4">
             <div class="col-span-4 flex flex-col gap-y-4">
                 <div class="md:flex">
                     <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
@@ -57,11 +57,11 @@
                         <h2 class="text-xl font-bold text-gray-900 dark:text-white">Carregar Arquivos</h2>
                     </div>
                     <template x-if="insertedFiles.length === 0">
-                        <div class="flex">
+                        <div class="md:flex">
                             <div class="w-full">
-                                <img src="{{ asset("images/vetores/upload-file.png")}}" data-retina="true" alt="Imagem que retrata uma mulher carregando arquivos para o sistema" class="max-w-full h-[200px] opacity-60">
+                                <img src="{{ asset("images/vetores/upload-file.png")}}" data-retina="true" alt="Imagem que retrata uma mulher carregando arquivos para o sistema" class="max-w-full h-[200px] mx-auto opacity-60">
                             </div>
-                            <div class="p-3 mx-2 mt-2">
+                            <div class="p-3 mx-0 mt-2">
                                 <p class="py-1 px-1 mb-6 text-start text-gray-600 dark:text-gray-100">Até o momento, este cliente não possui arquivos carregados. Sinta-se à vontade para adicionar quando necessário.</p>
                                 <div class="flex justify-center items-center">
                                     <button type="submit" class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-purple-600 focus:outline-none bg-purple-100 rounded-lg border border-purple-200 hover:bg-purple-200 hover:text-purple-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-purple-600 dark:text-purple-200 dark:border-gray-800 dark:hover:text-white dark:hover:bg-purple-700">
@@ -82,8 +82,8 @@
                         </svg>
                         <h2 class="text-xl font-bold text-gray-900 dark:text-white">Quadros Inseridos</h2>
                     </div>
-                    <div class="flex flex-col max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2">
-                        <div class="w-full relative group box-border py-1 px-2">
+                    <div class="w-full flex flex-wrap max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2 px-0.5">
+                        <div class="w-full lg:w-full md:w-[50%] relative group box-border py-1 px-2">
                             <a href="#" class="w-full md:h-[122px] h-[90px] flex flex-col justify-between py-2 px-4 bg-white border border-gray-200 rounded-lg shadow transition-transform duration-300 ease-in-out transform group-hover:scale-105 z-10 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                                 <span class="w-full max-h-[80px] inline-block overflow-scroll overflow-x-hidden scroll-smooth break-words font-bold dark:text-white">Planejamento de Desenvolvimento de Software Para Gestão de Processos</span>
                                 <div class="w-full flex justify-end gap-4">
@@ -114,14 +114,32 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-900 dark:text-white mr-2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                         </svg>
-
                         <h2 class="text-xl font-bold text-gray-900 dark:text-white">Anotações</h2>
                     </div>
                     <div class="mt-2 w-full">
                         <form method="POST">
                             @csrf
-                            <input type="text" name="annotation-client" id="annotation-client" class="border-b border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-purple-400 focus:border-purple-200 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Escreva a sua anotação aqui" required="">
+                            <div class="flex">
+                                <input type="text" name="annotation-client" id="annotation-client" class="border border-gray-300 text-gray-900 text-sm rounded-s-md shadow-sm focus:ring-purple-400 focus:border-purple-200 w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Escreva anotações sobre o seu cliente aqui" required="">
+                                <button type="submit" class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-purple-600 focus:outline-none bg-purple-100 rounded-e-lg border border-s-0 border-purple-200 hover:bg-purple-200 hover:text-purple-700 focus:z-10 dark:bg-purple-600 dark:text-purple-200 dark:border-gray-500 dark:hover:text-white dark:hover:bg-purple-700">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </form>
+                        <div class="flex flex-col max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2">
+                            <form>
+                                <div class="w-full box-border h-[90px] flex justify-between py-2 px-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                    <span class="w-full max-h-auto max-h-auto:overflow-scroll overflow-x-hidden scroll-smooth inline-block break-words font-bold dark:text-white">Planejamento de Desenvolvimento de Software Para Gestão de Processos</span>
+                                    <button type="submit" class="inline-flex items-center px-3 my-3 ms-1 focus:outline-none bg-red-200 rounded-lg border border-red-400 shadow hover:bg-red-300 dark:bg-red-400 dark:border-red-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-5 w-5 fill-red-800 dark:hover:fill-red-900" viewBox="0 0 256 256">
+                                            <path d="M216,48H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM192,208H64V64H192ZM80,24a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H88A8,8,0,0,1,80,24Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
