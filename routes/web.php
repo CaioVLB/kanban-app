@@ -33,9 +33,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/client', function () {
         return view('client.client');
     })->name('client');
-    Route::get('/specific-client', function () {
-        return view('client.specific-client');
-    })->name('specific-client');
+    Route::get('/client-dashboard', function () {
+        return view('client.client-dashboard');
+    })->name('client-dashboard');
+    Route::get('/collaborator', function () {
+        return view('collaborator.collaborator');
+    })->name('collaborator');
+    Route::get('/team', function () {
+        return view('team.team');
+    })->name('team');
+    Route::get('/board', function () {
+        return view('board.board');
+    })->name('board');
 });
 
 require __DIR__.'/auth.php';

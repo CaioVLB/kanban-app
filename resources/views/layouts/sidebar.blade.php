@@ -40,12 +40,12 @@
                 </button>
                 <ul x-show="openTeam" x-cloak x-transition class="pl-6 mt-1 space-y-1">
                     <li>
-                        <a href="#" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
+                        <a href="{{ route('collaborator') }}" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
                             Gerenciar Colaboradores
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
+                        <a href="{{ route('team') }}" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
                             Gerenciar Equipes
                         </a>
                     </li>
