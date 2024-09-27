@@ -11,8 +11,8 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Font -->
-       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        @stack('styles')
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
@@ -20,5 +20,6 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.main')
         </div>
+        @stack('scripts')
     </body>
 </html>
