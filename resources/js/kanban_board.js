@@ -1,4 +1,5 @@
 let draggedCard;
+let sourceColumnOfTheDraggedCard;
 let lastUpdated;
 export default () => ({
   addColumn: false,
@@ -34,7 +35,7 @@ export default () => ({
 
   createCard(columnIndex) {
     let newCard = {
-      id: this.columns[columnIndex].cards.length + 1,
+      id: Math.floor(Math.random() * (100 - 1 + 1)),
       content: this.columns[columnIndex].cardContent,
     }
 
@@ -50,6 +51,7 @@ export default () => ({
 
   dragStart (event) {
     draggedCard = event.target;
+    sourceColumnOfTheDraggedCard = event.target.parentNode.closest("li");
     event.dataTransfer.effectAllowed = "move";
   },
 
@@ -67,10 +69,23 @@ export default () => ({
     target.classList.remove("column-highlight");
   },
 
-  drop ({ target }) {
+  drop ({ target, clientY }) {
     if (target.classList.contains("column")) {
       target.classList.remove("column-highlight");
-      target.append(draggedCard);
+
+      // Encontrar o índice da coluna de destino e a coluna de origem.
+      const targetColumnIndex = Array.from(target.closest("li").parentNode.children).indexOf(target.closest("li")) - 1;
+      const sourceColumnIndex = Array.from(sourceColumnOfTheDraggedCard.parentNode.children).indexOf(sourceColumnOfTheDraggedCard) - 1;
+
+      // Encontrar o índice do cartão arrastado.
+      const draggedCardIndex = Array.from(draggedCard.parentNode.children).indexOf(draggedCard) - 1;
+
+      // Atualizar o estado de `columns`.
+      const cardData = this.columns[sourceColumnIndex].cards.splice(draggedCardIndex, 1)[0];
+      this.columns[targetColumnIndex].cards.push(cardData);
+      // Atualizar a renderização.
+      draggedCard = null;
+      sourceColumnOfTheDraggedCard = null;
     }
   },
 
@@ -86,7 +101,7 @@ export default () => ({
       column.addEventListener("dragover", this.dragOver);
       column.addEventListener("dragenter", this.dragEnter);
       column.addEventListener("dragleave", this.dragLeave);
-      column.addEventListener("drop", this.drop);
+      column.addEventListener("drop", this.drop.bind(this));
     });
   },
 
