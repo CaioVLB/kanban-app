@@ -101,7 +101,7 @@
                             class="w-full bg-amber-200 border-amber-300 font-semibold text-amber-600 hover:bg-amber-300 hover:border-gray-300 hover:text-amber-700 rounded-lg shadow gap-2 py-1.5 px-2 focus:outline-none dark:bg-amber-600 dark:text-amber-200 dark:hover:text-white dark:border-amber-700 dark:hover:bg-amber-700">
                             Criar cartão
                           </button>
-                          <button @click="cancelCardAddition(columnIndex)"
+                          <button @click="resetCardForm(columnIndex)"
                             type="button"
                             class="w-full bg-white/25 border-gray-300 font-semibold rounded-lg shadow gap-2 py-1.5 px-2 focus:outline-none hover:bg-white/75 dark:text-white dark:bg-gray-700 dark:hover:bg-white/25 dark:border-gray-700">
                             Cancelar
@@ -140,7 +140,7 @@
 										class="w-full bg-amber-200 border-amber-300 font-semibold text-amber-600 hover:bg-amber-300 hover:border-gray-300 hover:text-amber-700 rounded-lg shadow gap-2 py-1.5 px-2 focus:outline-none dark:bg-amber-600 dark:text-amber-200 dark:hover:text-white dark:border-amber-700 dark:hover:bg-amber-700">
 										Criar etapa
 									</button>
-									<button @click="cancelColumnAddition"
+									<button @click="resetColumnForm"
 										type="button" class="w-full bg-white/25 border-gray-300 font-semibold rounded-lg shadow gap-2 py-1.5 px-2 focus:outline-none hover:bg-white/75 dark:text-white dark:bg-gray-700 dark:hover:bg-white/25 dark:border-gray-700">
 										Cancelar
 									</button>

@@ -1,5 +1,3 @@
-let draggedCard;
-let sourceColumnOfTheDraggedCard;
 let lastUpdated;
 export default () => ({
   addColumn: false,
@@ -7,6 +5,9 @@ export default () => ({
   columns: [],
   columnName: "",
   cardContent: "",
+  draggedCard: null,
+  sourceColumnOfTheDraggedCard: null,
+  dropEventExecuted: false, // Flag
 
   init() {
     this.$nextTick(() => {
@@ -17,42 +18,38 @@ export default () => ({
   },
 
   createColumn() {
-    let newColumn = {
+    this.columns.push({
       id: this.columns.length + 1,
       name: this.columnName,
       cards: []
-    }
-
-    this.columns.push(newColumn);
-    this.columnName = "";
-    this.addColumn = false;
+    });
+    this.resetColumnForm();
   },
 
-  cancelColumnAddition() {
+  resetColumnForm() {
     this.columnName = "";
     this.addColumn = false;
   },
 
   createCard(columnIndex) {
-    let newCard = {
-      id: Math.floor(Math.random() * (100 - 1 + 1)),
+    this.columns[columnIndex].cards.push({
+      id: Math.floor(Math.random() * 100),
       content: this.columns[columnIndex].cardContent,
-    }
+    });
 
-    this.columns[columnIndex].cards.push(newCard);
+    this.resetCardForm(columnIndex);
+  },
+
+  resetCardForm(columnIndex) {
     this.columns[columnIndex].cardContent = "";
     this.columns[columnIndex].addCard = false;
   },
 
-  cancelCardAddition(columnIndex) {
-    this.columns[columnIndex].addCard = false;
-    this.columns[columnIndex].cardContent = "";
-  },
-
-  dragStart (event) {
-    draggedCard = event.target;
-    sourceColumnOfTheDraggedCard = event.target.parentNode.closest("li");
+  dragStart (event, columnIndex) {
+    this.draggedCard = event.target;
+    this.sourceColumnOfTheDraggedCard = columnIndex;
     event.dataTransfer.effectAllowed = "move";
+    this.dropEventExecuted = false;
   },
 
   dragOver (event) {
@@ -65,43 +62,46 @@ export default () => ({
     }
   },
 
-  dragLeave ({ target }) {
-    target.classList.remove("column-highlight");
-  },
-
-  drop ({ target, clientY }) {
-    if (target.classList.contains("column")) {
-      target.classList.remove("column-highlight");
-
-      // Encontrar o índice da coluna de destino e a coluna de origem.
-      const targetColumnIndex = Array.from(target.closest("li").parentNode.children).indexOf(target.closest("li")) - 1;
-      const sourceColumnIndex = Array.from(sourceColumnOfTheDraggedCard.parentNode.children).indexOf(sourceColumnOfTheDraggedCard) - 1;
-
-      // Encontrar o índice do cartão arrastado.
-      const draggedCardIndex = Array.from(draggedCard.parentNode.children).indexOf(draggedCard) - 1;
-
-      // Atualizar o estado de `columns`.
-      const cardData = this.columns[sourceColumnIndex].cards.splice(draggedCardIndex, 1)[0];
-      this.columns[targetColumnIndex].cards.push(cardData);
-      // Atualizar a renderização.
-      draggedCard = null;
-      sourceColumnOfTheDraggedCard = null;
+  dragLeave(event) {
+    if (event.target.classList.contains("column")) {
+      event.target.classList.remove("column-highlight");
     }
   },
 
+  drop (event, targetColumnIndex) {
+    event.preventDefault();
+
+    if (this.dropEventExecuted) return;
+
+    this.dropEventExecuted = true;
+    event.target.classList.remove("column-highlight");
+
+    if(this.sourceColumnOfTheDraggedCard !== targetColumnIndex) {
+      const draggedCardIndex = [...this.draggedCard.parentNode.children].filter(child => child.tagName !== 'TEMPLATE').indexOf(this.draggedCard);
+      const cardData = this.columns[this.sourceColumnOfTheDraggedCard].cards.splice(draggedCardIndex, 1)[0];
+      this.columns[targetColumnIndex].cards.push(cardData);
+    }
+
+    this.resetDragState();
+  },
+
+  resetDragState() {
+    this.draggedCard = null;
+    this.sourceColumnOfTheDraggedCard = null;
+  },
+
   setupDragAndDrop() {
-    const draggables = this.$el.querySelectorAll(".card");
-    const droppables = this.$el.querySelectorAll(".column");
-
-    draggables.forEach((card) => {
-      card.addEventListener("dragstart", this.dragStart);
-    });
-
-    droppables.forEach((column) => {
+    const columns = this.$refs.boardContainer.querySelectorAll(".column");
+    columns.forEach((column, columnIndex) => {
       column.addEventListener("dragover", this.dragOver);
       column.addEventListener("dragenter", this.dragEnter);
       column.addEventListener("dragleave", this.dragLeave);
-      column.addEventListener("drop", this.drop.bind(this));
+      column.addEventListener("drop", (event) => this.drop(event, columnIndex));
+
+      const cards = column.querySelectorAll(".card");
+      cards.forEach((card) => {
+        card.addEventListener("dragstart", (event) => this.dragStart(event, columnIndex));
+      });
     });
   },
 
@@ -127,29 +127,18 @@ export default () => ({
   observeMutations() {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        // Verifica se novos nós foram adicionados
+        console.log(`Mutation type: ${mutation.type}`);
+        console.log(`Added nodes:`, mutation.addedNodes);
+        console.log(`Removed nodes:`, mutation.removedNodes);
+        console.log(`Target element:`, mutation.target);
+
         if (mutation.addedNodes.length) {
-          observer.disconnect();
-          mutation.addedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              const isCard = node.classList.contains("card");
-              const isPreviouslyUpdated = node === lastUpdated;
-              if (isCard && !isPreviouslyUpdated) {
-                lastUpdated = node; // Armazena o nó atualizado
-                this.setupDragAndDrop();
-              } else if (node.querySelector(".card")) {
-                lastUpdated = node; // Armazena o nó atualizado
-                this.setupDragAndDrop();
-              }
-            }
-          });
-          // Reconectar o observer após processar as mutações
-          observer.observe(this.$refs.boardContainer, {childList: true, subtree: true});
+          this.setupDragAndDrop();
         }
       });
     });
 
-    // Observar alterações na lista
-    observer.observe(this.$refs.boardContainer, {childList: true, subtree: true});
+    observer.observe(this.$refs.boardContainer, { childList: true, subtree: true });
   }
+
 });
