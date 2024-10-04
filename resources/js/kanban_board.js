@@ -1,4 +1,3 @@
-let lastUpdated;
 export default () => ({
   addColumn: false,
   addCard: false,
@@ -57,13 +56,13 @@ export default () => ({
   },
 
   dragEnter ({ target }) {
-    if (target.classList.contains("column")) {
+    if (target.classList.contains("column-body")) {
       target.classList.add("column-highlight");
     }
   },
 
   dragLeave(event) {
-    if (event.target.classList.contains("column")) {
+    if (event.target.classList.contains("column-body")) {
       event.target.classList.remove("column-highlight");
     }
   },
@@ -91,7 +90,7 @@ export default () => ({
   },
 
   setupDragAndDrop() {
-    const columns = this.$refs.boardContainer.querySelectorAll(".column");
+    const columns = this.$refs.boardContainer.querySelectorAll(".column-body");
     columns.forEach((column, columnIndex) => {
       column.addEventListener("dragover", this.dragOver);
       column.addEventListener("dragenter", this.dragEnter);
@@ -105,35 +104,15 @@ export default () => ({
     });
   },
 
-  searchNearestCard(column, mouseY) {
-    const columnCards = column.querySelectorAll(".card:not(.is-dragging)");
-    let closestCard = null;
-    let closestOffset = Number.NEGATIVE_INFINITY;
-
-    columnCards.forEach((card) => {
-      const {top} = card.getBoundingClientRect();
-      const differenceDistanceBetweenCards = mouseY - top;
-
-      // Verifica se a distância é a mais próxima
-      if (differenceDistanceBetweenCards < 0 && differenceDistanceBetweenCards > closestOffset) {
-        closestOffset = differenceDistanceBetweenCards;
-        closestCard = card;
-      }
-    });
-
-    return closestCard;
-  },
-
   observeMutations() {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        console.log(`Mutation type: ${mutation.type}`);
-        console.log(`Added nodes:`, mutation.addedNodes);
-        console.log(`Removed nodes:`, mutation.removedNodes);
-        console.log(`Target element:`, mutation.target);
-
-        if (mutation.addedNodes.length) {
-          this.setupDragAndDrop();
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE && (node.matches('.column') || node.matches('.card'))) {
+              this.setupDragAndDrop();
+            }
+          });
         }
       });
     });

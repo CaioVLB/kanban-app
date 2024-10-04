@@ -19,7 +19,7 @@
 			<div class="relative flex flex-grow gap-2">
 				<ol class="absolute flex flex-row overflow-x-auto overflow-y-hidden list-none select-none whitespace-nowrap p-2 mb-2 inset-0 scroll-smooth" x-ref="boardContainer">
 					<template x-for="(column, columnIndex) in columns" :key="column.id">
-						<li class="block shrink-0 p-2 h-full w-[300px] whitespace-nowrap">
+						<li class="column block shrink-0 p-2 h-full w-[300px] whitespace-nowrap">
 							<section class="max-h-full relative flex flex-col justify-between align-top box-border bg-black/25 rounded shadow whitespace-normal pb-2 dark:bg-gray-700">
 								<header class="w-full flex justify-between gap-2 p-3">
 										<span class="w-full uppercase text-sm font-bold text-gray-900 truncate dark:text-white" x-bind:title="column.name" x-text="column.name"></span>
@@ -27,7 +27,7 @@
 												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis w-4 h-4 dark:stroke-white"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
 										</button>
 								</header>
-                <ol class="column flex flex-col overflow-x-hidden overflow-y-auto list-none gap-y-1 mx-[2px] p-1">
+                <ol class="column-body flex flex-col overflow-x-hidden overflow-y-auto list-none gap-y-1 mx-[2px] px-1 py-3">
                   <template x-for="(card, index) in column.cards" :key="card.id">
                     <li class="card" draggable="true">
                       <div class="min-h-9 rounded bg-white border border-gray-400 shadow cursor-pointer p-2 hover:bg-gray-100 hover:border-2 dark:bg-white/25 dark:border-gray-400 dark:hover:bg-white/50">
