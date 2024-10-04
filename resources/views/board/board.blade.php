@@ -2,12 +2,6 @@
     <link rel="stylesheet" href="{{ asset('css/board.css') }}">
 @endpush
 
-@push('scripts')
-    {{-- <script src="{{ asset('js/board/addStage.js') }}" defer></script>
-    <script src="{{ asset('js/board/addCard.js') }}" defer></script>
-    <script src="{{ asset('js/board/drag.js') }}" defer></script> --}}
-@endpush
-
 <x-app-layout>
 	<div class="max-h-content flex gap-4 p-4 overflow-hidden" x-data="{ openSpaceBoardList: true }">
 		@include('board.snippets.board-list')

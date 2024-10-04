@@ -39,9 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/collaborator', function () {
         return view('collaborator.collaborator');
     })->name('collaborator');
-    Route::get('/team', function () {
-        return view('team.team');
-    })->name('team');
+    Route::get('/role', function () {
+        return view('role.role');
+    })->name('role');
     Route::get('/board', function () {
         return view('board.board');
     })->name('board');
