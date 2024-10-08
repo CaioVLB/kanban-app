@@ -15,19 +15,19 @@
                     </svg>
                     <div class="w-full grid grid-cols-3 gap-4 sm:grid-cols-2 lg:grid-cols-4 py-2 px-4">
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Nome do Cliente</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Nome do Cliente</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 Caio Vitor Lima Brito
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Telefone</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 (69) 992348050
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Email</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Email</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 caiovitor@exclusivebee.com.br
                             </span>
@@ -48,19 +48,19 @@
                     </svg>
                     <div class="w-full grid grid-cols-3 gap-4 sm:grid-cols-2 lg:grid-cols-4 py-2 px-4">
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Nome do Cliente</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Nome do Cliente</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 Anderson Krautheim
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Telefone</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 (48) 991349442
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <label class="text-start text-gray-600">Email</label>
+                            <label class="text-start text-gray-600 dark:text-gray-400">Email</label>
                             <span class="text-start text-gray-900 font-bold dark:text-white">
                                 andersonkrautheim@exclusivebee.com.br
                             </span>

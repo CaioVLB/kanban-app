@@ -1,22 +1,55 @@
 export default () => ({
   roles: [
-    { id: 1, name: 'Developer Exclusive Bee', collaborators: 2 },
-    { id: 2, name: 'Designer', collaborators: 3 }
+    { id: 1, name: 'Chief Executive Officer', collaborators: 1 },
+    { id: 2, name: 'CFO', collaborators: 1 },
+    { id: 3, name: 'Developer Exclusive Bee', collaborators: 2 },
   ],
-  formData: { id: '', name: '' },  // Dados do formulário da modal.
-  isEditing: false,  // Indica se a modal está em modo de edição.
+  form: {
+    id: null,
+    name: '',
+    collaborators: 0,
+  },
+  mode: 'create',
 
   openModal(action, role = null) {
-    console.log(action, role)
-    this.isEditing = (action === 'edit');
-    if (this.isEditing && role) {
-      // Preenche o formulário com os dados do cargo selecionado.
-      this.formData = { ...role };
+    this.mode = action;
+    if (action === 'edit' && role) {
+      this.form = { ...role };
     } else {
-      // Reseta o formulário para um novo cargo.
-      this.formData = { id: '', name: '' };
+      this.resetForm();
     }
-    // Abre a modal.
-    document.dispatchEvent(new CustomEvent('open-modal', { detail: { id: 'modal-role' } }));
+    this.$dispatch('open-modal', 'modal-role');
+  },
+
+  resetForm() {
+    this.form = {
+      id: null,
+      name: '',
+      collaborators: 0,
+    };
+  },
+
+  submitForm() {
+    if (this.mode === 'create') {
+      console.log('Criar novo cargo:', this.form);
+      this.roles.push({ ...this.form });
+    } else if (this.mode === 'edit') {
+      console.log('Editar cargo:', this.form);
+      const index = this.roles.findIndex((role) => role.id === this.form.id);
+      if (index !== -1) {
+        this.roles[index] = { ...this.form };
+      }
+    }
+
+    this.$dispatch('close-modal', 'modal-role');
+  },
+
+  deleteRole(role) {
+    const index = this.roles.findIndex((r) => r.id === role.id);
+    if (index !== -1) {
+      this.roles[index].remove({ ...this.form });
+    }
   }
+
+
 });
