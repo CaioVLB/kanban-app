@@ -31,10 +31,8 @@ export default () => ({
 
   submitForm() {
     if (this.mode === 'create') {
-      console.log('Criar novo cargo:', this.form);
       this.roles.push({ ...this.form });
     } else if (this.mode === 'edit') {
-      console.log('Editar cargo:', this.form);
       const index = this.roles.findIndex((role) => role.id === this.form.id);
       if (index !== -1) {
         this.roles[index] = { ...this.form };
@@ -47,9 +45,7 @@ export default () => ({
   deleteRole(role) {
     const index = this.roles.findIndex((r) => r.id === role.id);
     if (index !== -1) {
-      this.roles[index].remove({ ...this.form });
+      this.roles.splice(index, 1);
     }
   }
-
-
 });

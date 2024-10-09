@@ -16,15 +16,15 @@
     </button>
   </div>
   <!-- Modal body -->
-  <form class="p-4 md:p-5">
+  <form class="p-4 md:p-5" @submit.prevent="submitForm()">
     <div class="grid gap-4 mb-4 grid-cols-2">
       <div class="col-span-2">
         <label for="name-collaborator" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do
           Colaborador
         </label>
-        <input type="text" name="name-collaborator" id="name-collaborator"
+        <input type="text" name="name-collaborator" id="name-collaborator" x-model="form.name"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
-               placeholder="Nome do seu colaborador" required
+               placeholder="Nome do seu colaborador" required autofocus
         >
       </div>
       <div class="col-span-2">
@@ -50,7 +50,7 @@
               <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3"
                   class="max-h-36 py-1 text-base ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                 <template x-for="role in roles" :key="role.id">
-                  <li @click="selectRole(role.name)"
+                  <li @click="selectRole(role)"
                       class="text-gray-900 cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-amber-200 hover:rounded-md hover:font-bold dark:hover:bg-amber-600">
                     <div class="flex items-center">
                       <span class="ml-1 block font-normal truncate dark:text-white" x-text="role.name"></span>
@@ -60,15 +60,23 @@
               </ul>
             </div>
           </div>
-          <input type="hidden" name="role" x-bind:value="selectedRole">
+          <!--<input type="hidden" name="role" x-bind:value="selectedRole">-->
+        </div>
+      </div>
+      <div class="col-span-2" x-data>
+        <div class="col-span-2">
+          <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefone</label>
+          <input type="text" name="phone" id="phone" x-model="form.phone"
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
+                 placeholder="(99) 99999-9999" x-mask="(99) 99999-9999" required autofocus>
         </div>
       </div>
       <div class="col-span-2" x-data>
         <div class="col-span-2">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-          <input type="text" name="email" id="email"
+          <input type="text" name="email" id="email" x-model="form.email"
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
-                 placeholder="exemplo@exemplo.com" required>
+                 placeholder="exemplo@exemplo.com" required autofocus>
         </div>
       </div>
     </div>
