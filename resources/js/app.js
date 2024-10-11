@@ -3,13 +3,21 @@ import 'flowbite';
 import mask from '@alpinejs/mask';
 import Alpine from 'alpinejs';
 
+import CreateBoard from './board/create_board';
 import KanbanBoard from './kanban_board.js';
-import RoleModal from './role/role_modal.js';
-import CollaboratorModule from './collaborator/collaborator_module.js';
+import Client from './client/client.js';
+import Collaborator from './collaborator/collaborator.js';
+import CollaboratorInformation from './collaborator/dashboard/collaborator_information/collaborator_information.js';
+import CollaboratorAddress from './collaborator/dashboard/collaborator_information/collaborator_address.js';
+import Role from './role/role.js';
 
+Alpine.data('create_board', CreateBoard);
 Alpine.data('kanban_board', KanbanBoard);
-Alpine.data('role_modal', RoleModal);
-Alpine.data('collaborator_module', CollaboratorModule);
+Alpine.data('client', Client);
+Alpine.data('collaborator', Collaborator);
+Alpine.data('collaborator_information', CollaboratorInformation);
+Alpine.data('collaborator_address', CollaboratorAddress);
+Alpine.data('role', Role);
 
 window.Alpine = Alpine;
 

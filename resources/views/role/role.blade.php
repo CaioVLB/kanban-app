@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="role_modal()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="role()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Cargos</h1>
         <x-button-modal onclick="openModal('create')">

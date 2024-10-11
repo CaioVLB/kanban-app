@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="collaborator_module()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="collaborator()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Gerenciador de Colaboradores</h1>
         <x-button-modal onclick="openModal()">
@@ -52,7 +52,6 @@
       <template x-if="true">
         @include('collaborator.snippets.collaborator-modal')
       </template>
-
     </div>
   </div>
 </x-app-layout>
