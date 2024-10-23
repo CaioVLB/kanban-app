@@ -3,8 +3,9 @@ import 'flowbite';
 import mask from '@alpinejs/mask';
 import Alpine from 'alpinejs';
 
-import CreateBoard from './board/create_board';
-import KanbanBoard from './kanban_board.js';
+import CreateBoard from './board/create_board.js';
+import KanbanBoard from './board/kanban_board.js';
+import EditCard from './board/edit_card.js';
 import Client from './client/client.js';
 import ClientInformation from './client/dashboard/client_information/client_information.js';
 import Collaborator from './collaborator/collaborator.js';
@@ -14,6 +15,7 @@ import Role from './role/role.js';
 
 Alpine.data('create_board', CreateBoard);
 Alpine.data('kanban_board', KanbanBoard);
+Alpine.data('edit_card', EditCard);
 Alpine.data('client', Client);
 Alpine.data('client_information', ClientInformation);
 Alpine.data('collaborator', Collaborator);

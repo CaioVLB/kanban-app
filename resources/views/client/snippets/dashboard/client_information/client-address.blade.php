@@ -3,15 +3,15 @@
   <div class="flex flex-col max-h-[380px] max-h-[380px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-1.5 pe-2 mt-6">
     <div class="w-full flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-2 gap-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div class="w-full max-h-[120px] grid gap-x-4 gap-y-1 grid-cols-1 md:grid-cols-12 lg:grid-cols-12 max-h-[120px]:overflow-scroll scroll-smooth overflow-x-hidden lg:py-1 px-2">
-        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-4">
+        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-7">
           <label class="text-start text-gray-600 dark:text-gray-400">Descrição</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">Caio Vitor Lima Brito</span>
         </div>
-        <div class="flex flex-col col-span-full md:col-span-2 lg:col-span-2">
+        <div class="flex flex-col col-span-full md:col-span-2 lg:col-span-5">
           <label class="text-start text-gray-600 dark:text-gray-400">CEP</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">76820-000</span>
         </div>
-        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-4">
+        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-5">
           <label class="text-start text-gray-600 dark:text-gray-400">Logradouro</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">Pedacinho de chão</span>
         </div>
@@ -19,15 +19,15 @@
           <label class="text-start text-gray-600 dark:text-gray-400">Número</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">7777</span>
         </div>
-        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-4">
+        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-5">
           <label class="text-start text-gray-600 dark:text-gray-400">Bairro</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">Olaria</span>
         </div>
-        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-4">
+        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-6">
           <label class="text-start text-gray-600 dark:text-gray-400">Cidade</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">Porto Velho</span>
         </div>
-        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-4">
+        <div class="flex flex-col col-span-full md:col-span-4 lg:col-span-6">
           <label class="text-start text-gray-600 dark:text-gray-400">Estado/UF</label>
           <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="">Rondônia</span>
         </div>

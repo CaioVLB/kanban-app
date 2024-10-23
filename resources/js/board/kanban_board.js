@@ -3,7 +3,7 @@ export default () => ({
   addCard: false,
   columns: [],
   columnName: "",
-  cardContent: "",
+  cardTitle: "",
   draggedCard: null,
   sourceColumnOfTheDraggedCard: null,
   dropEventExecuted: false, // Flag
@@ -33,14 +33,15 @@ export default () => ({
   createCard(columnIndex) {
     this.columns[columnIndex].cards.push({
       id: Math.floor(Math.random() * 100),
-      content: this.columns[columnIndex].cardContent,
+      title: this.columns[columnIndex].cardTitle,
+      description: "",
     });
 
     this.resetCardForm(columnIndex);
   },
 
   resetCardForm(columnIndex) {
-    this.columns[columnIndex].cardContent = "";
+    this.columns[columnIndex].cardTitle = "";
     this.columns[columnIndex].addCard = false;
   },
 
@@ -118,6 +119,5 @@ export default () => ({
     });
 
     observer.observe(this.$refs.boardContainer, { childList: true, subtree: true });
-  }
-
+  },
 });

@@ -17,16 +17,16 @@
         <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2">
                 <label for="name-client" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Cliente</label>
-                <input type="text" name="name-client" id="name-client" x-model="form.name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-purple-400 focus:border-purple-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Nome do seu cliente" required="">
+                <input type="text" name="name-client" id="name-client" x-model="form.name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Nome do seu cliente" required="">
             </div>
             <div class="col-span-2" x-data>
                 <label for="telephone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefone</label>
-                <input type="text" name="telephone" id="telephone" x-model="form.phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-purple-400 focus:border-purple-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="(XX) XXXX-XXXX" x-mask="(99) 99999-9999" required="">
+                <input type="text" name="telephone" id="telephone" x-model="form.phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="(XX) XXXX-XXXX" x-mask="(99) 99999-9999" required="">
             </div>
             <div class="col-span-2" x-data>
                 <div class="col-span-2">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="text" name="email" id="email" x-model="form.email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-purple-400 focus:border-purple-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="exemplo@exemplo.com" required="">
+                    <input type="text" name="email" id="email" x-model="form.email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="exemplo@exemplo.com" required="">
                 </div>
             </div>
         </div>

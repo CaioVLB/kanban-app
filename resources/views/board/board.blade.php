@@ -7,8 +7,9 @@
     @include('board.snippets.board-list')
 
     <section x-data="kanban_board()" class="relative flex-grow flex flex-col min-w-max bg-white/50 shadow rounded-lg dark:bg-gray-800">
-      <header class="w-full shadow py-4 px-6">
-        <h1 class="text-lg font-bold dark:text-white">Kanban Quadro Mensina</h1>
+      <header class="w-full shadow py-2 px-6">
+        <h1 class="h-5 text-lg font-bold dark:text-white">Kanban Quadro Mensina</h1>
+        <small class="w-1/2 truncate dark:text-white">Descrição do quadro</small>
       </header>
       <div class="relative flex flex-grow gap-2">
         <ol class="absolute flex flex-row overflow-x-auto overflow-y-hidden list-none select-none whitespace-nowrap p-2 mb-2 inset-0 scroll-smooth" x-ref="boardContainer">
@@ -16,7 +17,7 @@
             <li class="column block shrink-0 p-2 h-full w-[300px] whitespace-nowrap">
               <section class="max-h-full relative flex flex-col justify-between align-top box-border bg-black/25 rounded shadow whitespace-normal pb-2 dark:bg-gray-700">
                 <header class="w-full flex justify-between gap-2 p-3">
-                  <span class="w-full uppercase text-sm font-bold text-gray-900 truncate dark:text-white" x-bind:title="column.name" x-text="column.name"></span>
+                  <span class="w-full text-sm font-bold text-gray-900 truncate dark:text-white" x-bind:title="column.name" x-text="column.name"></span>
                   <button type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis w-4 h-4 dark:stroke-white"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
                   </button>
@@ -24,8 +25,8 @@
                 <ol class="column-body flex flex-col overflow-x-hidden overflow-y-auto list-none gap-y-1 mx-[2px] px-1 py-3">
                   <template x-for="(card, index) in column.cards" :key="card.id">
                     <li class="card" draggable="true">
-                      <div class="min-h-9 rounded bg-white border border-gray-400 shadow cursor-pointer p-2 hover:bg-gray-100 hover:border-2 dark:bg-white/25 dark:border-gray-400 dark:hover:bg-white/50">
-                        <span class="max-h-[80px] inline-block overflow-y-auto overflow-scroll overflow-x-hidden scroll-smooth break-words text-sm font-medium mb-1 px-1" x-text="card.content"></span>
+                      <div @click="$dispatch('open-card', card)" class="min-h-9 rounded bg-white border border-gray-400 shadow cursor-pointer p-2 hover:bg-gray-100 hover:border-2 dark:bg-white/25 dark:border-gray-400 dark:hover:bg-white/50">
+                        <span class="max-h-[80px] inline-block overflow-y-auto overflow-scroll overflow-x-hidden scroll-smooth break-words text-sm font-medium mb-1 px-1" x-text="card.title"></span>
                         <div class="flex justify-between gap-2">
                           <div class="max-w-[249px] w-full inline-flex items-center justify-start overflow-x-auto gap-1.5">
                             <span title="Cartão com prioridade alta">
@@ -44,8 +45,8 @@
                                       <span class="text-xs font-bold">20/09</span>
                                   </span>
                             <span title="6 comentários">
-                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-text">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/>
                                       </svg>
                                   </span>
                             <span title="Este cartão tem uma descrição.">
@@ -87,7 +88,7 @@
                         aria-label="campo para nomear o cartão"
                         class="border border-gray-300 text-gray-900 text-sm rounded shadow-sm focus:ring-amber-400 focus:border-amber-200 w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
                         placeholder="Digite o nome do cartão..."
-                        x-model="column.cardContent"
+                        x-model="column.cardTitle"
                         required
                       >
                       <div class="flex items-center mt-2 gap-2">
@@ -143,6 +144,11 @@
             </div>
           </div>
         </ol>
+      </div>
+      <div x-data="edit_card()" @open-card.window="open($event.detail)" @save-card.window="updateCard($event.detail)">
+        <template x-if="true">
+          @include('board.snippets.card-modal')
+        </template>
       </div>
     </section>
   </div>
