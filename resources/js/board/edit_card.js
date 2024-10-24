@@ -1,6 +1,8 @@
 export default () => ({
   card: {},
   form: {
+    priority: '',
+    client: '',
     description: '',
     comment: '',
   },
@@ -12,8 +14,10 @@ export default () => ({
   isEditingTitle: false,
   isAddingDescription: false,
   isEditingDescription: false,
-  selectedDropdown: '',
-  openDropdown: false,
+  selectedPriorityDropdown: '',
+  openPriorityDropdown: false,
+  selectedClientDropdown: '',
+  openClientDropdown: false,
 
   open(card) {
     this.card = { ...card };
@@ -46,11 +50,15 @@ export default () => ({
     this.form.comment = '';
   },
 
-  toggleDropdown() {
-    this.openDropdown = !this.openDropdown;
-  },
-
-  selectedOption(type) {
-    console.log(type);
+  selectedOption(type, value) {
+    if(type === 'priority') {
+      this.selectedPriorityDropdown = value.label;
+      this.form.priority = value.id;
+      this.openPriorityDropdown = false;
+    } else if( type === 'client') {
+      this.selectedClientDropdown = value;
+      this.form.client = value.id;
+      this.openClientDropdown = false;
+    }
   }
 });

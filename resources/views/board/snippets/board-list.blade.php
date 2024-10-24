@@ -1,4 +1,4 @@
-<aside class="flex flex-col bg-white/50 shadow rounded-lg transition-width duration-500 overflow-hidden gap-y-2 dark:bg-gray-800" :class="openSpaceBoardList ? 'w-64 p-4' : 'w-12 h-min px-1 py-2'">
+<aside x-data="{ openSpaceBoardList: true }" class="flex flex-col bg-white/50 shadow rounded-lg transition-width duration-500 overflow-hidden gap-y-2 md:mb-0 mb-4 dark:bg-gray-800" :class="openSpaceBoardList ? 'md:w-64 p-4' : 'w-12 h-min px-1 py-2'">
   <header class="flex items-center justify-center" :class="openSpaceBoardList ? 'mb-2' : 'mb-0'">
     <button @click="openSpaceBoardList = !openSpaceBoardList">
       <svg class="rotate-90 stroke-gray-600" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -3,7 +3,7 @@
 @endpush
 
 <x-app-layout>
-  <div class="max-h-content flex gap-4 p-4 overflow-hidden" x-data="{ openSpaceBoardList: true }">
+  <div class="max-h-content md:flex md:gap-4 p-4 overflow-hidden">
     @include('board.snippets.board-list')
 
     <section x-data="kanban_board()" class="relative flex-grow flex flex-col min-w-max bg-white/50 shadow rounded-lg dark:bg-gray-800">
