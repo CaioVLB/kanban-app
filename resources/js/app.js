@@ -2,6 +2,7 @@ import './bootstrap';
 import 'flowbite';
 import mask from '@alpinejs/mask';
 import Alpine from 'alpinejs';
+import axios from 'axios';
 
 import CreateBoard from './board/create_board.js';
 import KanbanBoard from './board/kanban_board.js';
@@ -24,6 +25,12 @@ Alpine.data('collaborator_address', CollaboratorAddress);
 Alpine.data('role', Role);
 
 window.Alpine = Alpine;
+window.axios = axios;
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('#__token').getAttribute('content');
+axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
+//axios.defaults.timeout = 10000;
 
 Alpine.plugin(mask);
 

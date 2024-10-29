@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="role()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="role({{ $roles }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Cargos</h1>
         <x-button-modal onclick="openModal('create')">
@@ -10,6 +10,9 @@
           Criar Novo Cargo
         </x-button-modal>
       </div>
+      <template x-if="success">
+        <span class="w-full text-center text-sm font-bold text-green-600 bg-green-200 border rounded border-green-300 m-2 p-4" x-text="success"></span>
+      </template>
       <template x-for="role in roles" :key="role.id">
         <div class="w-full flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-4 mx-2 mb-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-8 w-8 fill-gray-700 dark:fill-white mr-2" viewBox="0 0 256 256">
@@ -45,8 +48,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
           </svg>
           <span class="py-2 px-4 text-start text-yellow-700 dark:text-yellow-100">
-                        Até o momento, você não tem nenhum cargo cadastrado. Utilize o botão acima para criar cargos.
-                    </span>
+            Até o momento, você não tem nenhum cargo cadastrado. Utilize o botão acima para criar cargos.
+          </span>
         </div>
       </template>
       <template x-if="true">

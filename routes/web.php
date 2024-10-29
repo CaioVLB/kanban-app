@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoleController;
 // use App\Modules\Profile\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\ProjectController;
@@ -21,9 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,12 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/collaborator', function () {
         return view('collaborator.collaborator');
     })->name('collaborator');
-    Route::get('/role', function () {
-        return view('role.role');
-    })->name('role');
+    Route::get('/collaborator-dashboard', function () {
+      return view('collaborator.collaborator-dashboard');
+    })->name('collaborator-dashboard');
     Route::get('/board', function () {
         return view('board.board');
     })->name('board');
+
+    Route::get('/role', [RoleController::class, 'index'])->name('role.index');
 });
 
 require __DIR__.'/auth.php';
