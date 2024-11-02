@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\BoardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(RoleController::class)->prefix('role')->group(function () {
+  Route::post('/', 'store');
+  Route::put('/{id}', 'update');
+  Route::delete('/{id}', 'destroy');
+});
+
+Route::controller(BoardController::class)->prefix('board')->group(function () {
   Route::post('/', 'store');
   Route::put('/{id}', 'update');
   Route::delete('/{id}', 'destroy');

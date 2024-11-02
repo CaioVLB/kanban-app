@@ -52,7 +52,7 @@
     <div>
       <h1 class="max-w-7xl mx-auto px-4 mb-2 font-bold text-gray-500 dark:text-white">Gerenciador de Processos</h1>
     </div>
-    <div x-data="create_board()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2 md:gap-y-0 gap-y-0.5">
+    <div x-data="create_board({{ $boards }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2 md:gap-y-0 gap-y-0.5">
       <div class="xl:w-[20%] lg:w-[25%] md:w-[33.3333%] w-full relative group box-border py-1 px-2">
         <x-button-modal onclick="openModal()" class="w-full md:h-[122px] h-[90px] flex flex-col justify-center items-center bg-white border border-gray-200 rounded-lg shadow transition-transform duration-300 ease-in-out transform group-hover:scale-105 z-10 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="dark:fill-white" viewBox="0 0 256 256">
@@ -62,7 +62,7 @@
         </x-button-modal>
       </div>
 
-      <div class="xl:w-[20%] lg:w-[25%] md:w-[33.3333%] w-full relative group box-border py-1 px-2">
+      <!--<div class="xl:w-[20%] lg:w-[25%] md:w-[33.3333%] w-full relative group box-border py-1 px-2">
         <a href="{{ route('board') }}" class="w-full md:h-[122px] h-[90px] flex flex-col justify-between py-2 px-4 bg-white border border-gray-200 rounded-lg shadow transition-transform duration-300 ease-in-out transform group-hover:scale-105 z-10 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <span class="w-full max-h-[80px] inline-block overflow-scroll overflow-y-auto overflow-x-hidden scroll-smooth break-words font-bold dark:text-white">Planejamento de Desenvolvimento de Software Para Gestão de Processos</span>
           <div class="w-full flex justify-end gap-2">
@@ -144,7 +144,7 @@
             </div>
           </div>
         </a>
-      </div>
+      </div>-->
 
       <template x-for="board in boards" :key="board.id">
         <div class="xl:w-[20%] lg:w-[25%] md:w-[33.3333%] w-full relative group box-border py-1 px-2">
@@ -182,6 +182,32 @@
 
       <template x-if="true">
         @include('dashboard.snippets.board-modal')
+      </template>
+
+      <template x-if="success">
+        <div x-show="success"
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+             x-transition:leave="transform ease-in duration-100 transition"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-green-200 border border-green-300 text-green-700 text-sm font-bold p-4 rounded-lg shadow-lg">
+          <span x-text="success"></span>
+        </div>
+      </template>
+
+      <template x-if="error.processing_failure">
+        <div x-show="error.processing_failure"
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+             x-transition:leave="transform ease-in duration-100 transition"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-red-200 border border-red-300 text-red-700 text-sm font-bold p-4 rounded-lg shadow-lg">
+          <span x-text="error.processing_failure"></span>
+        </div>
       </template>
     </div>
   </div>
