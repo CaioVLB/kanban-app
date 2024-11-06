@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\RoleController;
 // use App\Modules\Profile\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,15 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/client', function () {
-        return view('client.client');
-    })->name('client');
     Route::get('/client-dashboard', function () {
         return view('client.client-dashboard');
     })->name('client-dashboard');
-    Route::get('/collaborator', function () {
-        return view('collaborator.collaborator');
-    })->name('collaborator');
     Route::get('/collaborator-dashboard', function () {
       return view('collaborator.collaborator-dashboard');
     })->name('collaborator-dashboard');
@@ -46,6 +42,8 @@ Route::middleware('auth')->group(function () {
         return view('board.board');
     })->name('board');
 
+    Route::get('/client', [ClientController::class, 'index'])->name('client.index');
+    Route::get('/collaborator', [CollaboratorController::class, 'index'])->name('collaborator.index');
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
 });
 

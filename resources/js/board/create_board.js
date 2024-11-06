@@ -41,7 +41,7 @@ export default (boards) => ({
     if (type === 'success') {
       this.timeout(() => this.success = '', 4000);
     } else if (type === 'error') {
-      this.timeout(() => this.error = [], 3000);
+      this.timeout(() => this.error = [], 4000);
     }
   },
 
@@ -76,10 +76,9 @@ export default (boards) => ({
       .then(response => response)
       .catch(({ response }) => {
         if (response?.status === 422) {
-          //this.error = response.data.processing_failure;
-          this.setError(response.data.processing_failure || { 'processing_failure': 'Erro de validação.' });
+          this.setError(response.data.errors);
         } else {
-          this.setError({ 'processing_failure': 'Ocorreu um erro inesperado.' });
+          this.setError(response.data.processing_failure || { 'processing_failure': 'Ocorreu um erro inesperado.' });
         }
         return Promise.reject(this.error);
       });

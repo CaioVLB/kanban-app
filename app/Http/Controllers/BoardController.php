@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BoardRequest;
 use App\Models\Board;
-use Illuminate\View\View;
 use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BoardController extends Controller

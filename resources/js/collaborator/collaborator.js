@@ -1,21 +1,25 @@
-export default () => ({
+export default (collaborators, roles) => ({
   collaborators: [
-    { id: 1, name: 'Caio Vitor Lima Brito', role: 'CFO and Developer Exclusive Bee', phone: '99999999999', email: 'caiovitor@exclusivebee.com.br'  },
-    { id: 2, name: 'Anderson Krautheim', role: 'CEO: Chief Executive Officer', phone: '99999999999', email: 'andersonkrautheim@exclusivebee.com.br' },
+    { id: 1, name: 'Caio Vitor Lima Brito', role: 'CFO and Developer Exclusive Bee', phone_number: '99999999999', email: 'caiovitor@exclusivebee.com.br'  },
+    { id: 2, name: 'Anderson Krautheim', role: 'CEO: Chief Executive Officer', phone_number: '99999999999', email: 'andersonkrautheim@exclusivebee.com.br' },
   ],
-  roles: [
-    { id: 1, name: 'Chief Executive Officer'},
-    { id: 2, name: 'CFO'},
-    { id: 3, name: 'Developer Exclusive Bee'},
-  ],
-  selectedRole: '',
-  openRoleDropdown: false,
+  roles: [],
   form: {
     name: '',
+    email: '',
+    phone_number: '',
     role_id: '',
-    role: '',
-    phone: '',
-    email: ''
+    role: ''
+  },
+  selectedRole: '',
+  openRoleDropdown: false,
+  success: '',
+  error: [],
+  isSubmitting: false,
+
+  init() {
+    this.collaborators = collaborators || [];
+    this.roles = roles || [];
   },
 
   toggleRoleDropdown() {
@@ -37,21 +41,72 @@ export default () => ({
   resetForm() {
     this.selectedRole = '';
     this.form = {
-      id: null,
       name: '',
       role_id: '',
       role: '',
-      phone: '',
+      phone_number: '',
       email: ''
     };
   },
 
-  submitForm() {
-    if(this.form.role_id !== '') {
-      this.collaborators.push({ ...this.form, id: this.collaborators.length + 1 });
-      this.$dispatch('close-modal', 'create-collaborator');
-    } else {
-      alert('Selecione um cargo!');
+  closeModal() {
+    this.$dispatch('close-modal', 'create-collaborator');
+  },
+
+  timeout(callback, delay = 4000) {
+    setTimeout(callback, delay);
+  },
+
+  setError(message) {
+    this.error = message;
+    this.clearMessageAfterDelay('error');
+  },
+
+  clearMessageAfterDelay(type) {
+    if (type === 'success') {
+      this.timeout(() => this.success = '', 4000);
+    } else if (type === 'error') {
+      this.timeout(() => this.error = [], 4000);
     }
-  }
+  },
+
+  async submitForm() {
+    return console.log(this.form);
+    this.isSubmitting = true;
+    try {
+      const response = await this.sendRequest(this.form);
+      const { success, collaborator_created } = response?.data || {};
+
+      if (success) {
+        this.success = success;
+        if (collaborator_created) {
+          this.collaborators.push(collaborator_created);
+        }
+        this.closeModal();
+        this.clearMessageAfterDelay('success');
+      } else {
+        this.setError({ 'processing_failure': 'Ocorreu um erro ao processar a solicitação.' });
+      }
+    } catch (error) {
+      this.clearMessageAfterDelay('error');
+    } finally {
+      this.isSubmitting = false;
+    }
+  },
+
+  sendRequest(data) {
+    const url = '/api/collaborator';
+    const method = 'post';
+
+    return axios({ method, url, data })
+      .then(response => response)
+      .catch(({ response }) => {
+        if (response?.status === 422) {
+          this.setError(response.data.errors);
+        } else {
+          this.setError(response.data.processing_failure || { 'processing_failure': 'Ocorreu um erro inesperado.' });
+        }
+        return Promise.reject(this.error);
+      });
+  },
 });

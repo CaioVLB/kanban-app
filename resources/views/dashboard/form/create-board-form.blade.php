@@ -2,7 +2,7 @@
   <div class="grid gap-4 mb-4 grid-cols-2">
     <div class="col-span-2">
       <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Título do Quadro</label>
-      <input type="text" name="name" id="name" x-model="form.title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-purple-400 focus:border-purple-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Nome do seu quadro" required>
+      <input type="text" name="name" id="name" x-model="form.title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Nome do seu quadro" required>
       <template x-if="error.title">
         <span class="align-middle text-xs font-bold text-red-400" x-text="error.title"></span>
       </template>
@@ -53,7 +53,7 @@
     </div> --}}
     <div class="col-span-2">
       <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descrição</label>
-      <textarea id="description" rows="4" x-model="form.description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md shadow-sm border border-gray-300 focus:ring-purple-400 focus:border-purple-200 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-400 dark:focus:border-purple-800" placeholder="Escreva a descrição sobre o quadro aqui" required></textarea>
+      <textarea id="description" rows="4" x-model="form.description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-md shadow-sm border border-gray-300 focus:ring-amber-400 focus:border-amber-200 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Escreva a descrição sobre o quadro aqui" required></textarea>
       <template x-if="error.description">
         <span class="align-middle text-xs font-bold text-red-400" x-text="error.description"></span>
       </template>

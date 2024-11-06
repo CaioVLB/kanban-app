@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="collaborator()" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="collaborator({{ $collaborators }}, {{ $roles }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Gerenciador de Colaboradores</h1>
         <x-button-modal onclick="openModal()">
@@ -28,7 +28,7 @@
             </div>
             <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
-              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.phone" x-text="collaborator.phone"></span>
+              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.phone_number" x-text="collaborator.phone_number"></span>
             </div>
           </div>
           <a href="{{ route('collaborator-dashboard') }}" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
@@ -45,12 +45,37 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
           </svg>
           <span class="py-2 px-4 text-start text-yellow-700 dark:text-yellow-100">
-                        Até o momento, você não tem nenhum colaborador cadastrado. Utilize o botão acima para adicionar novos colaboradores e começar a gerenciar suas informações.
-                    </span>
+           Até o momento, você não tem nenhum colaborador cadastrado. Utilize o botão acima para adicionar novos colaboradores e começar a gerenciar suas informações.
+          </span>
         </div>
       </template>
       <template x-if="true">
         @include('collaborator.snippets.collaborator-modal')
+      </template>
+      <template x-if="success">
+        <div x-show="success"
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+             x-transition:leave="transform ease-in duration-100 transition"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-green-200 border border-green-300 text-green-700 text-sm font-bold p-4 rounded-lg shadow-lg">
+          <span x-text="success"></span>
+        </div>
+      </template>
+
+      <template x-if="error.processing_failure">
+        <div x-show="error.processing_failure"
+             x-transition:enter="transform ease-out duration-300 transition"
+             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+             x-transition:leave="transform ease-in duration-100 transition"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-red-200 border border-red-300 text-red-700 text-sm font-bold p-4 rounded-lg shadow-lg">
+          <span x-text="error.processing_failure"></span>
+        </div>
       </template>
     </div>
   </div>

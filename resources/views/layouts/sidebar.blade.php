@@ -20,7 +20,7 @@
       </li>
       <!-- Menu Item: Clientes -->
       <li>
-        <a href="{{ route('client') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+        <a href="{{ route('client.index') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-4 w-4 fill-gray-900 dark:fill-white mr-[9px]" viewBox="0 0 256 256">
             <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
           </svg>
@@ -49,7 +49,7 @@
         </button>
         <ul x-show="openTeam" x-cloak x-transition class="pl-6 mt-1 space-y-1">
           <li>
-            <a href="{{ route('collaborator') }}" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
+            <a href="{{ route('collaborator.index') }}" class="flex items-center p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
               Colaboradores
             </a>
           </li>

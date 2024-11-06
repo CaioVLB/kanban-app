@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $table = 'roles';
-    protected $fillable = ['name'];
+  protected $table = 'roles';
+  protected $fillable = ['name'];
+
+  public function collaborators()
+  {
+    return $this->hasMany(Collaborator::class);
+  }
 }

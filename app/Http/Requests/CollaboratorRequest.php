@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Collaborator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class BoardRequest extends FormRequest
+class CollaboratorRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -22,18 +24,17 @@ class BoardRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'title' => 'required|string|max:255',
-      'description' => 'required|string|max:500',
+      'name' => ['required', 'string', 'max:255'],
+      'role_id' => ['required', 'int'],
+      'phone_number' => ['required', 'string', 'min:11', 'max:15'],
+      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(Collaborator::class)],
     ];
   }
 
   public function messages(): array
   {
     return [
-      'title.required' => 'O preenchimento do campo título do quadro é obrigatório',
-      'title.max' => 'O campo título do quadro pode ter no máximo 255 caracteres',
-      'description.required' => 'O preenchimento do campo descrição é obrigatório',
-      'description.max' => 'O campo descrição pode ter no máximo 500 caracteres',
+
     ];
   }
 }
