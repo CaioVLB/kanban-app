@@ -15,17 +15,17 @@ class ProfileSeeder extends Seeder
     {
         $profiles = [
           [
-            'name' => 'Admin',
+            'profile' => 'Admin',
             'created_at' => now(),
             'updated_at' => now()
           ],
           [
-            'name' => 'Manager',
+            'profile' => 'Manager',
             'created_at' => now(),
             'updated_at' => now()
           ],
           [
-            'name' => 'Collaborator',
+            'profile' => 'Collaborator',
             'created_at' => now(),
             'updated_at' => now()
           ]
