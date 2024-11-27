@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoleRequest;
-use App\Models\Role;
+use App\Models\Paper;
 use Illuminate\View\View;
 use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -11,18 +11,18 @@ class RoleController extends Controller
 {
   public function index(): View
   {
-    $roles = Role::all('id', 'name');
-    return view('role.role', compact('roles'));
+    $papers = Paper::all('id', 'name');
+    return view('role.role', compact('papers'));
   }
 
   public function store(RoleRequest $request)
   {
     try {
-      $role = Role::create($request->validated());
+      $paper = Paper::create($request->validated());
 
       return response()->json([
         'success' => 'Cargo criado com sucesso',
-        'role_created' => ['id' => $role->id, 'name' => $role->name]
+        'paper_created' => ['id' => $paper->id, 'name' => $paper->name]
       ], 201);
     } catch (\Exception $e) {
       return response()->json([
@@ -36,13 +36,13 @@ class RoleController extends Controller
     try {
       $data = $request->validated();
 
-      $role = Role::findOrFail($request->id);
+      $paper = Paper::findOrFail($request->id);
 
-      $role->update($data);
+      $paper->update($data);
 
       return response()->json([
         'success' => 'Cargo atualizado com sucesso',
-        'role_updated' => ['id' => $role->id, 'name' => $role->name]
+        'paper_updated' => ['id' => $paper->id, 'name' => $paper->name]
       ], 200);
     } catch (ModelNotFoundException $e) {
       return response()->json([
@@ -58,8 +58,8 @@ class RoleController extends Controller
   public function destroy(int $id)
   {
     try {
-      $role = Role::findOrFail($id);
-      $role->delete();
+      $paper = Paper::findOrFail($id);
+      $paper->delete();
 
       return response()->json(['success' => 'Cargo excluído com sucesso'], 200);
     } catch (ModelNotFoundException $e) {

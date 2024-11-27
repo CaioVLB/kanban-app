@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CollaboratorRequest;
 use App\Models\Collaborator;
-use App\Models\Role;
+use App\Models\Paper;
 use Illuminate\View\View;
 
 class CollaboratorController extends Controller
 {
   public function index(): View
   {
-    $collaborators = Collaborator::with('role')->get(['id', 'name', 'email', 'phone_number', 'role_id']);
-    $roles = Role::all(['id', 'name']);
-    return view('collaborator.collaborator', compact('collaborators', 'roles'));
+    $collaborators = Collaborator::with('paper')->get(['id', 'name', 'email', 'phone_number', 'paper_id']);
+    $papers = Paper::all(['id', 'name']);
+    return view('collaborator.collaborator', compact('collaborators', 'papers'));
   }
 
   public function store(CollaboratorRequest $request)
@@ -25,11 +25,11 @@ class CollaboratorController extends Controller
         'name' => $validated['name'],
         'email' => $validated['email'],
         'phone_number' => $validated['phone_number'],
-        'role_id' => $validated['role_id'],
+        'paper_id' => $validated['paper_id'],
       ];
 
       $collaborator = Collaborator::create($data);
-      $collaborator->load('role');
+      $collaborator->load('paper');
 
       return response()->json([
         'success' => 'Colaborador cadastrado com sucesso',
@@ -38,7 +38,7 @@ class CollaboratorController extends Controller
           'name' => $collaborator->name,
           'email' => $collaborator->email,
           'phone_number' => $collaborator->phone_number,
-          'role' => $collaborator->role->name,
+          'paper' => $collaborator->paper->name,
         ]
       ], 201);
     } catch (\Exception $e) {
