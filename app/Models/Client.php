@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\BelongsToCompany;
 use App\Models\Scopes\CompanyScope;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[ScopedBy([CompanyScope::class])]
 class Client extends Model
 {
-  use HasFactory;
+  use HasFactory, BelongsToCompany;
 
   protected $table = 'clients';
   protected $fillable = [
@@ -50,4 +49,21 @@ class Client extends Model
     return $this->belongsToMany(Collaborator::class, 'client_collaborator_assignments')
       ->withTimestamps();
   }
+
+  /*protected static function booted()
+  {
+    static::addGlobalScope(new CompanyScope);
+
+    static::creating(function ($client) {
+      if(session()->has('company_id')) {
+        $client->company_id = session()->get('company_id');
+      }
+    });
+
+    static::updating(function ($client) {
+      if(session()->has('company_id')) {
+        $client->company_id = session()->get('company_id');
+      }
+    });
+  }*/
 }
