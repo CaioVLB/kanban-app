@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProfileEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,7 @@ class User extends Authenticatable //implements MustVerifyEmail
    */
   protected $casts = [
     'email_verified_at' => 'datetime',
+    'profile_id' => ProfileEnum::class
   ];
 
   public function company(): BelongsTo

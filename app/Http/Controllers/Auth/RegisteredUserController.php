@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\ProfileEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\User;
@@ -58,7 +59,7 @@ class RegisteredUserController extends Controller
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'company_id' => $company->id,
-        'profile_id' => 2,
+        'profile_id' => ProfileEnum::MANAGER,
       ]);
 
       DB::commit();

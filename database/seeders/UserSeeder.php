@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ProfileEnum;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +16,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user = [
-          'name' => 'Caio Vitor Lima Brito',
+          'name' => 'admin',
           'cpf' => '99999999999',
-          'email' => 'pvhcaiovitor10@gmail.com',
+          'email' => 'admin@exclusivebee.com',
           'password' => Hash::make('admin@exclusivebee'),
           'company_id' => 1,
-          'profile_id' => 1,
+          'profile_id' => ProfileEnum::ADMIN,
           'created_at' => now(),
           'updated_at' => now()
         ];
