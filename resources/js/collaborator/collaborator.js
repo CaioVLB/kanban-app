@@ -1,13 +1,13 @@
 export default (collaborators, roles) => ({
   collaborators: [
-    { id: 1, name: 'Caio Vitor Lima Brito', role: 'CFO and Developer Exclusive Bee', phone_number: '99999999999', email: 'caiovitor@exclusivebee.com.br'  },
-    { id: 2, name: 'Anderson Krautheim', role: 'CEO: Chief Executive Officer', phone_number: '99999999999', email: 'andersonkrautheim@exclusivebee.com.br' },
+    { id: 1, name: 'Caio Vitor Lima Brito', role: 'CFO and Developer Exclusive Bee', cpf: '999.999.999-99', email: 'caiovitor@exclusivebee.com.br'  },
+    { id: 2, name: 'Anderson Krautheim', role: 'CEO: Chief Executive Officer', cpf: '999.999.999-99', email: 'andersonkrautheim@exclusivebee.com.br' },
   ],
   roles: [],
   form: {
     name: '',
+    cpf: '',
     email: '',
-    phone_number: '',
     role_id: '',
     role: ''
   },

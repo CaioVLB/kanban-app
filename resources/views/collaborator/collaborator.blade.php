@@ -19,16 +19,16 @@
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.name" x-text="collaborator.name"></span>
             </div>
             <div class="flex flex-col col-span-1">
+              <label class="text-start text-gray-600 dark:text-gray-400">CPF</label>
+              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.cpf" x-text="collaborator.cpf"></span>
+            </div>
+            <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Função</label>
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.role" x-text="collaborator.role"></span>
             </div>
             <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Email</label>
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.email" x-text="collaborator.email"></span>
-            </div>
-            <div class="flex flex-col col-span-1">
-              <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
-              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.phone_number" x-text="collaborator.phone_number"></span>
             </div>
           </div>
           <a href="{{ route('collaborator-dashboard') }}" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
