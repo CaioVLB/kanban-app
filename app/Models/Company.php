@@ -15,19 +15,24 @@ class Company extends Model
       'name', 'hire_date', 'active'
     ];
 
-  public function users() : hasMany
+  public function users() : HasMany
   {
     return $this->hasMany(User::class);
   }
 
-  public function collaborators(): hasMany
+  public function collaborators(): HasMany
   {
     return $this->hasMany(Collaborator::class);
   }
 
-  public function clients(): hasMany
+  public function clients(): HasMany
   {
     return $this->hasMany(Client::class);
+  }
+
+  public function boards(): HasMany
+  {
+    return $this->hasMany(Board::class);
   }
 
   public function papers(): HasMany

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Client extends Model
@@ -39,5 +40,11 @@ class Client extends Model
   public function files(): HasMany
   {
     return $this->hasMany(ClientFile::class);
+  }
+
+  public function assignedToCollaborators(): BelongsToMany
+  {
+    return $this->belongsToMany(Collaborator::class, 'client_collaborator_assignments')
+      ->withTimestamps();
   }
 }
