@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ImpersonateController;
 // use App\Modules\Profile\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\ProjectController;
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/client', [ClientController::class, 'index'])->name('client.index');
     Route::get('/collaborator', [CollaboratorController::class, 'index'])->name('collaborator.index');
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
+
+    Route::get('/impersonate/{user_id}/login', [ImpersonateController::class, 'impersonate'])->name('impersonate');
+    Route::get('/impersonate/leave-impersonating', [ImpersonateController::class, 'leaveImpersonating'])->name('leaveImpersonating');
 });
 
 require __DIR__.'/auth.php';
