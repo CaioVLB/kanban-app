@@ -15,6 +15,8 @@ class CompanyScope implements Scope
   {
     if (session()->has('company_id')) {
       $builder->where('company_id', session()->get('company_id'));
+    } elseif (request()->has('company_id')) {
+      $builder->where('company_id', request()->get('company_id'));
     }
   }
 }

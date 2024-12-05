@@ -18,6 +18,11 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+
+  public function index(): View
+  {
+    return view('');
+  }
   /**
    * Display the registration view.
    */

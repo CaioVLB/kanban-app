@@ -13,12 +13,16 @@ trait BelongsToCompany
     static::creating(function ($model) {
       if(session()->has('company_id')) {
         $model->company_id = session()->get('company_id');
+      } elseif (request()->has('company_id')) {
+        $model->company_id = request()->get('company_id');
       }
     });
 
     static::updating(function ($model) {
       if(session()->has('company_id')) {
         $model->company_id = session()->get('company_id');
+      } elseif (request()->has('company_id')) {
+        $model->company_id = request()->get('company_id');
       }
     });
   }

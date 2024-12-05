@@ -39,4 +39,24 @@ class Company extends Model
   {
     return $this->hasMany(Paper::class);
   }
+
+  /*protected static function booted()
+  {
+    static::deleting(function ($company) {
+      // Excluir usuários relacionados
+      $company->users()->delete();
+
+      // Excluir colaboradores relacionados
+      $company->collaborators()->delete();
+
+      // Excluir clientes relacionados
+      $company->clients()->delete();
+
+      // Excluir boards relacionados
+      $company->boards()->delete();
+
+      // Excluir papers relacionados
+      $company->papers()->delete();
+    });
+  }*/
 }

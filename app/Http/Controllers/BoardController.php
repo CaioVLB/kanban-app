@@ -14,9 +14,7 @@ class BoardController extends Controller
   {
     try {
       $validated = $request->validated();
-
       $data = [
-        'owner_id' => 2,
         'title' => $validated['title'],
         'description' => $validated['description'],
       ];
@@ -27,7 +25,6 @@ class BoardController extends Controller
         'success' => 'Quadro criado com sucesso',
         'board_created' => [
           'id' => $board->id,
-          //'owner_id' => $board->owner_id,
           'title' => $board->title,
           //'description' => $board->description,
         ]
