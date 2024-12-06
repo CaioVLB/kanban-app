@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollaboratorController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PaperController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ImpersonateController;
 // use App\Modules\Profile\Controllers\ProfileController;
@@ -44,9 +44,9 @@ Route::middleware('auth')->group(function () {
     return view('board.board');
   })->name('board');
 
-  Route::get('/client', [ClientController::class, 'index'])->name('client.index');
-  Route::get('/collaborator', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborator.index');
-  Route::get('/role', [RoleController::class, 'index'])->middleware(['can:access-collaborators'])->name('role.index');
+  Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+  Route::get('/collaborators', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborators.index');
+  Route::get('/papers', [PaperController::class, 'index'])->middleware(['can:access-collaborators'])->name('papers.index');
 
   Route::middleware('can:access-companies')->controller(CompanyController::class)->prefix('companies')->group(function () {
     Route::get('/', 'index')->name('companies.index');

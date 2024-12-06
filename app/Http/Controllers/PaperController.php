@@ -7,12 +7,12 @@ use App\Models\Paper;
 use Illuminate\View\View;
 use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class RoleController extends Controller
+class PaperController extends Controller
 {
   public function index(): View
   {
-    $papers = Paper::all('id', 'name');
-    return view('role.role', compact('papers'));
+    $papers = Paper::all('id', 'paper');
+    return view('paper.paper', compact('papers'));
   }
 
   public function store(RoleRequest $request)
@@ -22,7 +22,7 @@ class RoleController extends Controller
 
       return response()->json([
         'success' => 'Cargo criado com sucesso',
-        'paper_created' => ['id' => $paper->id, 'name' => $paper->name]
+        'paper_created' => ['id' => $paper->id, 'paper' => $paper->paper]
       ], 201);
     } catch (\Exception $e) {
       return response()->json([
@@ -42,7 +42,7 @@ class RoleController extends Controller
 
       return response()->json([
         'success' => 'Cargo atualizado com sucesso',
-        'paper_updated' => ['id' => $paper->id, 'name' => $paper->name]
+        'paper_updated' => ['id' => $paper->id, 'paper' => $paper->paper]
       ], 200);
     } catch (ModelNotFoundException $e) {
       return response()->json([
@@ -59,9 +59,14 @@ class RoleController extends Controller
   {
     try {
       $paper = Paper::findOrFail($id);
+
+      if ($paper->collaborators->isNotEmpty()) {
+        return response()->json(['errors' => 'A exclusão deste cargo não será possível devido a colaboradores associados.'], 400);
+      }
+
       $paper->delete();
 
-      return response()->json(['success' => 'Cargo excluído com sucesso'], 200);
+      return response()->json(['success' => 'Cargo excluído com sucesso']);
     } catch (ModelNotFoundException $e) {
       return response()->json(['errors' => 'Cargo não encontrado.'], 404);
     } catch (\Exception $e) {

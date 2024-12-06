@@ -50,7 +50,6 @@ export default (boards) => ({
     try {
       const response = await this.sendRequest(this.form);
       const { success, board_created } = response?.data || {};
-
       if (success) {
         this.success = success;
         if (board_created) {
@@ -69,7 +68,7 @@ export default (boards) => ({
   },
 
   sendRequest(data) {
-    const url = '/api/board';
+    const url = '/api/boards';
     const method = 'post';
 
     return axios({ method, url, data })

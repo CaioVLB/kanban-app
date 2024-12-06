@@ -12,7 +12,7 @@ import ClientInformation from './client/dashboard/client_information/client_info
 import Collaborator from './collaborator/collaborator.js';
 import CollaboratorInformation from './collaborator/dashboard/collaborator_information/collaborator_information.js';
 import CollaboratorAddress from './collaborator/dashboard/collaborator_information/collaborator_address.js';
-import Role from './role/role.js';
+import Paper from './paper/paper.js';
 import Company from './company/company.js';
 
 Alpine.data('create_board', CreateBoard);
@@ -23,7 +23,7 @@ Alpine.data('client_information', ClientInformation);
 Alpine.data('collaborator', Collaborator);
 Alpine.data('collaborator_information', CollaboratorInformation);
 Alpine.data('collaborator_address', CollaboratorAddress);
-Alpine.data('role', Role);
+Alpine.data('paper', Paper);
 Alpine.data('company', Company);
 
 window.Alpine = Alpine;
