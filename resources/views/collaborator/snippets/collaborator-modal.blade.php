@@ -1,4 +1,4 @@
-<x-modal name="create-collaborator" :show="false" maxWidth="sm">
+<x-modal name="create-collaborator-modal" :show="false" maxWidth="lg">
   <!-- Modal content -->
   <div class="relative bg-white dark:bg-gray-700" x-data>
     <!-- Modal header -->

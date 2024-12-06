@@ -1,56 +1,55 @@
-export default (collaborators, roles) => ({
-  collaborators: [
-    { id: 1, name: 'Caio Vitor Lima Brito', role: 'CFO and Developer Exclusive Bee', cpf: '999.999.999-99', email: 'caiovitor@exclusivebee.com.br'  },
-    { id: 2, name: 'Anderson Krautheim', role: 'CEO: Chief Executive Officer', cpf: '999.999.999-99', email: 'andersonkrautheim@exclusivebee.com.br' },
-  ],
-  roles: [],
+export default (collaborators, papers) => ({
+  collaborators: [],
+  papers: [],
   form: {
     name: '',
     cpf: '',
     email: '',
-    role_id: '',
-    role: ''
+    phone_number: '',
+    paper_id: '',
+    paper: ''
   },
-  selectedRole: '',
-  openRoleDropdown: false,
+  selectedPaper: '',
+  openPaperDropdown: false,
   success: '',
-  error: [],
+  errors: [],
   isSubmitting: false,
 
   init() {
     this.collaborators = collaborators || [];
-    this.roles = roles || [];
+    this.papers = papers || [];
   },
 
-  toggleRoleDropdown() {
-    this.openRoleDropdown = !this.openRoleDropdown;
+  togglePaperDropdown() {
+    this.openPaperDropdown = !this.openPaperDropdown;
   },
 
-  selectRole(role) {
-    this.selectedRole = role.name;
-    this.form.role_id = role.id;
-    this.form.role = role.name;
-    this.openRoleDropdown = false;
+  selectPaper(paper) {
+    this.selectedPaper = paper.paper;
+    this.form.paper_id = paper.id;
+    this.form.paper = paper.paper;
+    this.openPaperDropdown = false;
   },
 
   openModal() {
     this.resetForm();
-    this.$dispatch('open-modal', 'create-collaborator');
+    this.$dispatch('open-modal', 'create-collaborator-modal');
   },
 
   resetForm() {
-    this.selectedRole = '';
+    this.selectedPaper = '';
     this.form = {
       name: '',
-      role_id: '',
-      role: '',
+      cpf: '',
+      email: '',
       phone_number: '',
-      email: ''
+      paper_id: '',
+      paper: ''
     };
   },
 
   closeModal() {
-    this.$dispatch('close-modal', 'create-collaborator');
+    this.$dispatch('close-modal', 'create-collaborator-modal');
   },
 
   timeout(callback, delay = 4000) {
@@ -58,7 +57,7 @@ export default (collaborators, roles) => ({
   },
 
   setError(message) {
-    this.error = message;
+    this.errors = message;
     this.clearMessageAfterDelay('error');
   },
 
@@ -66,36 +65,12 @@ export default (collaborators, roles) => ({
     if (type === 'success') {
       this.timeout(() => this.success = '', 4000);
     } else if (type === 'error') {
-      this.timeout(() => this.error = [], 4000);
-    }
-  },
-
-  async submitForm() {
-    return console.log(this.form);
-    this.isSubmitting = true;
-    try {
-      const response = await this.sendRequest(this.form);
-      const { success, collaborator_created } = response?.data || {};
-
-      if (success) {
-        this.success = success;
-        if (collaborator_created) {
-          this.collaborators.push(collaborator_created);
-        }
-        this.closeModal();
-        this.clearMessageAfterDelay('success');
-      } else {
-        this.setError({ 'processing_failure': 'Ocorreu um erro ao processar a solicitação.' });
-      }
-    } catch (error) {
-      this.clearMessageAfterDelay('error');
-    } finally {
-      this.isSubmitting = false;
+      this.timeout(() => this.errors = [], 4000);
     }
   },
 
   sendRequest(data) {
-    const url = '/api/collaborator';
+    const url = '/api/collaborators';
     const method = 'post';
 
     return axios({ method, url, data })
@@ -104,9 +79,39 @@ export default (collaborators, roles) => ({
         if (response?.status === 422) {
           this.setError(response.data.errors);
         } else {
-          this.setError(response.data.processing_failure || { 'processing_failure': 'Ocorreu um erro inesperado.' });
+          this.setError(response.data.error || { error: 'Ocorreu um erro inesperado.' });
         }
-        return Promise.reject(this.error);
+        console.log(response)
+        return Promise.reject(this.errors);
       });
   },
+
+  async submitForm() {
+    this.isSubmitting = true;
+    try {
+      const response = await this.sendRequest(this.form);
+      const { success, collaborator_created } = response?.data || {};
+      console.log(response)
+      if (success) {
+        this.success = success;
+        this.addCollaborator(collaborator_created);
+      } else {
+        this.setError({ error: 'Ocorreu um erro ao processar a solicitação.' });
+      }
+    } catch (error) {
+      this.clearMessageAfterDelay('error');
+    } finally {
+      this.isSubmitting = false;
+    }
+  },
+
+  addCollaborator(collaborator_created) {
+    if (collaborator_created) {
+      this.collaborators.push(collaborator_created);
+    } else {
+      this.setError({ error: 'Algo deu errado ao tentar cadastrar o colaborador. Por favor, tente novamente ou entre em contato com o suporte.' });
+    }
+    this.closeModal();
+    this.clearMessageAfterDelay('success');
+  }
 });

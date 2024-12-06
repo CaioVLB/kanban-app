@@ -124,7 +124,7 @@ export default (papers) => ({
     if (paper_created) {
       this.papers.push(paper_created);
     } else {
-      this.setError({ error: 'Não foi possível criar o Cargo.' });
+      this.setError({ error: 'Algo deu errado ao tentar criar o Cargo. Por favor, tente novamente ou entre em contato com o suporte.' });
     }
   },
 
@@ -134,7 +134,7 @@ export default (papers) => ({
       if (index !== -1) {
         this.papers[index] = paper_updated;
       } else {
-        this.setError({ error: 'Não foi possível atualizar o Cargo.' });
+        this.setError({ error: 'Algo deu errado ao tentar atualizar o Cargo. Por favor, tente novamente ou entre em contato com o suporte.' });
       }
     }
   },
@@ -144,7 +144,7 @@ export default (papers) => ({
     if (index !== -1) {
       this.papers.splice(index, 1);
     } else {
-      this.setError({ error: 'Não foi possível excluir o Cargo.' });
+      this.setError({ error: 'Algo deu errado ao tentar excluir o Cargo. Por favor, tente novamente ou entre em contato com o suporte.' });
     }
   },
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ProfileEnum;
+use App\Traits\FormatsAttributes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable //implements MustVerifyEmail
 {
-  use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable, FormatsAttributes;
 
   /**
    * The attributes that are mass assignable.

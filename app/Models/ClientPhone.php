@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\FormatsAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ClientPhone extends Model
 {
-  use HasFactory;
+  use HasFactory, FormatsAttributes;
 
   protected $table = 'client_phones';
   protected $fillable = [

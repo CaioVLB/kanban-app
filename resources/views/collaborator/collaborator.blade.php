@@ -1,11 +1,11 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="collaborator({{ $collaborators }}, {{ $roles }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="collaborator({{ json_encode($collaborators) }}, {{ $papers }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Gerenciador de Colaboradores</h1>
         <x-button-modal onclick="openModal()">
           <svg class="w-5 h-5 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-          Cadastrar Novo Colaborador
+          Novo Colaborador
         </x-button-modal>
       </div>
       <template x-for="collaborator in collaborators" :key="collaborator.id">
@@ -13,7 +13,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-8 w-8 fill-gray-700 dark:fill-white mr-2" viewBox="0 0 256 256">
             <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
           </svg>
-          <div class="w-full grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:py-1 px-4">
+          <div class="w-full grid gap-4 grid-cols-1 md:grid-cols-3 lg:grid-cols-3 lg:py-1 px-4">
             <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Nome do Colaborador</label>
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.name" x-text="collaborator.name"></span>
@@ -23,12 +23,20 @@
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.cpf" x-text="collaborator.cpf"></span>
             </div>
             <div class="flex flex-col col-span-1">
-              <label class="text-start text-gray-600 dark:text-gray-400">Função</label>
-              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.role" x-text="collaborator.role"></span>
+              <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
+              <span class="text-start text-gray-900 font-bold truncate dark:text-white" x-text="collaborator.phone_number"></span>
             </div>
             <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Email</label>
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.email" x-text="collaborator.email"></span>
+            </div>
+            <div class="flex flex-col col-span-1">
+              <label class="text-start text-gray-600 dark:text-gray-400">Cargo</label>
+              <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.paper" x-text="collaborator.paper"></span>
+            </div>
+            <div class="flex flex-col col-span-1">
+              <label class="text-start text-gray-600 dark:text-gray-400">Status</label>
+              <span class="text-start text-gray-900 font-bold truncate dark:text-white" x-text="collaborator.active"></span>
             </div>
           </div>
           <a href="{{ route('collaborator-dashboard') }}" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
@@ -49,32 +57,18 @@
           </span>
         </div>
       </template>
-      <template x-if="true">
-        @include('collaborator.snippets.collaborator-modal')
-      </template>
-      <template x-if="success">
-        <div x-show="success"
+      @include('collaborator.snippets.collaborator-modal', ['show' => true])
+      <template x-if="success || errors.error">
+        <div x-show="success || errors.error"
              x-transition:enter="transform ease-out duration-300 transition"
              x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
              x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
              x-transition:leave="transform ease-in duration-100 transition"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
-             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-green-200 border border-green-300 text-green-700 text-sm font-bold p-4 rounded-lg shadow-lg">
-          <span x-text="success"></span>
-        </div>
-      </template>
-
-      <template x-if="error.processing_failure">
-        <div x-show="error.processing_failure"
-             x-transition:enter="transform ease-out duration-300 transition"
-             x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-             x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-             x-transition:leave="transform ease-in duration-100 transition"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="fixed top-4 right-4 z-50 max-w-xs w-full bg-red-200 border border-red-300 text-red-700 text-sm font-bold p-4 rounded-lg shadow-lg">
-          <span x-text="error.processing_failure"></span>
+             class="fixed top-4 right-4 z-50 max-w-xs w-full border text-sm font-bold p-4 rounded-lg shadow-lg"
+            :class="success ? 'bg-green-200 border-green-300 text-green-700' : 'bg-red-200 border-red-300 text-red-700'">
+          <span x-text="success || errors.error"></span>
         </div>
       </template>
     </div>

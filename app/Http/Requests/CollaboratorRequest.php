@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Collaborator;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -25,16 +25,17 @@ class CollaboratorRequest extends FormRequest
   {
     return [
       'name' => ['required', 'string', 'max:255'],
-      'role_id' => ['required', 'int'],
+      'paper_id' => ['required', 'int'],
+      'cpf' => ['required', 'string', 'max:14'],
       'phone_number' => ['required', 'string', 'min:11', 'max:15'],
-      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(Collaborator::class)],
+      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
     ];
   }
 
-  public function messages(): array
+  /*public function messages(): array
   {
     return [
 
     ];
-  }
+  }*/
 }
