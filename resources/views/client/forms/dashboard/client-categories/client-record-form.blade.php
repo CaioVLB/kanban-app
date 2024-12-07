@@ -4,10 +4,6 @@
       <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
       <input type="text" id="name" name="name" autocomplete="name" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Nome do cliente" required>
     </div>
-    <div class="col-span-full">
-      <label for="social-name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nome Social</label>
-      <input type="text" id="social-name" name="social-name" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Nome social">
-    </div>
     <div class="col-span-3" x-data>
       <label for="cpf" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF</label>
       <input type="text" id="cpf" name="cpf" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Digite o CPF" x-mask="999.999.999-99" required>

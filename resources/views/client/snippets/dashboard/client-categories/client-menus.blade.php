@@ -1,4 +1,4 @@
-<section x-data="client_information()" class="md:flex">
+<section x-data="client_menus()" class="md:flex">
   <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
     <li>
       <button @click="setCurrentMenu({id: 'client_record', label: 'Ficha do Cliente'})"
@@ -82,13 +82,13 @@
             x-text="current_menu.label || `Ficha - ${current_submenu.label}`"></h3>
       </header>
       <template x-if="current_menu.id === 'client_record'">
-        @include('client.forms.dashboard.client_information.client-record-form')
+        @include('client.forms.dashboard.client-categories.client-record-form')
       </template>
       <template x-if="current_menu.id === 'client_address'">
-        @include('client.snippets.dashboard.client_information.client-address')
+        @include('client.snippets.dashboard.client-categories.client-address')
       </template>
       <template x-if="current_menu.id === 'client_phone'">
-        @include('client.snippets.dashboard.client_information.client-phone')
+        @include('client.snippets.dashboard.client-categories.client-phone')
       </template>
     </section>
   </div>

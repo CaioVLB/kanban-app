@@ -1,5 +1,5 @@
 <form class="p-4 md:p-5" @submit.prevent="submitForm()">
-  <div class="grid gap-4 mb-4 grid-cols-2">
+  <div class="grid grid-cols-2 gap-4 mb-4">
     <div class="col-span-full">
       <label for="name-client" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Cliente</label>
       <input type="text" name="name-client" id="name-client" x-model="form.name"
