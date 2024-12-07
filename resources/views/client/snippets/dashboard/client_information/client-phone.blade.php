@@ -1,5 +1,5 @@
 <div class="flex-grow">
-  @include('client.partials.dashboard.client_information.client-phone-form')
+  @include('client.forms.dashboard.client_information.client-phone-form')
   <div class="flex flex-col max-h-[380px] max-h-[380px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-1.5 pe-2 mt-6">
     <div class="w-full flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div class="w-full grid gap-x-4 gap-y-1 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:py-1 px-2">

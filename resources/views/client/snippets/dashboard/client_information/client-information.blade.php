@@ -82,7 +82,7 @@
             x-text="current_menu.label || `Ficha - ${current_submenu.label}`"></h3>
       </header>
       <template x-if="current_menu.id === 'client_record'">
-        @include('client.partials.dashboard.client_information.client-record-form')
+        @include('client.forms.dashboard.client_information.client-record-form')
       </template>
       <template x-if="current_menu.id === 'client_address'">
         @include('client.snippets.dashboard.client_information.client-address')

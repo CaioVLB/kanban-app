@@ -1,31 +1,97 @@
-export default () => ({
-  clients: [
-    { id: 1, name: 'Caio Vitor Lima Brito', phone: '(99) 99999-9999', email: 'caiovitor@exclusivebee.com.br'  },
-    { id: 2, name: 'Anderson Krautheim', phone: '(99) 99999-9999', email: 'andersonkrautheim@exclusivebee.com.br' },
-    { id: 3, name: 'Eliza Mezzalira', phone: '(99) 99999-9999', email: 'elizamezzalira@exclusivebee.com.br' },
-  ],
+export default (clients) => ({
+  clients: [],
   form: {
     name: '',
-    phone: '',
+    cpf: '',
+    phone_number: '',
     email: ''
+  },
+  success: '',
+  errors: [],
+  isSubmitting: false,
+
+  init() {
+    this.clients = clients || [];
   },
 
   openModal() {
     this.resetForm();
-    this.$dispatch('open-modal', 'create-client');
+    this.$dispatch('open-modal', 'create-client-modal');
   },
 
   resetForm() {
     this.form = {
-      id: null,
       name: '',
-      phone: '',
+      cpf: '',
+      phone_number: '',
       email: ''
     };
   },
 
-  submitForm() {
-      this.clients.push({ ...this.form, id: this.clients.length + 1 });
-      this.$dispatch('close-modal', 'create-client');
+  closeModal() {
+    this.$dispatch('close-modal', 'create-client-modal');
+  },
+
+  timeout(callback, delay = 4000) {
+    setTimeout(callback, delay);
+  },
+
+  setError(message) {
+    this.errors = message;
+    this.clearMessageAfterDelay('error');
+  },
+
+  clearMessageAfterDelay(type) {
+    if (type === 'success') {
+      this.timeout(() => this.success = '', 4000);
+    } else if (type === 'error') {
+      this.timeout(() => this.errors = [], 4000);
+    }
+  },
+
+  sendRequest(data) {
+    const url = '/api/clients';
+    const method = 'post';
+
+    return axios({ method, url, data })
+      .then(response => response)
+      .catch(({ response }) => {
+        if (response?.status === 422) {
+          this.setError(response.data.errors);
+        } else {
+          this.setError(response.data.error || { error: 'Ocorreu um erro inesperado.' });
+        }
+        console.log(response)
+        return Promise.reject(this.errors);
+      });
+  },
+
+  async submitForm() {
+    this.isSubmitting = true;
+    try {
+      const response = await this.sendRequest(this.form);
+      const { success, client_created } = response?.data || {};
+      console.log(response)
+      if (success) {
+        this.success = success;
+        this.addClient(client_created);
+      } else {
+        this.setError({ error: 'Ocorreu um erro ao processar a solicitação.' });
+      }
+    } catch (error) {
+      this.clearMessageAfterDelay('error');
+    } finally {
+      this.isSubmitting = false;
+    }
+  },
+
+  addClient(client_created) {
+    if (client_created) {
+      this.clients.push(client_created);
+    } else {
+      this.setError({ error: 'Algo deu errado ao tentar cadastrar o Cliente. Por favor, tente novamente ou entre em contato com o suporte.' });
+    }
+    this.closeModal();
+    this.clearMessageAfterDelay('success');
   }
 });

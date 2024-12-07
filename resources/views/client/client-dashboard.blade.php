@@ -1,5 +1,13 @@
 <x-app-layout>
-  <div class="py-12">
+  <div class="pt-3 pb-12">
+    <div class="max-w-7xl w-full flex items-center ms-2 mb-3 px-2 gap-4">
+      <a href="{{ route('clients.index') }}" class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-big-left-dash">
+          <path d="M19 15V9"/><path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
+        </svg>
+      </a>
+      <h1 class="font-bold text-gray-500 dark:text-white">Retornar à lista de clientes</h1>
+    </div>
     <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-1 mx-auto lg:gap-4 gap-y-4 px-4">
       <div class="col-span-4 flex flex-col gap-y-4">
         @include('client.snippets.dashboard.client_information.client-information')
@@ -22,7 +30,6 @@
                     <svg class="w-5 h-5 me-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
                     </svg>
-
                     Carregar Primeiro Arquivo
                   </label>
                   <input class="hidden" id="file-upload" type="file">
@@ -32,7 +39,7 @@
           </template>
         </div>
       </div>
-      <div x-data="{ insertedBoard: [1] }" class="col-span-2 flex flex-col gap-y-4">
+      <div class="col-span-2 flex flex-col gap-y-4">
         <div class="w-full flex flex-col items-start  bg-white shadow rounded-lg p-4 dark:bg-gray-800">
           <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-6 w-6 fill-gray-900 dark:fill-white mr-2" viewBox="0 0 256 256">
@@ -61,47 +68,24 @@
               </a>
             </div>
           </div>
-          <template x-if="insertedBoard.length === 0">
-            <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
-              <p class="py-1 px-1 text-start text-yellow-700 dark:text-yellow-100">Até o momento, este cliente não está associado a nenhum quadro. Sinta-se à vontade para adicionar quando necessário.</p>
-            </div>
-          </template>
-        </div>
-        <div class="w-full bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex flex-col items-start">
-          <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-900 dark:text-white mr-2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-            </svg>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Anotações</h2>
-          </div>
-          <div class="mt-2 w-full">
-            <form method="POST">
-              @csrf
-              <div class="flex">
-                <input type="text" name="annotation-client" id="annotation-client" autocomplete="off" class="border border-gray-300 text-gray-900 text-sm rounded-s-md shadow-sm focus:ring-amber-400 focus:border-amber-200 w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Escreva anotações sobre o seu cliente aqui" required>
-                <button type="submit" class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-e-lg border border-s-0 border-amber-300 hover:bg-amber-300 hover:text-amber-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
-                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                  </svg>
-                </button>
-              </div>
-            </form>
-            <div class="flex flex-col max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2">
-              <form>
-                @csrf
-                <div class="w-full box-border h-[90px] flex justify-between py-2 px-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                  <span class="w-full max-h-auto max-h-auto:overflow-scroll overflow-x-hidden scroll-smooth inline-block break-words font-bold dark:text-white">Planejamento de Desenvolvimento de Software Para Gestão de Processos</span>
-                  <button type="submit" class="inline-flex items-center px-3 my-3 ms-1 focus:outline-none bg-red-200 rounded-lg border border-red-400 shadow hover:bg-red-300 dark:bg-red-400 dark:border-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-5 w-5 fill-red-800 dark:hover:fill-red-900" viewBox="0 0 256 256">
-                      <path d="M216,48H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM192,208H64V64H192ZM80,24a8,8,0,0,1,8-8h80a8,8,0,0,1,0,16H88A8,8,0,0,1,80,24Z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </form>
-            </div>
+          <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
+            <p class="py-1 px-1 text-start text-yellow-700 dark:text-yellow-100">Até o momento, este cliente não está associado a nenhum quadro. Sinta-se à vontade para adicionar quando necessário.</p>
           </div>
         </div>
+        @include('client.snippets.dashboard.client-notes.list-notes')
       </div>
     </div>
+    @if(session()->get('success') || $errors->first())
+      <div x-data="{ show: true, init() { setTimeout(() => this.show = false, 4000) } }" x-show="show"
+           x-transition:enter="transform ease-out duration-300 transition"
+           x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+           x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+           x-transition:leave="transform ease-in duration-100 transition"
+           x-transition:leave-start="opacity-100"
+           x-transition:leave-end="opacity-0"
+           class="fixed top-4 right-4 z-50 max-w-xs w-full {{ session()->get('success') ? 'bg-green-200 border-green-300 text-green-700' : 'bg-red-200 border-red-300 text-red-700' }} border text-sm font-bold p-4 rounded-lg shadow-lg">
+        <span>{{ session()->get('success') ? session()->get('success') : $errors->first() }}</span>
+      </div>
+    @endif
   </div>
 </x-app-layout>

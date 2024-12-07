@@ -65,10 +65,7 @@
           </span>
         </div>
       @endforelse
-      <template x-if="true">
-        @include('company.snippets.delete-company-modal')
-      </template>
-
+      @include('company.snippets.delete-company-modal', ['show' => true])
       @if(session()->get('success') || $errors->first())
         <div x-data="{ show: true, init() { setTimeout(() => this.show = false, 4000) } }" x-show="show"
              x-transition:enter="transform ease-out duration-300 transition"

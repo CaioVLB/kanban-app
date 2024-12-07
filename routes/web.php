@@ -34,9 +34,6 @@ Route::middleware('auth')->group(function () {
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-  Route::get('/client-dashboard', function () {
-    return view('client.client-dashboard');
-  })->name('client-dashboard');
   Route::get('/collaborator-dashboard', function () {
     return view('collaborator.collaborator-dashboard');
   })->name('collaborator-dashboard');
@@ -45,7 +42,19 @@ Route::middleware('auth')->group(function () {
   })->name('board');
 
   Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+  Route::controller(ClientController::class)->prefix('client-dashboard')->group(function () {
+    Route::get('/{id}', 'show')->name('client.show');
+    Route::post('/{id}/notes', 'storeNotes')->name('client.storeNotes');
+    Route::delete('/notes/{note_id}', 'destroyNotes')->name('client.destroyNotes');
+  });
+
   Route::get('/collaborators', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborators.index');
+  Route::middleware(['can:access-collaborators'])->controller(CollaboratorController::class)->prefix('collaborator-dashboard')->group(function () {
+    Route::get('/{id}', 'show')->name('collaborator.show');
+    Route::post('/{id}/notes', 'storeNotes')->name('collaborator.storeNotes');
+    Route::delete('/notes/{note_id}', 'destroyNotes')->name('collaborator.destroyNotes');
+  });
+
   Route::get('/papers', [PaperController::class, 'index'])->middleware(['can:access-collaborators'])->name('papers.index');
 
   Route::middleware('can:access-companies')->controller(CompanyController::class)->prefix('companies')->group(function () {

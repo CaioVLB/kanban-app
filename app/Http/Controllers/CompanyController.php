@@ -19,7 +19,7 @@ class CompanyController extends Controller
   public function index(): View
   {
     $managersAndTheirCompanies = User::where('profile_id', ProfileEnum::MANAGER)
-      ->with('company')->orderBy('id', 'desc')->paginate(10);
+      ->with('company')->orderBy('id', 'desc')->get();
 
     return view('company.company-list', compact('managersAndTheirCompanies'));
   }
@@ -68,7 +68,7 @@ class CompanyController extends Controller
     }
   }
 
-  public function edit($id): View
+  public function edit(int $id): View
   {
     $managerAndYourCompany = User::where('id', $id)->with('company')->first();
     return view('company.company-create-edit', compact('managerAndYourCompany'));
@@ -121,7 +121,7 @@ class CompanyController extends Controller
     }
   }
 
-  public function destroy($company_id): RedirectResponse
+  public function destroy(int $company_id): RedirectResponse
   {
     try {
       if(auth()->user()->profile_id !== ProfileEnum::ADMIN) {

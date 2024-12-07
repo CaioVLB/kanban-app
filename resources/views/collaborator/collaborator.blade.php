@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="py-12">
-    <div x-data="collaborator({{ json_encode($collaborators) }}, {{ $papers }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
+    <div x-data="collaborator({{ json_encode($collaborators) }}, {{ json_encode($papers) }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2">
       <div class="w-full flex justify-between items-center mb-4 px-2">
         <h1 class="font-bold text-gray-500 dark:text-white">Gerenciador de Colaboradores</h1>
         <x-button-modal onclick="openModal()">
@@ -27,7 +27,7 @@
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" x-text="collaborator.phone_number"></span>
             </div>
             <div class="flex flex-col col-span-1">
-              <label class="text-start text-gray-600 dark:text-gray-400">Email</label>
+              <label class="text-start text-gray-600 dark:text-gray-400">E-mail</label>
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" :title="collaborator.email" x-text="collaborator.email"></span>
             </div>
             <div class="flex flex-col col-span-1">
@@ -39,7 +39,7 @@
               <span class="text-start text-gray-900 font-bold truncate dark:text-white" x-text="collaborator.active"></span>
             </div>
           </div>
-          <a href="{{ route('collaborator-dashboard') }}" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
+          <a :href="'{{ route('collaborator.show', '') }}' + '/' + collaborator.id" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />

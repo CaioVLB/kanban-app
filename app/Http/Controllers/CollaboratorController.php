@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\ProfileEnum;
 use App\Http\Requests\CollaboratorRequest;
 use App\Http\Resources\CollaboratorResource;
+use App\Models\CollaboratorAnnotation;
 use App\Models\Collaborator;
 use App\Models\CollaboratorPhone;
 use App\Models\Paper;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -109,6 +112,38 @@ class CollaboratorController extends Controller
 
   public function show(int $id): View
   {
-    return view('collaborator.collaborator-dashboard', compact('id'));
+    $notes = CollaboratorAnnotation::where('collaborator_id', $id)->with(['createdBy:id,name'])->orderBy('id', 'desc')->get(['id', 'content', 'by_user_id', 'created_at']);
+
+    return view('collaborator.collaborator-dashboard', compact('id', 'notes'));
+  }
+
+  public function storeNotes(Request $request, int $id): RedirectResponse
+  {
+    try {
+      $request->validate([
+        'collaborator_annotation' => ['required', 'string', 'max:255']
+      ]);
+
+      CollaboratorAnnotation::create([
+        'content' => $request->collaborator_annotation,
+        'collaborator_id' => $id,
+        'by_user_id' => auth()->user()->id
+      ]);
+
+      return redirect()->back()->with(['success' => 'Anotação realizada com sucesso!']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento da anotação.']);
+    }
+  }
+
+  public function destroyNotes(int $note_id): RedirectResponse
+  {
+    try {
+      CollaboratorAnnotation::findOrFail($note_id)->delete();
+
+      return redirect()->back()->with(['success' => 'Anotação excluída com sucesso!']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na exclusão da anotação.']);
+    }
   }
 }

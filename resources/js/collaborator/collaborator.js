@@ -81,7 +81,7 @@ export default (collaborators, papers) => ({
         } else {
           this.setError(response.data.error || { error: 'Ocorreu um erro inesperado.' });
         }
-        console.log(response)
+
         return Promise.reject(this.errors);
       });
   },
@@ -91,7 +91,7 @@ export default (collaborators, papers) => ({
     try {
       const response = await this.sendRequest(this.form);
       const { success, collaborator_created } = response?.data || {};
-      console.log(response)
+
       if (success) {
         this.success = success;
         this.addCollaborator(collaborator_created);
@@ -109,7 +109,7 @@ export default (collaborators, papers) => ({
     if (collaborator_created) {
       this.collaborators.push(collaborator_created);
     } else {
-      this.setError({ error: 'Algo deu errado ao tentar cadastrar o colaborador. Por favor, tente novamente ou entre em contato com o suporte.' });
+      this.setError({ error: 'Algo deu errado ao tentar cadastrar o Colaborador. Por favor, tente novamente ou entre em contato com o suporte.' });
     }
     this.closeModal();
     this.clearMessageAfterDelay('success');
