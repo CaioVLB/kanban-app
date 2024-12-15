@@ -7,6 +7,7 @@ use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\ClientAnnotation;
+use App\Models\ClientPhone;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class ClientController extends Controller
 
         $client->phones()->create([
           'main' => true,
-          'identifier' => 'Número informado no cadastramento',
+          'identifier' => $client->name,
           'phone_number' => $validated['phone_number'],
         ]);
       });
@@ -65,9 +66,10 @@ class ClientController extends Controller
 
   public function show(int $id): View
   {
+    $phones = ClientPhone::where('client_id', $id)->get(['id', 'identifier', 'phone_number']);
     $notes = ClientAnnotation::where('client_id', $id)->with(['createdBy:id,name'])->orderBy('id', 'desc')->get(['id', 'content', 'by_user_id', 'created_at']);
 
-    return view('client.client-dashboard', compact('id', 'notes'));
+    return view('client.client-dashboard', compact('id', 'phones', 'notes'));
   }
 
   public function storeNotes(Request $request, int $id): RedirectResponse

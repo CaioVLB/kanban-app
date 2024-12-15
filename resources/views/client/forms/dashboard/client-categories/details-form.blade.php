@@ -4,7 +4,7 @@
       <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
       <input type="text" id="name" name="name" autocomplete="name" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Nome do cliente" required>
     </div>
-    <div class="col-span-3" x-data>
+    <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
       <label for="cpf" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF</label>
       <input type="text" id="cpf" name="cpf" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Digite o CPF" x-mask="999.999.999-99" required>
     </div>
@@ -12,7 +12,7 @@
       <label for="date-birth" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Data de Nascimento</label>
       <input type="date" id="date-birth" name="date-birth" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="col-span-1">
+    <div class="xl:col-span-1 lg:col-span-2  md:col-span-1">
       <label for="age" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Idade</label>
       <input type="number" id="age" name="age" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>

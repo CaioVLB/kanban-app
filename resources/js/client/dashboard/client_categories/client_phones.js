@@ -1,35 +1,22 @@
-export default (clients) => ({
-  clients: [],
-  form: {
-    name: '',
-    cpf: '',
-    phone_number: '',
-    email: ''
+export default (phones) => ({
+  phones: [],
+  form: { // o que está me faltando é ajustar a rota na api e fazer a função no controller
+    identifier: '',
+    phone_number: ''
   },
   success: '',
   errors: [],
   isSubmitting: false,
 
   init() {
-    this.clients = clients || [];
-  },
-
-  openModal() {
-    this.resetForm();
-    this.$dispatch('open-modal', 'create-client-modal');
+    this.phones = phones || [];
   },
 
   resetForm() {
     this.form = {
-      name: '',
-      cpf: '',
-      phone_number: '',
-      email: ''
+      identifier: '',
+      phone_number: ''
     };
-  },
-
-  closeModal() {
-    this.$dispatch('close-modal', 'create-client-modal');
   },
 
   timeout(callback, delay = 4000) {
@@ -61,7 +48,7 @@ export default (clients) => ({
         } else {
           this.setError(response.data.error || { error: 'Ocorreu um erro inesperado.' });
         }
-
+        console.log(response)
         return Promise.reject(this.errors);
       });
   },
@@ -70,11 +57,11 @@ export default (clients) => ({
     this.isSubmitting = true;
     try {
       const response = await this.sendRequest(this.form);
-      const { success, client_created } = response?.data || {};
-
+      const { success, phone_created } = response?.data || {};
+      console.log(response)
       if (success) {
         this.success = success;
-        this.addClient(client_created);
+        this.addPhone(phone_created);
       } else {
         this.setError({ error: 'Ocorreu um erro ao processar a solicitação.' });
       }
@@ -85,13 +72,13 @@ export default (clients) => ({
     }
   },
 
-  addClient(client_created) {
-    if (client_created) {
-      this.clients.push(client_created);
+  addPhone(phone_created) {
+    if (phone_created) {
+      this.phones.push(phone_created);
     } else {
-      this.setError({ error: 'Algo deu errado ao tentar cadastrar o Cliente. Por favor, tente novamente ou entre em contato com o suporte.' });
+      this.setError({ error: 'Algo deu errado ao tentar cadastrar um novo telefone. Por favor, tente novamente ou entre em contato com o suporte.' });
     }
-    this.closeModal();
+    this.resetForm();
     this.clearMessageAfterDelay('success');
   }
 });

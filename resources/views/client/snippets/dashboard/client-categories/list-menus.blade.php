@@ -5,7 +5,8 @@
               :class="{ [active_menu]: current_menu.id === 'client_record', [inactive_menu]: current_menu.id !== 'client_record' }"
               class="w-full inline-flex items-center px-4 py-3" aria-current="page">
         <svg class="w-5 h-5 me-2 lucide lucide-book-user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+             stroke-linejoin="round">
           <path d="M15 13a3 3 0 1 0-6 0"/>
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
           <circle cx="12" cy="8" r="2"/>
@@ -82,13 +83,13 @@
             x-text="current_menu.label || `Ficha - ${current_submenu.label}`"></h3>
       </header>
       <template x-if="current_menu.id === 'client_record'">
-        @include('client.forms.dashboard.client-categories.client-record-form')
+        @include('client.forms.dashboard.client-categories.details-form')
       </template>
       <template x-if="current_menu.id === 'client_address'">
-        @include('client.snippets.dashboard.client-categories.client-address')
+        @include('client.snippets.dashboard.client-categories.list-addresses')
       </template>
       <template x-if="current_menu.id === 'client_phone'">
-        @include('client.snippets.dashboard.client-categories.client-phone')
+        @include('client.snippets.dashboard.client-categories.list-phones')
       </template>
     </section>
   </div>

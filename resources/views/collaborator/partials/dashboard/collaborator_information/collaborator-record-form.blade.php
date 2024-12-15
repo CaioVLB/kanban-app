@@ -37,7 +37,7 @@
       <input type="text" id="role" name="role" autocomplete="off" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
     <div class="col-span-full md:col-span-3 md:mr-2">
-      <label for="email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
       <input type="email" id="email" name="email" autocomplete="email" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Digite o email" required>
     </div>
     <div class="col-span-full md:col-span-3 md:ml-2">
