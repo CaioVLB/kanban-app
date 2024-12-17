@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
 use App\Enums\ProfileEnum;
-use App\Http\Requests\ClientRequest;
-use App\Http\Resources\ClientResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\ClientRequest;
+use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
 use App\Models\ClientAnnotation;
 use App\Models\ClientPhone;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+
 class ClientController extends Controller
 {
   public function index(): View
@@ -66,7 +69,7 @@ class ClientController extends Controller
 
   public function show(int $id): View
   {
-    $phones = ClientPhone::where('client_id', $id)->get(['id', 'identifier', 'phone_number']);
+    $phones = ClientPhone::where('client_id', $id)->orderBy('id', 'desc')->get(['id', 'identifier', 'phone_number']);
     $notes = ClientAnnotation::where('client_id', $id)->with(['createdBy:id,name'])->orderBy('id', 'desc')->get(['id', 'content', 'by_user_id', 'created_at']);
 
     return view('client.client-dashboard', compact('id', 'phones', 'notes'));
@@ -87,18 +90,24 @@ class ClientController extends Controller
 
       return redirect()->back()->with(['success' => 'Anotação realizada com sucesso!']);
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento da anotação.']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema no cadastramento da anotação.']);
     }
   }
 
   public function destroyNotes(int $note_id): RedirectResponse
   {
     try {
-      ClientAnnotation::findOrFail($note_id)->delete();
+      $note = ClientAnnotation::findOrFail($note_id);
+
+      if(auth()->user()->profile_id !== ProfileEnum::MANAGER && auth()->user()->id !== $note->by_user_id) {
+        return redirect()->back()->withErrors(['error' => 'Você não tem permissão para excluir essa anotação.']);
+      }
+
+      $note->delete();
 
       return redirect()->back()->with(['success' => 'Anotação excluída com sucesso!']);
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na exclusão da anotação.']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão da anotação.']);
     }
   }
 }

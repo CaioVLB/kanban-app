@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Client\PhoneController;
 use App\Http\Controllers\CollaboratorController;
-use App\Http\Controllers\PaperController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
-// use App\Modules\Profile\Controllers\ProfileController;
+use App\Http\Controllers\PaperController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+// use App\Modules\Profile\Controllers\ProfileController;
 // use App\Http\Controllers\ProjectController;
 // use App\Http\Controllers\TaskController;
 
@@ -46,6 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/{id}', 'show')->name('client.show');
     Route::post('/{id}/notes', 'storeNotes')->name('client.storeNotes');
     Route::delete('/notes/{note_id}', 'destroyNotes')->name('client.destroyNotes');
+  });
+
+  Route::controller(PhoneController::class)->prefix('client-phones')->group(function () {
+    Route::post('/{id}', 'store')->name('client-phones.store');
+    Route::delete('/{phone_id}', 'destroy')->name('client-phones.destroy');
   });
 
   Route::get('/collaborators', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborators.index');

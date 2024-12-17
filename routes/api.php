@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\PaperController;
 use App\Http\Controllers\BoardController;
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\PhoneController;
 use App\Http\Controllers\CollaboratorController;
-use App\Http\Controllers\ClientController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\PaperController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::apiResource('boards', BoardController::class)->only(['store', 'update', 'destroy']);
   Route::apiResource('collaborators', CollaboratorController::class)->only(['store', 'update', 'destroy']);
   Route::apiResource('clients', ClientController::class)->only(['store', 'update', 'destroy']);
+  Route::apiResource('client-addresses', AddressController::class)->only(['store', 'destroy']);
+  //Route::apiResource('client-phones', PhoneController::class)->only(['store', 'destroy']);
 });

@@ -27,7 +27,7 @@
             </svg>
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Quadros Inseridos</h2>
           </div>
-          <div
+          <!--<div
             class="w-full flex flex-wrap max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2 px-0.5">
             <div class="w-full lg:w-full md:w-[50%] relative group box-border py-1 px-2">
               <a href="#"
@@ -54,7 +54,7 @@
                 </div>
               </a>
             </div>
-          </div>
+          </div>-->
           <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
             <p class="py-1 px-1 text-start text-yellow-700 dark:text-yellow-100">Até o momento, este cliente não está
               associado a nenhum quadro. Sinta-se à vontade para adicionar quando necessário.</p>
