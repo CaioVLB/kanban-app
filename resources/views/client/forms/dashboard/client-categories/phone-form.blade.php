@@ -1,4 +1,4 @@
-<form x-data="{ isLoading: false }" action="{{ route('client-phones.store', $id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
+<form x-data="{ isLoading: false }" action="{{ route('client.phones.store', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
   <div class="grid grid-cols-5 gap-y-4">
     <div class="col-span-full md:col-span-2 lg:col-span-2 md:mr-2">

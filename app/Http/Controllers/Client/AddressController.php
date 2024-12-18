@@ -3,42 +3,45 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\AddressRequest;
 use App\Models\ClientAddress;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class AddressController extends Controller
 {
 
-  public function store(ClientRequest $request, int $id): JsonResponse
+  public function store(AddressRequest $request, int $id): RedirectResponse
   {
     try {
-      $request->validate([
-        'client_annotation' => ['required', 'string', 'max:255']
-      ]);
+      $validated = $request->validated();
 
-      ClientAnnotation::create([
-        'content' => $request->client_annotation,
+      ClientAddress::create([
         'client_id' => $id,
-        'by_user_id' => auth()->user()->id
+        'main' => false,
+        'description' => $validated['description'],
+        'zipcode' => $validated['zipcode'],
+        'street' => $validated['street'],
+        'number' => $validated['number'] ?? 'S/N',
+        'neighborhood' => $validated['neighborhood'],
+        'city_id' => $validated['city'],
+        'state_id' => $validated['state'],
+        'country_id' => 1,
       ]);
 
-      return redirect()->back()->with(['success' => 'Anotação realizada com sucesso!']);
+      return redirect()->back()->with(['success' => 'Endereço cadastrado com sucesso!']);
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento da anotação.']);
+      return redirect()->back()->withErrors(['error' => 'Não foi possível cadastrar um endereço no momento.']);
     }
   }
 
-  public function destroy(int $int): RedirectResponse
+  public function destroy(int $id): RedirectResponse
   {
     try {
-      ClientAnnotation::findOrFail($int)->delete();
+      ClientAddress::findOrFail($id)->delete();
 
-      return redirect()->back()->with(['success' => 'Anotação excluída com sucesso!']);
+      return redirect()->back()->with(['success' => 'Endereço excluído com sucesso!']);
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na exclusão da anotação.']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão do Endereço.']);
     }
   }
 }

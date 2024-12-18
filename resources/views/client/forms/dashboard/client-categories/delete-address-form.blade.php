@@ -1,8 +1,8 @@
-<form :action="'{{ route('client.phones.destroy', '') }}' + '/' + phoneId" method="POST" @submit.prevent="isLoadingDeletion = true; $el.submit()" class="flex items-center justify-center col-span-1">
+<form :action="'{{ route('client.addresses.destroy', '') }}' + '/' + addressId" method="POST" @submit.prevent="isLoadingDeletion = true; $el.submit()" class="flex items-center justify-center col-span-1">
   @csrf
   @method('DELETE')
   <button type="submit"
-    x-bind:disabled="isLoadingDeletion"
+          x-bind:disabled="isLoadingDeletion"
           class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-lg border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
         <span x-show="isLoadingDeletion" x-transition>
           <svg class="animate-spin h-5 w-5 text-amber-600 dark:text-amber-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

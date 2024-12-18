@@ -6,7 +6,7 @@
     <h2 class="text-xl font-bold text-gray-900 dark:text-white">Anotações</h2>
   </div>
   <div class="mt-2 w-full">
-    <form x-data="{ isLoading: false }" action="{{ route('client.storeNotes', $id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
+    <form x-data="{ isLoading: false }" action="{{ route('client.storeNotes', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
       @csrf
       <div class="flex">
         <input type="text" name="client_annotation" id="client_annotation" autocomplete="off" class="border border-gray-300 text-gray-900 text-sm rounded-s-md shadow-sm focus:ring-amber-400 focus:border-amber-200 w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Escreva anotações sobre o seu cliente aqui" required>

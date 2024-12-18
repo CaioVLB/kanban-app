@@ -6,7 +6,7 @@ use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ClientRequest extends FormRequest
+class ClientStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class ClientRequest extends FormRequest
         'name' => ['required', 'string', 'max:255'],
         'cpf' => ['required', 'string', 'max:14'],
         'phone_number' => ['required', 'string', 'min:11', 'max:15'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(Client::class)->ignore($this->route('id'))],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(Client::class)],
       ];
     }
 }

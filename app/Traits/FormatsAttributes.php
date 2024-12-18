@@ -33,6 +33,22 @@ trait FormatsAttributes
     );
   }
 
+  /**
+   * Formata e remove a máscara de CEP.
+   */
+  protected function zipcode(): Attribute
+  {
+    return Attribute::make(
+      get: fn($value) => $value
+        ? preg_replace('/(\d{5})(\d{3})/', '$1-$2', $value)
+        : null,
+      set: fn($value) => preg_replace('/\D/', '', $value)
+    );
+  }
+
+  /**
+   * Formata a data de criação no formato desejado.
+   */
   protected function createdAt(): Attribute
   {
     return Attribute::make(

@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Client;
 
 use App\Enums\ProfileEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\ClientRequest;
+use App\Http\Requests\Client\ClientStoreRequest;
+use App\Http\Requests\Client\ClientUpdateRequest;
 use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
+use App\Models\ClientAddress;
 use App\Models\ClientAnnotation;
 use App\Models\ClientPhone;
+use App\Models\State;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -32,7 +35,7 @@ class ClientController extends Controller
     return view('client.client', ['clients' => $clientResource]);
   }
 
-  public function store(ClientRequest $request): JsonResponse
+  public function store(ClientStoreRequest $request): JsonResponse
   {
     try {
       $validated = $request->validated();
@@ -69,10 +72,72 @@ class ClientController extends Controller
 
   public function show(int $id): View
   {
-    $phones = ClientPhone::where('client_id', $id)->orderBy('id', 'desc')->get(['id', 'identifier', 'phone_number']);
-    $notes = ClientAnnotation::where('client_id', $id)->with(['createdBy:id,name'])->orderBy('id', 'desc')->get(['id', 'content', 'by_user_id', 'created_at']);
+    $client = Client::findOrFail($id);
 
-    return view('client.client-dashboard', compact('id', 'phones', 'notes'));
+    $addresses = ClientAddress::with([
+      'city:id,city',
+      'state:id,abbreviation'
+    ])->where('client_id', $id)
+    ->orderBy('id', 'desc')
+    ->select([
+      'id',
+      'description',
+      'zipcode',
+      'street',
+      'number',
+      'neighborhood',
+      'city_id',
+      'state_id'
+    ])->get();
+
+    $states = State::all();
+
+    $phones = ClientPhone::where('client_id', $id)
+    ->orderBy('id', 'desc')
+    ->select([
+      'id',
+      'identifier',
+      'phone_number'
+    ])->get();
+
+    $notes = ClientAnnotation::with([
+      'createdBy:id,name'
+    ])->where('client_id', $id)
+    ->orderBy('id', 'desc')
+    ->select([
+      'id',
+      'content',
+      'by_user_id',
+      'created_at'
+    ])->get();
+
+    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'notes'));
+  }
+
+  public function update(ClientUpdateRequest $request, int $id): RedirectResponse
+  {
+    try {
+      $validated = $request->validated();
+
+      $client = Client::findOrFail($id);
+
+      $client->update([
+        'name' => $validated['name'],
+        'cpf' => $validated['cpf'],
+        'email' => $validated['email'],
+        'birthdate' => $validated['birthdate'],
+        'gender' => $validated['gender'],
+        'nationality' => $validated['nationality'],
+        'marital_status' => $validated['marital_status'],
+        'occupation' => $validated['occupation'],
+      ]);
+
+      return redirect()->back()->with(['success' => 'Dados do cliente atualizados com sucesso!']);
+    } catch (QueryException $e) {
+      return redirect()->back()->withErrors(['error' => 'Falha ao atualizar os dados do cliente.']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado.']);
+    }
   }
 
   public function storeNotes(Request $request, int $id): RedirectResponse

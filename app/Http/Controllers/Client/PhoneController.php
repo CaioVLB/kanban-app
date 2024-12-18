@@ -28,10 +28,10 @@ class PhoneController extends Controller
     }
   }
 
-  public function destroy(int $int): RedirectResponse
+  public function destroy(int $id): RedirectResponse
   {
     try {
-      ClientPhone::findOrFail($int)->delete();
+      ClientPhone::findOrFail($id)->delete();
 
       return redirect()->back()->with(['success' => 'Telefone excluído com sucesso!']);
     } catch (\Exception $e) {

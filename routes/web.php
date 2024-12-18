@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\AddressController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\PhoneController;
 use App\Http\Controllers\CollaboratorController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\PaperController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,15 +46,21 @@ Route::middleware('auth')->group(function () {
   })->name('board');
 
   Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
-  Route::controller(ClientController::class)->prefix('client-dashboard')->group(function () {
-    Route::get('/{id}', 'show')->name('client.show');
-    Route::post('/{id}/notes', 'storeNotes')->name('client.storeNotes');
-    Route::delete('/notes/{note_id}', 'destroyNotes')->name('client.destroyNotes');
-  });
-
-  Route::controller(PhoneController::class)->prefix('client-phones')->group(function () {
-    Route::post('/{id}', 'store')->name('client-phones.store');
-    Route::delete('/{phone_id}', 'destroy')->name('client-phones.destroy');
+  Route::prefix('client-dashboard')->group(function () {
+    Route::controller(ClientController::class)->group(function () {
+      Route::get('/{client_id}', 'show')->name('client.show');
+      Route::put('/{client_id}', 'update')->name('client.update');
+      Route::post('/{client_id}/notes', 'storeNotes')->name('client.storeNotes');
+      Route::delete('/notes/{note_id}', 'destroyNotes')->name('client.destroyNotes');
+    });
+    Route::controller(PhoneController::class)->prefix('phones')->group(function () {
+      Route::post('/{client_id}', 'store')->name('client.phones.store');
+      Route::delete('/{phone_id}', 'destroy')->name('client.phones.destroy');
+    });
+    Route::controller(AddressController::class)->prefix('addresses')->group(function () {
+      Route::post('/{client_id}', 'store')->name('client.addresses.store');
+      Route::delete('/{address_id}', 'destroy')->name('client.addresses.destroy');
+    });
   });
 
   Route::get('/collaborators', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborators.index');
@@ -63,6 +71,8 @@ Route::middleware('auth')->group(function () {
   });
 
   Route::get('/papers', [PaperController::class, 'index'])->middleware(['can:access-collaborators'])->name('papers.index');
+
+  Route::get('/services', [ServiceController::class, 'index'])->middleware(['can:access-collaborators'])->name('services.index');
 
   Route::middleware('can:access-companies')->controller(CompanyController::class)->prefix('companies')->group(function () {
     Route::get('/', 'index')->name('companies.index');

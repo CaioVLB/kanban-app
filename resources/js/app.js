@@ -9,6 +9,7 @@ import KanbanBoard from './board/kanban_board.js';
 import EditCard from './board/edit_card.js';
 import Client from './client/client.js';
 import ClientMenus from './client/dashboard/client_categories/client_menus.js';
+import ClientAddresses from './client/dashboard/client_categories/client_addresses.js';
 import ClientPhones from './client/dashboard/client_categories/client_phones.js';
 import ClientFiles from './client/dashboard/client_files/client_files.js';
 import Collaborator from './collaborator/collaborator.js';
@@ -20,10 +21,13 @@ import Company from './company/company.js';
 Alpine.data('create_board', CreateBoard);
 Alpine.data('kanban_board', KanbanBoard);
 Alpine.data('edit_card', EditCard);
+
 Alpine.data('client', Client);
 Alpine.data('client_menus', ClientMenus);
+Alpine.data('client_addresses', ClientAddresses);
 Alpine.data('client_phones', ClientPhones);
 Alpine.data('client_files', ClientFiles);
+
 Alpine.data('collaborator', Collaborator);
 Alpine.data('collaborator_information', CollaboratorInformation);
 Alpine.data('collaborator_address', CollaboratorAddress);
