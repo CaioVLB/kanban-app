@@ -55,8 +55,15 @@
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
     <div class="col-span-3">
-      <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
-      <div class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">(69) 99234-8050</div>
+      <label for="main_phone_number" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
+      <select id="main_phone_number" name="main_phone_number" aria-labelledby="phone-select-label"
+              class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
+              required>
+        <option selected disabled hidden value="">Escolha um telefone principal</option>
+        @foreach($phones as $phone)
+          <option value="{{ $phone->id }}" {{ $phone->main ? 'selected' : '' }}>{{$phone->identifier}} - {{$phone->phone_number}}</option>
+        @endforeach
+      </select>
     </div>
     <div class="col-span-3">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
@@ -64,8 +71,16 @@
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
     <div class="col-span-full">
-      <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Endereço</label>
-      <div class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">Rua Abunã - 3247, Bairro Embratel - Porto Velho (RO)</div>
+      <label for="main_address" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Endereço</label>
+      <select id="main_address" name="main_address" aria-labelledby="address-select-label"
+              class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
+        <option selected disabled hidden value="">Escolha um endereço principal</option>
+        @forelse($addresses as $address)
+          <option value="{{ $address->id }}" {{ $address->main ? 'selected' : '' }}>{{ $address->street }} - {{ $address->number }}, {{ $address->neighborhood }}, {{ $address->city->city }} - {{ $address->state->abbreviation }}, {{$address->zipcode}}, Brasil</option>
+        @empty
+          <option disabled>Nenhum endereço cadastrado</option>
+        @endforelse
+      </select>
     </div>
   </div>
   <footer class="flex justify-center items-center mt-auto">

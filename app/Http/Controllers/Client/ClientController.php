@@ -12,6 +12,7 @@ use App\Models\ClientAddress;
 use App\Models\ClientAnnotation;
 use App\Models\ClientPhone;
 use App\Models\State;
+use App\Services\ClientService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -21,6 +22,11 @@ use Illuminate\View\View;
 
 class ClientController extends Controller
 {
+
+  public function __construct(
+    protected ClientService $clientService,
+  ){}
+
   public function index(): View
   {
 
@@ -40,21 +46,7 @@ class ClientController extends Controller
     try {
       $validated = $request->validated();
 
-      $validated['company_id'] = $request->get('company_id');
-
-      DB::transaction(function () use (&$client, $validated) {
-        $client = Client::create([
-          'name' => $validated['name'],
-          'cpf' => $validated['cpf'],
-          'email' => $validated['email']
-        ]);
-
-        $client->phones()->create([
-          'main' => true,
-          'identifier' => $client->name,
-          'phone_number' => $validated['phone_number'],
-        ]);
-      });
+      $client = $this->clientService->storeClient($validated);
 
       $client->load(['phones']);
 
@@ -81,6 +73,7 @@ class ClientController extends Controller
     ->orderBy('id', 'desc')
     ->select([
       'id',
+      'main',
       'description',
       'zipcode',
       'street',
@@ -96,6 +89,7 @@ class ClientController extends Controller
     ->orderBy('id', 'desc')
     ->select([
       'id',
+      'main',
       'identifier',
       'phone_number'
     ])->get();
@@ -118,19 +112,10 @@ class ClientController extends Controller
   {
     try {
       $validated = $request->validated();
-
       $client = Client::findOrFail($id);
 
-      $client->update([
-        'name' => $validated['name'],
-        'cpf' => $validated['cpf'],
-        'email' => $validated['email'],
-        'birthdate' => $validated['birthdate'],
-        'gender' => $validated['gender'],
-        'nationality' => $validated['nationality'],
-        'marital_status' => $validated['marital_status'],
-        'occupation' => $validated['occupation'],
-      ]);
+      // Serviço para atualizar os dados do cliente
+      $this->clientService->updateClient($client, $validated);
 
       return redirect()->back()->with(['success' => 'Dados do cliente atualizados com sucesso!']);
     } catch (QueryException $e) {

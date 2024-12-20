@@ -66,4 +66,29 @@ class Client extends Model
       }
     });
   }*/
+
+  public function updateMainPhone(int $newPhoneId): void
+  {
+    $currentMainPhone = $this->phones()->where('main', true)->first();
+
+    if ($currentMainPhone && $currentMainPhone->id !== $newPhoneId) {
+      $currentMainPhone->update(['main' => false]);
+      $this->phones()->findOrFail($newPhoneId)->update(['main' => true]);
+    } elseif (!$currentMainPhone) {
+      $this->phones()->findOrFail($newPhoneId)->update(['main' => true]);
+    }
+  }
+
+  public function updateMainAddress(int $newAddressId): void
+  {
+    $currentMainAddress = $this->addresses()->where('main', true)->first();
+
+    if ($currentMainAddress && $currentMainAddress->id !== $newAddressId) {
+      $currentMainAddress->update(['main' => false]);
+      $this->addresses()->findOrFail($newAddressId)->update(['main' => true]);
+    } elseif (!$currentMainAddress) {
+      $this->addresses()->findOrFail($newAddressId)->update(['main' => true]);
+    }
+  }
+
 }
