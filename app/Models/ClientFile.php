@@ -13,7 +13,7 @@ class ClientFile extends Model
 
   protected $table = 'client_files';
   protected $fillable = [
-    'content', 'path', 'extension', 'client_id', 'by_user_id'
+    'content', 'original_name', 'hashed_name', 'path', 'type', 'size', 'client_id', 'by_user_id'
   ];
 
   public function client(): BelongsTo

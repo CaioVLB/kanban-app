@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\BelongsToCompany;
 use App\Traits\FormatsAttributes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +17,7 @@ class Client extends Model
 
   protected $table = 'clients';
   protected $fillable = [
-    'name', 'cpf', 'email', 'birthdate', 'gender', 'nationality', 'marital_status', 'weight', 'occupation', 'company_id'
+    'name', 'cpf', 'email', 'birthdate', 'gender', 'nationality', 'marital_status', 'weight', 'occupation', 'legal_responsible', 'cpf_legal_responsible', 'company_id'
   ];
 
   public function company(): BelongsTo
@@ -50,22 +51,19 @@ class Client extends Model
       ->withTimestamps();
   }
 
-  /*protected static function booted()
+  public function getAgeAttribute(): ?int
   {
-    static::addGlobalScope(new CompanyScope);
+    if (!$this->birthdate) {
+      return null;
+    }
 
-    static::creating(function ($client) {
-      if(session()->has('company_id')) {
-        $client->company_id = session()->get('company_id');
-      }
-    });
+    return now()->diffInYears($this->birthdate);
+  }
 
-    static::updating(function ($client) {
-      if(session()->has('company_id')) {
-        $client->company_id = session()->get('company_id');
-      }
-    });
-  }*/
+  protected function cpfLegalResponsible(): Attribute
+  {
+    return $this->cpf('cpf_legal_responsible');
+  }
 
   public function updateMainPhone(int $newPhoneId): void
   {

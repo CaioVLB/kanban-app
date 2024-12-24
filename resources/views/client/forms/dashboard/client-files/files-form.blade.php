@@ -1,20 +1,15 @@
-<form class="p-4 md:p-5" method="POST" action="{{ isset($managerAndYourCompany) ? route('company.update', $managerAndYourCompany->id) : route('company.store') }}" @submit.prevent="isLoading = true; $el.submit()">
+<form class="p-4 md:p-5" method="POST" action="{{ route('client.files.store', $client->id) }}" enctype="multipart/form-data" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
-  @if(isset($managerAndYourCompany))
-    @method('PUT')
-  @endif
   <div class="flex flex-col gap-4 mb-4">
     <div class="col-span-full">
       <x-input-label for="content" :value="__('Descrição')" />
       <x-text-input id="content" class="block mt-1 w-full" type="text" name="content"
-                    :value="$managerAndYourCompany->company->name ?? old('content')" required autofocus autocomplete="off" />
-      <x-input-error :messages="$errors->get('content')" class="mt-2" />
+                    :value="old('content')" required autofocus autocomplete="off" />
     </div>
     <div class="col-span-full">
       <x-input-label for="file_input" :value="__('Arquivo')" />
-      <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm cursor-pointer bg-gray-50 focus:outline-none dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-400" aria-describedby="file_input_help" id="file_input" name="file_input" type="file">
+      <input type="file" id="file_input" name="file_input" accept="image/png, image/jpeg, image/jpg, image/pdf" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md shadow-sm cursor-pointer bg-gray-50 focus:outline-none dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-400" aria-describedby="file_input_help" required>
       <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG, JPEG ou PDF (MAX. 8MB).</p>
-      <x-input-error :messages="$errors->get('file_input')" class="mt-2" />
     </div>
   </div>
   <div class="flex items-center justify-center mt-4">

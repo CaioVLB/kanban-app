@@ -5,22 +5,21 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\PhoneRequest;
 use App\Models\ClientPhone;
+use App\Services\ClientService;
 use Illuminate\Http\RedirectResponse;
 
 class PhoneController extends Controller
 {
+  public function __construct(
+    protected ClientService $clientService,
+  ){}
 
-  public function store(PhoneRequest $request, int $id): RedirectResponse
+  public function store(PhoneRequest $request, int $client_id): RedirectResponse
   {
     try {
       $validated = $request->validated();
 
-      ClientPhone::create([
-        'client_id' => $id,
-        'main' => false,
-        'identifier' => $validated['identifier'],
-        'phone_number' => $validated['phone_number'],
-      ]);
+      $this->clientService->storePhone($validated, $client_id);
 
       return redirect()->back()->with(['success' => 'Telefone cadastrado com sucesso!']);
     } catch (\Exception $e) {

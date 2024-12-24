@@ -9,6 +9,7 @@ import KanbanBoard from './board/kanban_board.js';
 import EditCard from './board/edit_card.js';
 import Client from './client/client.js';
 import ClientMenus from './client/dashboard/client_categories/client_menus.js';
+import ClientDetails from './client/dashboard/client_categories/client_details';
 import ClientAddresses from './client/dashboard/client_categories/client_addresses.js';
 import ClientPhones from './client/dashboard/client_categories/client_phones.js';
 import ClientFiles from './client/dashboard/client_files/client_files.js';
@@ -24,6 +25,7 @@ Alpine.data('edit_card', EditCard);
 
 Alpine.data('client', Client);
 Alpine.data('client_menus', ClientMenus);
+Alpine.data('client_details', ClientDetails);
 Alpine.data('client_addresses', ClientAddresses);
 Alpine.data('client_phones', ClientPhones);
 Alpine.data('client_files', ClientFiles);

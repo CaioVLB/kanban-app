@@ -3,6 +3,7 @@
 use App\Http\Controllers\Client\AddressController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\PhoneController;
+use App\Http\Controllers\Client\FileController;
 use App\Http\Controllers\CollaboratorController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
@@ -60,6 +61,11 @@ Route::middleware('auth')->group(function () {
     Route::controller(AddressController::class)->prefix('addresses')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.addresses.store');
       Route::delete('/{address_id}', 'destroy')->name('client.addresses.destroy');
+    });
+
+    Route::controller(FileController::class)->prefix('files')->group(function () {
+      Route::post('/{client_id}', 'store')->name('client.files.store');
+      Route::delete('/{file_id}', 'destroy')->name('client.files.destroy');
     });
   });
 
