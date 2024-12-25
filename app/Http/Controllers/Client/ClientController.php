@@ -10,6 +10,7 @@ use App\Http\Resources\Client\ClientResource;
 use App\Models\Client;
 use App\Models\ClientAddress;
 use App\Models\ClientAnnotation;
+use App\Models\ClientFile;
 use App\Models\ClientPhone;
 use App\Models\State;
 use App\Services\ClientService;
@@ -105,7 +106,20 @@ class ClientController extends Controller
       'created_at'
     ])->get();
 
-    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'notes'));
+    $files = ClientFile::with([
+      'createdBy:id,name'
+    ])->where('client_id', $id)
+    ->orderBy('id', 'desc')
+    ->select([
+      'id',
+      'content',
+      'original_name',
+      'path',
+      'by_user_id',
+      'created_at'
+    ])->get();
+
+    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'notes', 'files'));
   }
 
   public function update(ClientUpdateRequest $request, int $id): RedirectResponse

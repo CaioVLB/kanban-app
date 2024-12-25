@@ -28,7 +28,6 @@ class FileController extends Controller
 
       return redirect()->back()->with(['success' => 'Arquivo cadastrado com sucesso!']);
     } catch (\Exception $e) {
-      dd($e);
       return redirect()->back()->withErrors(['error' => 'Não foi possível cadastrar o arquivo no momento.']);
     }
   }
