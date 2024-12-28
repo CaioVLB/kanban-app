@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\BoardController;
-use App\Http\Controllers\Client\ClientController;
-use App\Http\Controllers\Client\AddressController;
-use App\Http\Controllers\Client\PhoneController;
 use App\Http\Controllers\CityController;
-use App\Http\Controllers\CollaboratorController;
+use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Client\FileController;
+use App\Http\Controllers\Collaborator\CollaboratorController;
 use App\Http\Controllers\PaperController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::apiResource('collaborators', CollaboratorController::class)->only(['store', 'update', 'destroy']);
   Route::apiResource('clients', ClientController::class)->only(['store']);
   Route::get('/states/{id}/cities', [CityController::class, 'getCities']);
+  Route::get('/files/{file_id}/view', [FileController::class, 'view'])->name('files.view');
   //Route::apiResource('client-addresses', AddressController::class)->only(['store', 'destroy']);
   //Route::apiResource('client-phones', PhoneController::class)->only(['store', 'destroy']);
 });

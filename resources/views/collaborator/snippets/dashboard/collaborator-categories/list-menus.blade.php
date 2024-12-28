@@ -5,7 +5,8 @@
               :class="{ [active_menu]: menu === 'collaborator_record', [inactive_menu]: menu !== 'collaborator_record' }"
               class="w-full inline-flex items-center px-4 py-3" aria-current="page">
         <svg class="w-5 h-5 me-2 lucide lucide-book-user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+             stroke-linejoin="round">
           <path d="M15 13a3 3 0 1 0-6 0"/>
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
           <circle cx="12" cy="8" r="2"/>
@@ -43,16 +44,17 @@
   <div class="w-full bg-white shadow text-medium text-gray-500 rounded-lg p-6 dark:text-gray-400 dark:bg-gray-800">
     <section class="flex flex-col h-full">
       <header>
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4" x-text="menu === 'collaborator_record' ? 'Ficha do Colaborador' : (menu === 'collaborator_address' ? 'Endereços' : 'Contatos')"></h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4"
+            x-text="menu === 'collaborator_record' ? 'Ficha do Colaborador' : (menu === 'collaborator_address' ? 'Endereços' : 'Contatos')"></h3>
       </header>
       <template x-if="menu === 'collaborator_record'">
-          @include('collaborator.partials.dashboard.collaborator_information.collaborator-record-form')
+        @include('collaborator.forms.dashboard.collaborator-categories.details-form')
       </template>
       <template x-if="menu === 'collaborator_address'">
-        @include('collaborator.snippets.dashboard.collaborator_information.collaborator-address')
+        @include('collaborator.snippets.dashboard.collaborator-categories.list-addresses')
       </template>
       <template x-if="menu === 'collaborator_phone'">
-        @include('collaborator.snippets.dashboard.collaborator_information.collaborator-phone')
+        @include('collaborator.snippets.dashboard.collaborator-categories.list-phones')
       </template>
     </section>
   </div>

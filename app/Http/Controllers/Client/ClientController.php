@@ -114,7 +114,6 @@ class ClientController extends Controller
       'id',
       'content',
       'original_name',
-      'path',
       'by_user_id',
       'created_at'
     ])->get();
@@ -163,7 +162,7 @@ class ClientController extends Controller
     try {
       $note = ClientAnnotation::findOrFail($note_id);
 
-      if(auth()->user()->profile_id !== ProfileEnum::MANAGER && auth()->user()->id !== $note->by_user_id) {
+      if(auth()->user()->profile_id !== ProfileEnum::MANAGER || auth()->user()->id !== $note->by_user_id) {
         return redirect()->back()->withErrors(['error' => 'Você não tem permissão para excluir essa anotação.']);
       }
 

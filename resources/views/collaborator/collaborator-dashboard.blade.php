@@ -1,16 +1,20 @@
 <x-app-layout>
   <div class="pt-3 pb-12">
     <div class="max-w-7xl w-full flex items-center ms-2 mb-3 px-2 gap-4">
-      <a href="{{ route('collaborators.index') }}" class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-big-left-dash">
-          <path d="M19 15V9"/><path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
+      <a href="{{ route('collaborators.index') }}"
+         class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="lucide lucide-arrow-big-left-dash">
+          <path d="M19 15V9"/>
+          <path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
         </svg>
       </a>
       <h1 class="font-bold text-gray-500 dark:text-white">Retornar à lista de colaboradores</h1>
     </div>
     <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-1 mx-auto lg:gap-4 gap-y-4 px-4">
       <div class="col-span-6 flex flex-col gap-y-4">
-        @include('collaborator.snippets.dashboard.collaborator_information.collaborator-information')
+        @include('collaborator.snippets.dashboard.collaborator-categories.list-menus')
       </div>
       <div class="col-span-6">
         <div class="grid grid-cols-3 gap-x-3 gap-y-4">
@@ -32,12 +36,15 @@
                        class="max-w-full h-[200px] mx-auto opacity-60">
                 </div>
                 <div class="p-3 mx-0 mt-2">
-                  <p class="py-1 px-1 mb-6 text-start text-gray-600 dark:text-gray-100">Até o momento, este colaborador
-                    não possui arquivos carregados. Sinta-se à vontade para adicionar quando necessário.</p>
+                  <p class="py-1 px-1 mb-6 text-start text-gray-600 dark:text-gray-100">Até o momento,
+                    este colaborador
+                    não possui arquivos carregados. Sinta-se à vontade para adicionar quando
+                    necessário.</p>
                   <div class="flex justify-center items-center">
                     <label for="file-upload"
                            class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-lg border border-amber-300 hover:bg-amber-300 hover:text-amber-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700 cursor-pointer">
-                      <svg class="w-5 h-5 me-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      <svg class="w-5 h-5 me-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                           viewBox="0 0 24 24"
                            stroke-width="2" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"/>

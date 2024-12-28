@@ -18,8 +18,10 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
+    // 'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE'],
 
     'allowed_origins' => ['*'],
+    //'allowed_origins' => ['https://seusite.com'],  // Permitir apenas seu domínio
 
     'allowed_origins_patterns' => [],
 

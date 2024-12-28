@@ -2,15 +2,15 @@
 
 use App\Http\Controllers\Client\AddressController;
 use App\Http\Controllers\Client\ClientController;
-use App\Http\Controllers\Client\PhoneController;
 use App\Http\Controllers\Client\FileController;
-use App\Http\Controllers\CollaboratorController;
+use App\Http\Controllers\Client\PhoneController;
+use App\Http\Controllers\Collaborator\CollaboratorController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\PaperController;
-use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 // use App\Modules\Profile\Controllers\ProfileController;
@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(FileController::class)->prefix('files')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.files.store');
       Route::delete('/{file_id}', 'destroy')->name('client.files.destroy');
+      Route::get('/{file_id}/download', 'download')->name('client.files.download');
     });
   });
 

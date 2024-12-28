@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Collaborator;
 
 use App\Enums\ProfileEnum;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CollaboratorRequest;
 use App\Http\Resources\CollaboratorResource;
-use App\Models\CollaboratorAnnotation;
 use App\Models\Collaborator;
-use App\Models\CollaboratorPhone;
+use App\Models\CollaboratorAnnotation;
 use App\Models\Paper;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -29,24 +29,7 @@ class CollaboratorController extends Controller
         $query->where('main', true)->select('phone_number', 'collaborator_id');
       }
     ])->select('id', 'user_id', 'paper_id', 'active')->get();
-      /*->map(function($collaborator) {
-        $collaborator->name = $collaborator->user->name;
-        $collaborator->cpf = $collaborator->user->cpf;
-        $collaborator->email = $collaborator->user->email;
-        $collaborator->paper = $collaborator->paper->paper;
-        $collaborator->phone_number = $collaborator->phones->isNotEmpty()
-          ? $collaborator->phones->first()->phone_number : '---';
 
-        $collaborator->unsetRelation('user');
-        $collaborator->unsetRelation('paper');
-        $collaborator->unsetRelation('phones');
-
-        return $collaborator;
-      });
-
-    $papers = Paper::all(['id', 'paper']);
-
-    return view('collaborator.collaborator', compact('collaborators', 'papers'));*/
     $collaboratorsResource = CollaboratorResource::collection($collaborators);
 
     return view('collaborator.collaborator', [
@@ -91,16 +74,6 @@ class CollaboratorController extends Controller
       return response()->json([
         'success' => 'Colaborador cadastrado com sucesso!',
         'collaborator_created' => new CollaboratorResource($collaborator)
-        /*'collaborator_created' => [
-          'id' => $collaborator->id,
-          'name' => $collaborator->user->name,
-          'cpf' => $collaborator->user->cpf,
-          'email' => $collaborator->user->email,
-          'phone_number' => $collaborator->phones->first()->phone_number,
-          'paper_id' => $collaborator->paper->id,
-          'paper' => $collaborator->paper->paper,
-          'active' => $collaborator->active,
-        ],*/
       ], 201);
     } catch (\Exception $e) {
       return response()->json([
