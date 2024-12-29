@@ -1,4 +1,4 @@
-<section x-data="collaborator_information()" class="md:flex">
+<section x-data="collaborator_menus()" class="md:flex">
   <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
     <li>
       <button @click="setMenu('collaborator_record')"

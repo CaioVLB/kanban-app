@@ -17,6 +17,6 @@
       </button>
     </div>
     <!-- Modal body -->
-    @include('collaborator.partials.create-collaborator-form')
+    @include('collaborator.forms.create-collaborator-form')
   </div>
 </x-modal>

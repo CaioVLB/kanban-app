@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Collaborator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\AddressRequest;
-use App\Models\ClientAddress;
+use App\Http\Requests\AddressRequest;
+use App\Models\CollaboratorAddress;
 use Illuminate\Http\RedirectResponse;
 
-class AddressController extends Controller
+class CollaboratorAddressController extends Controller
 {
 
   public function store(AddressRequest $request, int $id): RedirectResponse
@@ -15,8 +15,8 @@ class AddressController extends Controller
     try {
       $validated = $request->validated();
 
-      ClientAddress::create([
-        'client_id' => $id,
+      CollaboratorAddress::create([
+        'collaborator_id' => $id,
         'main' => false,
         'description' => $validated['description'],
         'zipcode' => $validated['zipcode'],
@@ -37,7 +37,7 @@ class AddressController extends Controller
   public function destroy(int $id): RedirectResponse
   {
     try {
-      ClientAddress::findOrFail($id)->delete();
+      CollaboratorAddress::findOrFail($id)->delete();
 
       return redirect()->back()->with(['success' => 'Endereço excluído com sucesso!']);
     } catch (\Exception $e) {

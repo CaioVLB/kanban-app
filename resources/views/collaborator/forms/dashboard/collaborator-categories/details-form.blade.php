@@ -1,77 +1,55 @@
-<form x-data="client_details({{ json_encode($client->birthdate) }}, {{ $client->age }})" action="{{ route('client.update', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
+<form x-data="collaborator_details({{ json_encode($collaborator->birthdate) }}, {{ $collaborator->age }})" action="{{ route('collaborator.update', ['collaborator_id' => $collaborator->id, 'user_id' => $collaborator->user->id]) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
   @method('PUT')
-  <div class="flex-grow grid grid-cols-6 gap-4 mb-6">
-    <div class="col-span-full">
+  <div class="flex-grow grid grid-cols-6 gap-y-4 mb-6">
+    <div class="col-span-full md:col-span-4 md:mr-2">
       <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
-      <input type="text" id="name" name="name" value="{{ $client->name }}" autocomplete="name"
+      <input type="text" id="name" name="name" value="{{ $collaborator->user->name }}" autocomplete="name"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
-    <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
+    <div class="col-span-full md:col-span-2 md:ml-2" x-data>
       <label for="cpf" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF</label>
-      <input type="text" id="cpf" name="cpf" value="{{ $client->cpf }}"
+      <input type="text" id="cpf" name="cpf" value="{{ $collaborator->user->cpf }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="999.999.999-99" required>
     </div>
-    <div class="col-span-2">
+    <div class="col-span-full md:col-span-2 md:mr-2">
       <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Data de Nascimento</label>
       <input type="date" id="birthdate" name="birthdate" x-model="birthdate" @blur="updateAge"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="xl:col-span-1 lg:col-span-2  md:col-span-1">
+    <div class="col-span-full md:col-span-2 md:mx-2">
       <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Idade</label>
       <input type="text" id="age" x-model="age" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" readonly>
     </div>
-    <div class="col-span-full grid grid-cols-2 gap-4" x-show="isMinor" x-cloak>
-      <div class="col-span-full text-center" x-show="'{{ !$client->legal_responsible || !$client->cpf_legal_responsible }}'">
-        <span class="py-1 text-yellow-700 dark:text-yellow-100">Lembre-se de preencher os campos do responsável legal, pois são necessários.</span>
-      </div>
-      <div class="col-span-1">
-        <label for="legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Responsável Legal</label>
-        <input type="text" id="legal_responsible" name="legal_responsible" value="{{ $client->legal_responsible }}"
-               class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" :required="isMinor ? true : false">
-      </div>
-      <div class="col-span-1">
-        <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
-          <label for="cpf_legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF do Responsável Legal</label>
-          <input type="text" id="cpf_legal_responsible" name="cpf_legal_responsible" value="{{ $client->cpf_legal_responsible }}"
-                 class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="999.999.999-99" :required="isMinor ? true : false">
-        </div>
-      </div>
-    </div>
-    <div class="col-span-3">
+    <div class="col-span-full md:col-span-2 md:ml-2">
       <label for="gender" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Gênero</label>
       <select id="gender" name="gender"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
         <option selected disabled hidden value="">Selecione uma opção</option>
-        <option value="Feminino" {{ $client->gender === 'Feminino' ? 'selected' : '' }}>Feminino</option>
-        <option value="Masculino" {{ $client->gender === 'Masculino' ? 'selected' : '' }}>Masculino</option>
-        <option value="Outro" {{ $client->gender === 'Outro' ? 'selected' : '' }}>Outro</option>
-        <option value="Não informado" {{ $client->gender === 'Não informado' ? 'selected' : '' }}>Não informado</option>
+        <option value="Feminino" {{ $collaborator->gender === 'Feminino' ? 'selected' : '' }}>Feminino</option>
+        <option value="Masculino" {{ $collaborator->gender === 'Masculino' ? 'selected' : '' }}>Masculino</option>
+        <option value="Outro" {{ $collaborator->gender === 'Outro' ? 'selected' : '' }}>Outro</option>
+        <option value="Não informado" {{ $collaborator->gender === 'Não informado' ? 'selected' : '' }}>Não informado</option>
       </select>
     </div>
-    <div class="col-span-3">
+    <div class="col-span-full md:col-span-2 md:mr-2">
       <label for="nationality" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nacionalidade</label>
-      <input type="text" id="nationality" name="nationality" value="{{ $client->nationality }}"
+      <input type="text" id="nationality" name="nationality" value="{{ $collaborator->nationality }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="col-span-3">
+    <div class="col-span-full md:col-span-2 md:mx-2">
       <label for="marital_status" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Estado Civil</label>
       <select id="marital_status" name="marital_status"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
         <option selected disabled hidden value="">Selecione uma opção</option>
-        <option value="Casado" {{ $client->marital_status === 'Casado' ? 'selected' : '' }}>Casado</option>
-        <option value="Divorciado" {{ $client->marital_status === 'Divorciado' ? 'selected' : '' }}>Divorciado</option>
-        <option value="Viúvo" {{ $client->marital_status === 'Viúvo' ? 'selected' : '' }}>Viúvo</option>
-        <option value="Solteiro" {{ $client->marital_status === 'Solteiro' ? 'selected' : '' }}>Solteiro</option>
-        <option value="União estável" {{ $client->marital_status === 'União estável' ? 'selected' : '' }}>União estável</option>
+        <option value="Casado" {{ $collaborator->marital_status === 'Casado' ? 'selected' : '' }}>Casado</option>
+        <option value="Divorciado" {{ $collaborator->marital_status === 'Divorciado' ? 'selected' : '' }}>Divorciado</option>
+        <option value="Viúvo" {{ $collaborator->marital_status === 'Viúvo' ? 'selected' : '' }}>Viúvo</option>
+        <option value="Solteiro" {{ $collaborator->marital_status === 'Solteiro' ? 'selected' : '' }}>Solteiro</option>
+        <option value="União estável" {{ $collaborator->marital_status === 'União estável' ? 'selected' : '' }}>União estável</option>
       </select>
     </div>
-    <div class="col-span-3">
-      <label for="occupation" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Profissão</label>
-      <input type="text" id="occupation" name="occupation" value="{{ $client->occupation }}"
-             class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
-    </div>
-    <div class="col-span-3">
+    <div class="col-span-full md:col-span-2 md:ml-2">
       <label for="main_phone_number" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
       <select id="main_phone_number" name="main_phone_number" aria-labelledby="phone-select-label"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
@@ -82,16 +60,31 @@
         @endforeach
       </select>
     </div>
-    <div class="col-span-3">
+    <div class="col-span-full md:col-span-3 md:mr-2">
+      <label for="hire_date" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Data de Contratação</label>
+      <input type="date" id="hire_date" name="hire_date" value="{{ $collaborator->hire_date }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
+    </div>
+    <div class="col-span-full md:col-span-3 md:ml-2">
+      <label for="paper_id" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Cargo</label>
+      <select id="paper_id" name="paper_id" aria-labelledby="paper-select-label"
+              class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
+              required>
+        <option selected disabled hidden value="">Selecione um cargo</option>
+        @foreach($papers as $paper)
+          <option value="{{ $paper->id }}" {{ $paper->id === $collaborator->paper_id ? 'selected' : '' }}>{{$paper->paper}}</option>
+        @endforeach
+      </select>
+    </div>
+    <div class="col-span-full md:col-span-3 md:mr-2">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
-      <input type="email" id="email" name="email" value="{{ $client->email }}" autocomplete="email"
+      <input type="email" id="email" name="email" value="{{ $collaborator->user->email }}" autocomplete="email"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
-    <div class="col-span-full">
+    <div class="col-span-full md:col-span-3 md:ml-2">
       <label for="main_address" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Endereço</label>
       <select id="main_address" name="main_address" aria-labelledby="address-select-label"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
-        <option selected disabled hidden value="">Selecione um endereço principal</option>
+        <option selected disabled hidden value="">Escolha um endereço principal</option>
         @forelse($addresses as $address)
           <option value="{{ $address->id }}" {{ $address->main ? 'selected' : '' }}>{{ $address->street }} - {{ $address->number }}, {{ $address->neighborhood }}, {{ $address->city->city }} - {{ $address->state->abbreviation }}, {{$address->zipcode}}, Brasil</option>
         @empty

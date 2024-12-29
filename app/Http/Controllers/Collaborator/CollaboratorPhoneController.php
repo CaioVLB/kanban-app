@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Collaborator;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\PhoneRequest;
-use App\Models\ClientPhone;
-use App\Services\ClientService;
+use App\Http\Requests\PhoneRequest;
+use App\Models\CollaboratorPhone;
+use App\Services\CollaboratorService;
 use Illuminate\Http\RedirectResponse;
 
-class PhoneController extends Controller
+class CollaboratorPhoneController extends Controller
 {
   public function __construct(
-    protected ClientService $clientService,
+    protected CollaboratorService $collaboratorService,
   ){}
 
-  public function store(PhoneRequest $request, int $client_id): RedirectResponse
+  public function store(PhoneRequest $request, int $collaborator_id): RedirectResponse
   {
     try {
       $validated = $request->validated();
 
-      $this->clientService->storePhone($validated, $client_id);
+      $this->collaboratorService->storePhone($validated, $collaborator_id);
 
       return redirect()->back()->with(['success' => 'Telefone cadastrado com sucesso!']);
     } catch (\Exception $e) {
@@ -30,7 +30,7 @@ class PhoneController extends Controller
   public function destroy(int $id): RedirectResponse
   {
     try {
-      ClientPhone::findOrFail($id)->delete();
+      CollaboratorPhone::findOrFail($id)->delete();
 
       return redirect()->back()->with(['success' => 'Telefone excluído com sucesso!']);
     } catch (\Exception $e) {

@@ -13,7 +13,7 @@ class CollaboratorFile extends Model
 
   protected $table = 'collaborator_files';
   protected $fillable = [
-    'content', 'path', 'extension', 'collaborator_id', 'by_user_id'
+    'content', 'original_name', 'hashed_name', 'path', 'type', 'size', 'collaborator_id', 'by_user_id'
   ];
 
   public function collaborator(): BelongsTo

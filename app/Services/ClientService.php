@@ -56,6 +56,16 @@ class ClientService {
     });
   }
 
+  public function storePhone(array $data, int $client_id): void
+  {
+    $this->cp->create([
+      'client_id' => $client_id,
+      'main' => false,
+      'identifier' => $data['identifier'],
+      'phone_number' => $data['phone_number'],
+    ]);
+  }
+
   public function storeFile(array $data, int $client_id): void
   {
     $client = $this->client->with(['company:id,name'])->select('id', 'email', 'company_id')->findOrFail($client_id);
@@ -67,7 +77,7 @@ class ClientService {
     $companyName = strtolower(preg_replace('/[^A-Za-z0-9_-]/', '_', $client->company->name));
     $email = strtolower($client->email);
 
-    $path = $file->storeAs("{$companyName}/{$email}", $hashedname, 'private');
+    $path = $file->storeAs("{$companyName}/client/{$email}", $hashedname, 'private');
 
     $this->cf->create([
       'client_id' => $client->id,
@@ -78,16 +88,6 @@ class ClientService {
       'path' => $path,
       'type' => $file->getClientMimeType(),
       'size' => $file->getSize()
-    ]);
-  }
-
-  public function storePhone(array $data, int $client_id): void
-  {dd($data, $client_id);
-    $this->cp->create([
-      'client_id' => $client_id,
-      'main' => false,
-      'identifier' => $data['identifier'],
-      'phone_number' => $data['phone_number'],
     ]);
   }
 }

@@ -33,7 +33,7 @@
       </div>
     @empty
       <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
-        <p class="py-1 px-1 text-center text-yellow-700 dark:text-yellow-100">Este cliente ainda não possui um endereço cadastrado.</p>
+        <p class="py-1 px-1 text-center text-yellow-700 dark:text-yellow-100">Este cliente ainda não possui endereço cadastrado.</p>
       </div>
     @endforelse
   </div>

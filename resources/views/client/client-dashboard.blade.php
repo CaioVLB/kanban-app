@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="pt-3 pb-12">
-    <div class="max-w-7xl w-full flex items-center mb-3 px-2 gap-4">
+    <div class="max-w-7xl flex items-center mx-auto mb-3 px-2 gap-4">
       <a href="{{ route('clients.index') }}"
          class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

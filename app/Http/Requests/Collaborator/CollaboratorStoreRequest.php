@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Collaborator;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CollaboratorRequest extends FormRequest
+class CollaboratorStoreRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -28,14 +28,8 @@ class CollaboratorRequest extends FormRequest
       'paper_id' => ['required', 'int'],
       'cpf' => ['required', 'string', 'max:14'],
       'phone_number' => ['required', 'string', 'min:11', 'max:15'],
-      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+      'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)],
     ];
   }
 
-  /*public function messages(): array
-  {
-    return [
-
-    ];
-  }*/
 }

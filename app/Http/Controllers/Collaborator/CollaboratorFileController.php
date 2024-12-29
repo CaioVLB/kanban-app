@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Collaborator;
 
 use App\Enums\ProfileEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\FileRequest;
-use App\Models\ClientFile;
-use App\Services\ClientService;
+use App\Http\Requests\FileRequest;
+use App\Models\CollaboratorFile;
+use App\Services\CollaboratorService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class FileController extends Controller
+class CollaboratorFileController extends Controller
 {
   public function __construct(
-    protected ClientService $clientService,
-    protected ClientFile $cf
+    protected CollaboratorService $collaboratorService,
+    protected CollaboratorFile $cf
   ){}
 
-  public function store(FileRequest $request, int $client_id): RedirectResponse
+  public function store(FileRequest $request, int $collaborator_id): RedirectResponse
   {
     try {
       $validated = $request->validated();
@@ -31,7 +32,7 @@ class FileController extends Controller
         return redirect()->back()->withErrors(['error' => 'Selecione um arquivo válido!']);
       }
 
-      $this->clientService->storeFile($validated, $client_id);
+      $this->collaboratorService->storeFile($validated, $collaborator_id);
 
       return redirect()->back()->with(['success' => 'Arquivo cadastrado com sucesso!']);
     } catch (\Exception $e) {
@@ -41,10 +42,25 @@ class FileController extends Controller
 
   public function view(int $id): JsonResponse
   {
-    $file = $this->cf->findOrFail($id);
+    $cacheKey = "file_base64_collabortor_{$id}";
+    $etagKey = "file_etag_collaborator_{$id}";
 
-    if ($file->size > 5 * 1024 * 1024) { // 5 MB
-      return response()->json(['error' => 'O arquivo é muito grande para ser carregado.'], 413);
+    $cachedFile = Cache::get($cacheKey);
+    $cachedEtag = Cache::get($etagKey);
+
+    if ($cachedFile && $cachedEtag) {
+      return response()->json($cachedFile)
+        ->setEtag($cachedEtag)
+        ->setCache([
+          'max_age' => 600,
+          'private' => true,
+        ]);
+    }
+
+    $file = $this->cf->find($id);
+
+    if (!$file) {
+      return response()->json(['error' => 'Arquivo não encontrado.'], Response::HTTP_NOT_FOUND);
     }
 
     $filePath = Storage::disk('private')->path($file->path);
@@ -53,17 +69,28 @@ class FileController extends Controller
       return response()->json(['error' => 'Arquivo não encontrado.'], 404);
     }
 
-    $fileContents = file_get_contents($filePath);
+    $fileContents = @file_get_contents($filePath);
     if ($fileContents === false) {
       return response()->json(['error' => 'Não foi possível ler o arquivo.'], 500);
     }
 
     $base64 = base64_encode($fileContents);
+    $etag = sprintf('%x', crc32($base64));
 
-    return response()->json([
+    $response = [
       'file' => 'data:' . $file->type . ';base64,' . $base64,
       'mimeType' => $file->type,
-    ]);
+    ];
+
+    Cache::put($cacheKey, $response, now()->addMinutes(10));
+    Cache::put($etagKey, $etag, now()->addMinutes(10));
+
+    return response()->json($response)
+      ->setEtag($etag)
+      ->setCache([
+        'max_age' => 600,
+        'private' => true,
+      ]);
   }
 
   public function download(Request $request, int $id): StreamedResponse

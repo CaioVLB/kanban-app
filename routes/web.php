@@ -1,10 +1,15 @@
 <?php
 
-use App\Http\Controllers\Client\AddressController;
+use App\Http\Controllers\Client\ClientAddressController;
 use App\Http\Controllers\Client\ClientController;
-use App\Http\Controllers\Client\FileController;
-use App\Http\Controllers\Client\PhoneController;
+use App\Http\Controllers\Client\ClientFileController;
+use App\Http\Controllers\Client\ClientPhoneController;
+
+use App\Http\Controllers\Collaborator\CollaboratorAddressController;
 use App\Http\Controllers\Collaborator\CollaboratorController;
+use App\Http\Controllers\Collaborator\CollaboratorFileController;
+use App\Http\Controllers\Collaborator\CollaboratorPhoneController;
+
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
@@ -54,16 +59,15 @@ Route::middleware('auth')->group(function () {
       Route::post('/{client_id}/notes', 'storeNotes')->name('client.storeNotes');
       Route::delete('/notes/{note_id}', 'destroyNotes')->name('client.destroyNotes');
     });
-    Route::controller(PhoneController::class)->prefix('phones')->group(function () {
+    Route::controller(ClientPhoneController::class)->prefix('phones')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.phones.store');
       Route::delete('/{phone_id}', 'destroy')->name('client.phones.destroy');
     });
-    Route::controller(AddressController::class)->prefix('addresses')->group(function () {
+    Route::controller(ClientAddressController::class)->prefix('addresses')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.addresses.store');
       Route::delete('/{address_id}', 'destroy')->name('client.addresses.destroy');
     });
-
-    Route::controller(FileController::class)->prefix('files')->group(function () {
+    Route::controller(ClientFileController::class)->prefix('files')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.files.store');
       Route::delete('/{file_id}', 'destroy')->name('client.files.destroy');
       Route::get('/{file_id}/download', 'download')->name('client.files.download');
@@ -71,10 +75,26 @@ Route::middleware('auth')->group(function () {
   });
 
   Route::get('/collaborators', [CollaboratorController::class, 'index'])->middleware(['can:access-collaborators'])->name('collaborators.index');
-  Route::middleware(['can:access-collaborators'])->controller(CollaboratorController::class)->prefix('collaborator-dashboard')->group(function () {
-    Route::get('/{id}', 'show')->name('collaborator.show');
-    Route::post('/{id}/notes', 'storeNotes')->name('collaborator.storeNotes');
-    Route::delete('/notes/{note_id}', 'destroyNotes')->name('collaborator.destroyNotes');
+  Route::middleware(['can:access-collaborators'])->prefix('collaborator-dashboard')->group(function () {
+    Route::controller(CollaboratorController::class)->group(function () {
+      Route::get('/{collaborator_id}', 'show')->name('collaborator.show');
+      Route::put('/{collaborator_id}/user/{user_id}', 'update')->name('collaborator.update');
+      Route::post('/{collaborator_id}/notes', 'storeNotes')->name('collaborator.storeNotes');
+      Route::delete('/notes/{note_id}', 'destroyNotes')->name('collaborator.destroyNotes');
+    });
+    Route::controller(CollaboratorPhoneController::class)->prefix('phones')->group(function () {
+      Route::post('/{collaborator_id}', 'store')->name('collaborator.phones.store');
+      Route::delete('/{phone_id}', 'destroy')->name('collaborator.phones.destroy');
+    });
+    Route::controller(CollaboratorAddressController::class)->prefix('addresses')->group(function () {
+      Route::post('/{collaborator_id}', 'store')->name('collaborator.addresses.store');
+      Route::delete('/{address_id}', 'destroy')->name('collaborator.addresses.destroy');
+    });
+    Route::controller(CollaboratorFileController::class)->prefix('files')->group(function () {
+      Route::post('/{collaborator_id}', 'store')->name('collaborator.files.store');
+      Route::delete('/{file_id}', 'destroy')->name('collaborator.files.destroy');
+      Route::get('/{file_id}/download', 'download')->name('collaborator.files.download');
+    });
   });
 
   Route::get('/papers', [PaperController::class, 'index'])->middleware(['can:access-collaborators'])->name('papers.index');

@@ -82,7 +82,7 @@ class CompanyController extends Controller
       'status_company' => ['required', 'boolean'],
       'name' => ['required', 'string', 'max:255'],
       'cpf' => ['required', 'string', 'max:14'],
-      'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user_id)],
+      'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user_id)],
       'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
     ]);
 

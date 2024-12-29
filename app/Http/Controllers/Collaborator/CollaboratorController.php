@@ -2,23 +2,32 @@
 
 namespace App\Http\Controllers\Collaborator;
 
-use App\Enums\ProfileEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CollaboratorRequest;
+use App\Http\Requests\Collaborator\CollaboratorStoreRequest;
+use App\Http\Requests\Collaborator\CollaboratorUpdateRequest;
 use App\Http\Resources\CollaboratorResource;
 use App\Models\Collaborator;
+use App\Models\CollaboratorAddress;
 use App\Models\CollaboratorAnnotation;
+use App\Models\CollaboratorFile;
+use App\Models\CollaboratorPhone;
 use App\Models\Paper;
+use App\Models\State;
 use App\Models\User;
+use App\Services\CollaboratorService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class CollaboratorController extends Controller
 {
+
+  public function __construct(
+    protected CollaboratorService $collaboratorService,
+  ){}
+
   public function index(): View
   {
 
@@ -39,35 +48,13 @@ class CollaboratorController extends Controller
   }
 
 
-  public function store(CollaboratorRequest $request): JsonResponse
+  public function store(CollaboratorStoreRequest $request): JsonResponse
   {
     try {
       $validated = $request->validated();
-
       $validated['company_id'] = $request->get('company_id');
 
-      DB::transaction(function () use (&$collaborator, $validated) {
-         $user = User::create([
-           'name' => $validated['name'],
-           'cpf' => $validated['cpf'],
-           'email' => $validated['email'],
-           'password' => Hash::make('password'),
-           'company_id' => $validated['company_id'],
-           'profile_id' => ProfileEnum::COLLABORATOR,
-         ]);
-
-         $collaborator = $user->collaborators()->create([
-           'paper_id' => $validated['paper_id'],
-           //'company_id' => $validated['company_id'],
-           'active' => true
-         ]);
-
-         $collaborator->phones()->create([
-           'main' => true,
-           'identifier' => 'Número informado no cadastramento',
-           'phone_number' => $validated['phone_number'],
-         ]);
-      });
+      $collaborator = $this->collaboratorService->storeCollaborator($validated);
 
       $collaborator->load(['user', 'paper', 'phones']);
 
@@ -85,9 +72,89 @@ class CollaboratorController extends Controller
 
   public function show(int $id): View
   {
-    $notes = CollaboratorAnnotation::where('collaborator_id', $id)->with(['createdBy:id,name'])->orderBy('id', 'desc')->get(['id', 'content', 'by_user_id', 'created_at']);
+    $collaborator = Collaborator::with([
+      'user:id,name,cpf,email',
+    ])->select([
+      'id',
+      'hire_date',
+      'birthdate',
+      'nationality',
+      'gender',
+      'marital_status',
+      'user_id',
+      'paper_id',
+    ])->findOrFail($id);
 
-    return view('collaborator.collaborator-dashboard', compact('id', 'notes'));
+    $papers = Paper::all(['id', 'paper']);
+
+    $addresses = CollaboratorAddress::with([
+      'city:id,city',
+      'state:id,abbreviation'
+    ])->where('collaborator_id', $id)
+      ->orderBy('id', 'desc')
+      ->select([
+        'id',
+        'main',
+        'description',
+        'zipcode',
+        'street',
+        'number',
+        'neighborhood',
+        'city_id',
+        'state_id'
+      ])->get();
+
+    $states = State::all();
+
+    $phones = CollaboratorPhone::where('collaborator_id', $id)
+      ->orderBy('id', 'desc')
+      ->select([
+        'id',
+        'main',
+        'identifier',
+        'phone_number'
+      ])->get();
+
+    $notes = CollaboratorAnnotation::with([
+      'createdBy:id,name'
+    ])->where('collaborator_id', $id)
+      ->orderBy('id', 'desc')
+      ->select([
+        'id',
+        'content',
+        'by_user_id',
+        'created_at'
+      ])->get();
+
+    $files = CollaboratorFile::with([
+      'createdBy:id,name'
+    ])->where('collaborator_id', $id)
+      ->orderBy('id', 'desc')
+      ->select([
+        'id',
+        'content',
+        'original_name',
+        'by_user_id',
+        'created_at'
+      ])->get();
+
+    return view('collaborator.collaborator-dashboard', compact('collaborator', 'papers', 'addresses', 'states', 'phones', 'notes', 'files'));
+  }
+
+  public function update(CollaboratorUpdateRequest $request, int $collaborator_id): RedirectResponse
+  {
+    try {
+      $validated = $request->validated();
+      $collaborator = Collaborator::with(['user:id,name,cpf,email'])->findOrFail($collaborator_id);
+
+      $this->collaboratorService->updateCollaborator($collaborator, $validated);
+
+      return redirect()->back()->with(['success' => 'Dados do colaborador atualizados com sucesso!']);
+    } catch (QueryException $e) {
+      return redirect()->back()->withErrors(['error' => 'Falha ao atualizar os dados do colaborador.']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado.']);
+    }
   }
 
   public function storeNotes(Request $request, int $id): RedirectResponse

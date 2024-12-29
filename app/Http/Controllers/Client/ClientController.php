@@ -162,13 +162,15 @@ class ClientController extends Controller
     try {
       $note = ClientAnnotation::findOrFail($note_id);
 
-      if(auth()->user()->profile_id !== ProfileEnum::MANAGER || auth()->user()->id !== $note->by_user_id) {
-        return redirect()->back()->withErrors(['error' => 'Você não tem permissão para excluir essa anotação.']);
+      if(auth()->user()->profile_id === ProfileEnum::MANAGER || auth()->user()->id === $note->by_user_id) {
+
+        $note->delete();
+
+        return redirect()->back()->with(['success' => 'Anotação excluída com sucesso!']);
       }
 
-      $note->delete();
+      return redirect()->back()->withErrors(['error' => 'Você não tem permissão para excluir essa anotação.']);
 
-      return redirect()->back()->with(['success' => 'Anotação excluída com sucesso!']);
     } catch (\Exception $e) {
       return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão da anotação.']);
     }

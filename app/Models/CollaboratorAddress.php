@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\FormatsAttributes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CollaboratorAddress extends Model
 {
-  use HasFactory;
+  use HasFactory, FormatsAttributes;
   protected $table = 'collaborator_addresses';
   protected $fillable = [
     'collaborator_id', 'main', 'description', 'zipcode', 'street', 'number', 'neighborhood', 'city_id', 'state_id', 'country_id'
