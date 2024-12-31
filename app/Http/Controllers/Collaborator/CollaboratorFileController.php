@@ -42,7 +42,7 @@ class CollaboratorFileController extends Controller
 
   public function view(int $id): JsonResponse
   {
-    $cacheKey = "file_base64_collabortor_{$id}";
+    $cacheKey = "file_base64_collaborator_{$id}";
     $etagKey = "file_etag_collaborator_{$id}";
 
     $cachedFile = Cache::get($cacheKey);

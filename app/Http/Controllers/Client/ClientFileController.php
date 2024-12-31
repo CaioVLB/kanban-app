@@ -42,8 +42,8 @@ class ClientFileController extends Controller
 
   public function view(int $id): JsonResponse
   {
-    $cacheKey = "file_base64_{$id}";
-    $etagKey = "file_etag_{$id}";
+    $cacheKey = "file_base64_client_{$id}";
+    $etagKey = "file_etag_client_{$id}";
 
     $cachedFile = Cache::get($cacheKey);
     $cachedEtag = Cache::get($etagKey);

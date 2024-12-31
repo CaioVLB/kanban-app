@@ -31,7 +31,7 @@ export default () => ({
     this.errorLoadingFile = false;
     this.file = '';
 
-    axios.get(`api/files/${fileId}/view`)
+    axios.get(`api/client/files/${fileId}/view`)
       .then(response => {
         this.file = response.data.file;
         this.mimeType = response.data.mimeType;
