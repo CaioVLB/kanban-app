@@ -23,7 +23,7 @@
           <path stroke-linecap="round" stroke-linejoin="round"
                 d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
         </svg>
-        Endereço
+        Endereços
       </button>
     </li>
     <li>
@@ -42,7 +42,7 @@
     </li>
     <li class="relative group" x-data="{ toggleListOpening: false }">
       <button @click="toggleListOpening = !toggleListOpening"
-              class="inline-flex items-center px-4 py-3 bg-white border border-gray-200 rounded-lg shadow hover:text-gray-900 hover:bg-gray-100 w-full dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
+              class="inline-flex items-center px-3 py-3 bg-white border border-gray-200 rounded-lg shadow hover:text-gray-900 hover:bg-gray-100 w-full dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
              class="w-5 h-5 me-2 text-gray-500 dark:text-gray-400 lucide lucide-notepad-text">
@@ -54,7 +54,7 @@
           <path d="M8 14h8"/>
           <path d="M8 18h5"/>
         </svg>
-        <span>Fichas</span>
+        <span>Avaliações</span>
         <svg :class="{'transform rotate-180': toggleListOpening, 'transform rotate-0': !toggleListOpening}"
              class="h-5 w-5 text-gray-900 dark:text-gray-400 ml-auto transition-transform duration-200 ease-in-out"
              viewBox="0 0 20 20" fill="currentColor">
@@ -69,7 +69,7 @@
             <button @click="setCurrentSubmenu(submenu)"
                     :class="{ [active_submenu]: submenu.id === current_submenu.id, [inactive_submenu]: submenu.id !== current_submenu.id }"
                     class="w-full flex items-center p-2"
-                    x-text="submenu.label"></button>
+                    x-text="submenu.id === 'respiratory' ? 'Respiratória' : submenu.label"></button>
           </li>
         </template>
       </ul>
@@ -80,7 +80,7 @@
     <section class="flex flex-col h-full">
       <header>
         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            x-text="current_menu.label || `Ficha - ${current_submenu.label}`"></h3>
+            x-text="current_menu.label || `Avaliações de ${current_submenu.label}`"></h3>
       </header>
       <template x-if="current_menu.id === 'client_record'">
         @include('client.forms.dashboard.client-categories.details-form')
@@ -90,6 +90,18 @@
       </template>
       <template x-if="current_menu.id === 'client_phone'">
         @include('client.snippets.dashboard.client-categories.list-phones')
+      </template>
+      <template x-if="current_submenu.id === 'physiotherapy'">
+        @include('client.snippets.dashboard.client-categories.evaluations.list-physiotherapy')
+      </template>
+      <template x-if="current_submenu.id === 'neuro'">
+        @include('client.snippets.dashboard.client-categories.evaluations.list-neuro')
+      </template>
+      <template x-if="current_submenu.id === 'orthopedic'">
+        @include('client.snippets.dashboard.client-categories.evaluations.list-orthopedic')
+      </template>
+      <template x-if="current_submenu.id === 'respiratory'">
+        @include('client.snippets.dashboard.client-categories.evaluations.list-respiratory')
       </template>
     </section>
   </div>

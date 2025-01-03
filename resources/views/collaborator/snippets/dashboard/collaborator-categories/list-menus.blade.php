@@ -11,7 +11,7 @@
           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
           <circle cx="12" cy="8" r="2"/>
         </svg>
-        Ficha
+        Informações
       </button>
     </li>
     <li>
@@ -45,7 +45,7 @@
     <section class="flex flex-col h-full">
       <header>
         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            x-text="menu === 'collaborator_record' ? 'Ficha do Colaborador' : (menu === 'collaborator_address' ? 'Endereços' : 'Contatos')"></h3>
+            x-text="menu === 'collaborator_record' ? 'Informações do Colaborador' : (menu === 'collaborator_address' ? 'Endereços' : 'Contatos')"></h3>
       </header>
       <template x-if="menu === 'collaborator_record'">
         @include('collaborator.forms.dashboard.collaborator-categories.details-form')

@@ -67,7 +67,7 @@
       <div class="w-full md:flex">
         <div class="w-full">
           <img src="{{ asset("images/vetores/upload-file.png")}}" data-retina="true"
-               alt="Imagem que retrata uma mulher subindo arquivos para o sistema"
+               alt="Imagem que retrata uma pessoa subindo arquivos para o sistema"
                class="max-w-full h-[200px] mx-auto opacity-60">
         </div>
         <div class="p-3 mx-0 mt-2">

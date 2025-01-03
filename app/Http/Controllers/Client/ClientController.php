@@ -12,13 +12,13 @@ use App\Models\ClientAddress;
 use App\Models\ClientAnnotation;
 use App\Models\ClientFile;
 use App\Models\ClientPhone;
+use App\Models\Evaluation;
 use App\Models\State;
 use App\Services\ClientService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ClientController extends Controller
@@ -95,6 +95,8 @@ class ClientController extends Controller
       'phone_number'
     ])->get();
 
+    $evaluations = Evaluation::with(['collaborator.user:id,name'])->get();
+
     $notes = ClientAnnotation::with([
       'createdBy:id,name'
     ])->where('client_id', $id)
@@ -118,7 +120,7 @@ class ClientController extends Controller
       'created_at'
     ])->get();
 
-    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'notes', 'files'));
+    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'evaluations', 'notes', 'files'));
   }
 
   public function update(ClientUpdateRequest $request, int $id): RedirectResponse

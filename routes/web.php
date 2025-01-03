@@ -4,12 +4,11 @@ use App\Http\Controllers\Client\ClientAddressController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\ClientFileController;
 use App\Http\Controllers\Client\ClientPhoneController;
-
+use App\Http\Controllers\Client\EvaluationController;
 use App\Http\Controllers\Collaborator\CollaboratorAddressController;
 use App\Http\Controllers\Collaborator\CollaboratorController;
 use App\Http\Controllers\Collaborator\CollaboratorFileController;
 use App\Http\Controllers\Collaborator\CollaboratorPhoneController;
-
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
@@ -71,6 +70,10 @@ Route::middleware('auth')->group(function () {
       Route::post('/{client_id}', 'store')->name('client.files.store');
       Route::delete('/{file_id}', 'destroy')->name('client.files.destroy');
       Route::get('/{file_id}/download', 'download')->name('client.files.download');
+    });
+    Route::controller(EvaluationController::class)->prefix('evaluations')->group(function () {
+      Route::get('/physiotherapy/{client_id}', 'physiotherapy')->name('client.evaluations.physiotherapy');
+      Route::post('/{client_id}', 'store')->name('client.evaluations.store');
     });
   });
 
