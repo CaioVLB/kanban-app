@@ -1,6 +1,8 @@
-export default (birthdate, age) => ({
+export default (data, age) => ({
   isLoading: false,
-  birthdate: birthdate ?? '',
+  birthdate: data?.birthdate ?? '',
+  legalResponsible: data?.legal_responsible,
+  cpfLegalResponsible: data?.cpf_legal_responsible,
   age: age ?? '',
   isMinor: age && age < 18,
 

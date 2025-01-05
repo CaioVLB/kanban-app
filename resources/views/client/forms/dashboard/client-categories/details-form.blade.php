@@ -1,4 +1,4 @@
-<form x-data="client_details({{ json_encode($client->birthdate) }}, {{ $client->age }})" action="{{ route('client.update', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
+<form x-data="client_details({{ json_encode($client) }}, {{ $client->age }})" action="{{ route('client.update', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
   @method('PUT')
   <div class="flex-grow grid grid-cols-6 gap-4 mb-6">
@@ -21,19 +21,19 @@
       <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Idade</label>
       <input type="text" id="age" x-model="age" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" readonly>
     </div>
-    <div class="col-span-full grid grid-cols-2 gap-4" x-show="isMinor" x-cloak>
+    <div class="col-span-full grid grid-cols-2 gap-4" x-show="isMinor || legalResponsible || cpfLegalResponsible" x-cloak>
       <div class="col-span-full text-center" x-show="'{{ !$client->legal_responsible || !$client->cpf_legal_responsible }}'">
         <span class="py-1 text-yellow-700 dark:text-yellow-100">Lembre-se de preencher os campos do responsável legal, pois são necessários.</span>
       </div>
       <div class="col-span-1">
-        <label for="legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Responsável Legal</label>
-        <input type="text" id="legal_responsible" name="legal_responsible" value="{{ $client->legal_responsible }}"
+        <label for="legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Responsável Legal/Financeiro</label>
+        <input type="text" id="legal_responsible" name="legal_responsible" x-model="legalResponsible"
                class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" :required="isMinor ? true : false">
       </div>
       <div class="col-span-1">
         <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
-          <label for="cpf_legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF do Responsável Legal</label>
-          <input type="text" id="cpf_legal_responsible" name="cpf_legal_responsible" value="{{ $client->cpf_legal_responsible }}"
+          <label for="cpf_legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF do Responsável Legal/Financeiro</label>
+          <input type="text" id="cpf_legal_responsible" name="cpf_legal_responsible" x-model="cpfLegalResponsible"
                  class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="999.999.999-99" :required="isMinor ? true : false">
         </div>
       </div>

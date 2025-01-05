@@ -17,7 +17,7 @@ class Client extends Model
 
   protected $table = 'clients';
   protected $fillable = [
-    'name', 'cpf', 'email', 'birthdate', 'gender', 'nationality', 'marital_status', 'weight', 'occupation', 'legal_responsible', 'cpf_legal_responsible', 'company_id'
+    'name', 'cpf', 'email', 'birthdate', 'gender', 'nationality', 'marital_status', 'occupation', 'legal_responsible', 'cpf_legal_responsible', 'company_id'
   ];
 
   public function company(): BelongsTo
@@ -87,6 +87,35 @@ class Client extends Model
     } elseif (!$currentMainAddress) {
       $this->addresses()->findOrFail($newAddressId)->update(['main' => true]);
     }
+  }
+
+  public function basicCustomerData(int $id)
+  {
+    return $this->with([
+      'phones' => fn($query) => $query->select('id', 'client_id', 'phone_number')->where('main', true),
+      'addresses' => fn($query) => $query->select('id', 'client_id', 'street', 'number', 'neighborhood', 'zipcode', 'city_id', 'state_id')->where('main', true),
+      'addresses.city:id,city',
+      'addresses.state:id,state',
+    ])->find($id);
+  }
+
+  public function getFormattedAddress(): string
+  {
+    $address = $this->addresses->first();
+
+    if (!$address) {
+      return 'NÃO INFORMADO';
+    }
+
+    return sprintf(
+      '%s - %s, %s, %s - %s, %s, Brasil',
+      $address->street,
+      $address->number,
+      $address->neighborhood,
+      $address->city->city ?? '',
+      $address->state->state ?? '',
+      $address->zipcode
+    );
   }
 
 }
