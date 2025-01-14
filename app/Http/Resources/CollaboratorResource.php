@@ -21,7 +21,7 @@ class CollaboratorResource extends JsonResource
       'email' => $this->user->email,
       'active' => $this->active,
       'paper_id' => $this->paper_id,
-      'paper' => $this->paper->paper,
+      'paper' => $this->paper->paper ?? '---',
       'phone_number' => $this->phones->isNotEmpty()
         ? $this->phones->first()->phone_number
         : '---',

@@ -10,7 +10,7 @@
           <path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
         </svg>
       </a>
-      <h1 class="font-bold text-gray-500 dark:text-white">Retornar à lista de clientes</h1>
+      <h1 class="font-bold text-gray-500 dark:text-white">Retornar à lista dos pacientes</h1>
     </div>
     <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-1 mx-auto lg:gap-4 gap-y-4 px-4">
       <div class="col-span-4 flex flex-col gap-y-4">
@@ -56,7 +56,7 @@
             </div>
           </div>-->
           <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
-            <p class="py-1 px-1 text-start text-yellow-700 dark:text-yellow-100">Até o momento, este cliente não está
+            <p class="py-1 px-1 text-start text-yellow-700 dark:text-yellow-100">Até o momento, este paciente não está
               associado a nenhum quadro. Sinta-se à vontade para adicionar quando necessário.</p>
           </div>
         </div>

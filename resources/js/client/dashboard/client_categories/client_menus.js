@@ -1,7 +1,7 @@
 export default () => ({
   current_menu: {
     id: 'client_record',
-    label: 'Informações do Cliente'
+    label: 'Informações do Paciente'
   },
   current_submenu: {
     id: null,

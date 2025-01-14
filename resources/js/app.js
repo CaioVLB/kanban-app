@@ -23,6 +23,8 @@ import CollaboratorPhones from './collaborator/dashboard/collaborator_categories
 import CollaboratorFiles from './collaborator/dashboard/collaborator_files/collaborator_files.js';
 
 import Paper from './paper/paper.js';
+import Category from './category/category.js';
+import Service from './service/service.js';
 import Company from './company/company.js';
 
 Alpine.data('create_board', CreateBoard);
@@ -44,6 +46,8 @@ Alpine.data('collaborator_phones', CollaboratorPhones);
 Alpine.data('collaborator_files', CollaboratorFiles);
 
 Alpine.data('paper', Paper);
+Alpine.data('category', Category);
+Alpine.data('service', Service);
 Alpine.data('company', Company);
 
 window.Alpine = Alpine;

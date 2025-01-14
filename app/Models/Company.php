@@ -12,7 +12,7 @@ class Company extends Model
 
     protected $table = 'companies';
     protected $fillable = [
-      'name', 'hire_date', 'active'
+      'name', 'cnpj', 'corporate_name', 'hire_date', 'active'
     ];
 
   public function users() : HasMany
@@ -38,6 +38,25 @@ class Company extends Model
   public function papers(): HasMany
   {
     return $this->hasMany(Paper::class);
+  }
+
+  public function categories(): HasMany
+  {
+    return $this->hasMany(Category::class);
+  }
+
+  public function setCnpjAttribute($value)
+  {
+    $this->attributes['cnpj'] = preg_replace('/\W/', '', $value);
+  }
+
+  public function getCnpjAttribute($value)
+  {
+    return preg_replace(
+      '/([A-Z0-9]{2})([A-Z0-9]{3})([A-Z0-9]{3})([A-Z0-9]{4})([0-9]{2})/',
+      '$1.$2.$3/$4-$5',
+      $value
+    );
   }
 
   /*protected static function booted()

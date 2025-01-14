@@ -9,16 +9,23 @@ use \Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaperController extends Controller
 {
+
+  public function __construct(
+    protected Paper $paper
+  ){}
   public function index(): View
   {
-    $papers = Paper::all('id', 'paper');
+    $papers = $this->paper->withCount('collaborators')
+      ->orderByDesc('id')
+      ->get();
+
     return view('paper.paper', compact('papers'));
   }
 
   public function store(RoleRequest $request)
   {
     try {
-      $paper = Paper::create($request->validated());
+      $paper = $this->paper::create($request->validated());
 
       return response()->json([
         'success' => 'Cargo criado com sucesso',
@@ -36,7 +43,7 @@ class PaperController extends Controller
     try {
       $data = $request->validated();
 
-      $paper = Paper::findOrFail($request->id);
+      $paper = $this->paper::findOrFail($request->id);
 
       $paper->update($data);
 
@@ -58,10 +65,10 @@ class PaperController extends Controller
   public function destroy(int $id)
   {
     try {
-      $paper = Paper::findOrFail($id);
+      $paper = $this->paper::findOrFail($id);
 
       if ($paper->collaborators->isNotEmpty()) {
-        return response()->json(['errors' => 'A exclusão deste cargo não será possível devido a colaboradores associados.'], 400);
+        return response()->json(['errors' => 'Não é possível excluir este cargo porque há colaboradores vinculados a ele.'], 400);
       }
 
       $paper->delete();

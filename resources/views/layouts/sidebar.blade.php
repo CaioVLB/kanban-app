@@ -12,8 +12,8 @@
       <!-- Menu: Perfil -->
       <li>
         <a href="{{ route('profile.edit') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" class="h-5 w-5 fill-gray-900 dark:fill-white mr-2" >
-            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"></path>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-[9px] stroke-gray-900 dark:stroke-white lucide lucide-user-round-cog">
+            <path d="M2 21a8 8 0 0 1 10.434-7.62"/><circle cx="10" cy="8" r="5"/><circle cx="18" cy="18" r="3"/><path d="m19.5 14.3-.4.9"/><path d="m16.9 20.8-.4.9"/><path d="m21.7 19.5-.9-.4"/><path d="m15.2 16.9-.9-.4"/><path d="m21.7 16.5-.9.4"/><path d="m15.2 19.1-.9.4"/><path d="m19.5 21.7-.4-.9"/><path d="m16.9 15.2-.4-.9"/>
           </svg>
           Perfil
         </a>
@@ -21,20 +21,20 @@
       <!-- Menu Item: Clientes -->
       <li>
         <a href="{{ route('clients.index') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-4 w-4 fill-gray-900 dark:fill-white mr-[9px]" viewBox="0 0 256 256">
-            <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-[9px] stroke-gray-900 dark:stroke-white lucide lucide-handshake">
+            <path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>
           </svg>
-          Clientes
+          Pacientes
         </a>
       </li>
       @can('access-collaborators')
         <!-- Menu Item: Equipe -->
         <li class="relative group" x-data="{ openTeam : false }">
           <button @click="openTeam = !openTeam" class="w-full flex items-center text-start p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition duration-150 ease-in-out">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-5 w-5 fill-gray-900 dark:fill-white mr-2" viewBox="0 0 256 256">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-5 w-5 mr-[9px] fill-gray-900 dark:fill-white" viewBox="0 0 256 256">
               <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"></path>
             </svg>
-            Gerenciar Equipe
+            Equipe
             <svg :class="{'transform rotate-180': openTeam, 'transform rotate-0': !openTeam}" class="h-5 w-5 text-gray-900 dark:text-gray-200 ml-auto transition-transform duration-200 ease-in-out" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M5.292 7.293a1 1 0 0 1 1.415 0L10 10.586l3.293-3.293a1 1 0 1 1 1.415 1.414l-4 4a1 1 0 0 1-1.415 0l-4-4a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
             </svg>
@@ -53,11 +53,11 @@
           </ul>
         </li>
         <li>
-          <a href="{{ route('services.index') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-[9px] stroke-gray-900 dark:stroke-white lucide lucide-hand-platter">
-              <path d="M12 3V2"/><path d="m15.4 17.4 3.2-2.8a2 2 0 1 1 2.8 2.9l-3.6 3.3c-.7.8-1.7 1.2-2.8 1.2h-4c-1.1 0-2.1-.4-2.8-1.2l-1.302-1.464A1 1 0 0 0 6.151 19H5"/><path d="M2 14h12a2 2 0 0 1 0 4h-2"/><path d="M4 10h16"/><path d="M5 10a7 7 0 0 1 14 0"/><path d="M5 14v6a1 1 0 0 1-1 1H2"/>
+          <a href="{{ route('categories.index') }}" class="w-full flex items-center p-2 text-gray-900 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-[9px] stroke-gray-900 dark:stroke-white lucide lucide-notebook-pen">
+              <path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
             </svg>
-            Categorias
+            Especialidades
           </a>
         </li>
       @endcan

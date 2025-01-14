@@ -22,7 +22,7 @@
             </div>
             <div class="flex flex-col col-span-1">
               <label class="text-start text-gray-600 dark:text-gray-400">Colaboradores Associados</label>
-              <span class="text-start text-gray-900 font-bold dark:text-white" x-text="paper.collaborators"></span>
+              <span class="text-start text-gray-900 font-bold dark:text-white" x-text="paper.collaborators_count"></span>
             </div>
           </div>
           <div class="col-span-1 flex gap-2">

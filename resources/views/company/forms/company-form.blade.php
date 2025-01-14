@@ -13,6 +13,22 @@
         <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
       </div>
 
+      <!-- Cnpj -->
+      <div class="col-span-full md:col-span-2" x-data>
+        <x-input-label for="cnpj" :value="__('CNPJ')" />
+        <x-text-input id="cnpj" class="block mt-1 w-full" type="text" name="cnpj"
+                      :value="$managerAndYourCompany->company->cnpj ?? old('cnpj')" autofocus autocomplete="off" x-mask="**.***.***/****-99"/>
+        <x-input-error :messages="$errors->get('cnpj')" class="mt-2" />
+      </div>
+
+      <!-- Corporate Name -->
+      <div class="col-span-full md:col-span-4">
+        <x-input-label for="corporate_name" :value="__('Razão Social')" />
+        <x-text-input id="corporate_name" class="block mt-1 w-full" type="text" name="corporate_name"
+                      :value="$managerAndYourCompany->company->corporate_name ?? old('corporate_name')" required autofocus autocomplete="off" />
+        <x-input-error :messages="$errors->get('corporate_name')" class="mt-2" />
+      </div>
+
       <!-- Hire of Date -->
       <div class="col-span-full md:col-span-2">
         <x-input-label for="hire_date" :value="__('Data de contratação')" />
@@ -73,6 +89,19 @@
                           :placeholder="!isset($managerAndYourCompany) ? 'Confirme a senha de acesso' : 'Deixe em branco para manter a senha atual'"/>
         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
       </div>
+
+      @if(!isset($managerAndYourCompany))
+        <div class="col-span-full flex flex-col">
+          <label class="text-start text-gray-600 dark:text-gray-400">Será um colaborador?</label>
+          <div class="flex items-center">
+            <label class="inline-flex items-center me-2 cursor-pointer">
+              <input type="checkbox" name="is_collaborator" class="sr-only peer" value="true">
+              <div class="relative w-11 h-6 mt-1 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"></div>
+            </label>
+            <label class="text-start text-gray-600 dark:text-gray-400">habilite essa opção caso o responsável dessa empresa atue como colaborador.</label>
+          </div>
+        </div>
+      @endif
     </div>
     <div class="flex items-center justify-center mt-4">
       <button type="submit"

@@ -27,20 +27,4 @@ class Paper extends Model
     return $this->hasMany(Collaborator::class);
   }
 
-  /*protected static function booted()
-  {
-    static::addGlobalScope(new CompanyScope);
-
-    static::created(function ($paper) {
-      if (session()->has('company_id')) {
-        $paper->company_id = session()->get('company_id');
-      }
-    });
-
-    static::updating(function ($paper) {
-      if (session()->has('company_id')) {
-        $paper->company_id = session()->get('company_id');
-      }
-    });
-  }*/
 }

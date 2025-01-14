@@ -9,7 +9,7 @@
     <form x-data="{ isLoading: false }" action="{{ route('client.storeNotes', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
       @csrf
       <div class="flex">
-        <input type="text" name="client_annotation" id="client_annotation" autocomplete="off" class="border border-gray-300 text-gray-900 text-sm rounded-s-md shadow-sm focus:ring-amber-400 focus:border-amber-200 w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Escreva anotações sobre o seu cliente aqui" required>
+        <input type="text" name="client_annotation" id="client_annotation" autocomplete="off" class="border border-gray-300 text-gray-900 text-sm rounded-s-md shadow-sm focus:ring-amber-400 focus:border-amber-200 w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Escreva anotações sobre o seu paciente aqui" required>
         <button type="submit"
                 x-bind:disabled="isLoading"
                 class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-e-lg border border-s-0 border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">

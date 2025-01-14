@@ -7,9 +7,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-6 w-6 fill-gray-900 dark:fill-white mr-2" viewBox="0 0 256 256">
             <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
           </svg>
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white">Clientes</h2>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white">Pacientes</h2>
         </div>
-        <p class="mt-2 text-gray-600 dark:text-gray-300">Gerencie seus clientes e visualize suas informações.</p>
+        <p class="mt-2 text-gray-600 dark:text-gray-300">Gerencie seus pacientes e visualize suas informações.</p>
         <div class="w-full flex justify-end mt-1 text-2xl font-bold text-gray-900 dark:text-white" x-text="clientesCount"></div>
       </div>
 
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div>
-      <h1 class="max-w-7xl mx-auto px-4 mb-2 font-bold text-gray-500 dark:text-white">Gerenciador de Processos</h1>
+      <h1 class="max-w-7xl mx-auto px-4 mb-2 font-bold text-gray-500 dark:text-white">Gestão de Processos</h1>
     </div>
     <div x-data="create_board({{ $boards }})" class="flex flex-wrap justify-start max-w-7xl mx-auto px-4 md:px-2 md:gap-y-0 gap-y-0.5">
       <div class="xl:w-[20%] lg:w-[25%] md:w-[33.3333%] w-full relative group box-border py-1 px-2">
@@ -96,9 +96,23 @@
         </div>
       </template>
 
-      <template x-if="true">
-        @include('dashboard.snippets.board-modal')
-      </template>
+      @include('dashboard.snippets.board-modal', ['show' => true])
+
+      @if($showPasswordChange)
+        <div x-data="{ modalClose: false }">
+          @include('dashboard.snippets.show-password-change-modal', ['show' => true])
+          <div class="relative">
+            <button x-show="modalClose"
+                    @click="$dispatch('open-modal', 'show-password-change-modal'); modalClose = false"
+                    class="fixed top-12 right-4 p-3 rounded-full shadow-lg bg-amber-500 border-amber-600 hover:bg-amber-600 dark:bg-amber-600 dark:border-amber-700 dark:hover:bg-amber-700 focus:outline-none z-50"
+                    title="Ver Alerta">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" class="h-8 w-8 fill-white">
+                <path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      @endif
 
       <template x-if="success || error.processing_failure">
         <div x-show="success || error.processing_failure"

@@ -47,8 +47,6 @@ class RegisteredUserController extends Controller
       'password' => ['required', 'confirmed', Rules\Password::defaults()],
     ]);
 
-    $cpf_sem_mascara = preg_replace('/[^0-9]/', '', $request->cpf);
-
     try {
       DB::beginTransaction();
 
@@ -60,7 +58,7 @@ class RegisteredUserController extends Controller
 
       $user = User::create([
         'name' => $request->name,
-        'cpf' => $cpf_sem_mascara,
+        'cpf' => $request->cpf,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'company_id' => $company->id,

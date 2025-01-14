@@ -1,17 +1,26 @@
-<x-app-layout>
-  @dump($client)
-  <div class="pt-3 pb-12">
-    <div class="max-w-7xl flex items-center mx-auto mb-3 px-2 gap-4">
-      <a href="{{ route('client.show', $client->id) }}"
-         class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-             class="lucide lucide-arrow-big-left-dash">
-          <path d="M19 15V9"/>
-          <path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
-        </svg>
-      </a>
-      <h1 class="font-bold text-gray-500 dark:text-white">Retornar à lista de clientes</h1>
-    </div>
+<x-evaluation-layout :client="$client" :collaborators="$collaborators" title="FICHA DE AVALIAÇÃO FISIOTERAPIA" type="physiotherapy">
+  <div class="col-span-full md:col-span-4">
+    <label for="characteristic" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Praticante de Atividade Física?</label>
+    <select id="characteristic" name="characteristic"
+            class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
+      <option selected disabled hidden value="">Selecione uma opção</option>
+      <option value="1">Sim</option>
+      <option value="0">Não</option>
+    </select>
   </div>
-</x-app-layout>
+  <div class="col-span-full md:col-span-8">
+    <label for="main_complaint" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">
+      Detalhamento
+      <small class="text-[11px] text-gray-700 dark:text-gray-300">(Especificar tipo de atividade, quantas vezes por semana e duração)</small>
+    </label>
+    <textarea id="main_complaint" name="main_complaint" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('main_complaint') }}</textarea>
+  </div>
+  <div class="col-span-full">
+    <label for="associated_diseases" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Doenças Associadas</label>
+    <textarea id="associated_diseases" name="associated_diseases" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('main_complaint') }}</textarea>
+  </div>
+  <div class="col-span-full">
+    <label for="family_historic" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Histórico Familiar</label>
+    <textarea id="family_historic" name="family_historic" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('main_complaint') }}</textarea>
+  </div>
+</x-evaluation-layout>

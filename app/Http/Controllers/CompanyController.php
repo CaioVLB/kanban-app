@@ -33,37 +33,42 @@ class CompanyController extends Controller
   {
     $request->validate([
       'company_name' => ['required', 'string', 'max:255'],
+      'cnpj' => ['nullable', 'string', 'regex:/^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-[0-9]{2}$/'],
+      'corporate_name' => ['required', 'string', 'max:255'],
       'hire_date' => ['required', 'date'],
       'name' => ['required', 'string', 'max:255'],
-      'cpf' => ['required', 'string', 'max:14'],
+      'cpf' => ['required', 'string', 'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$/'],
       'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
       'password' => ['required', 'confirmed', Rules\Password::defaults()],
     ]);
 
-    $cpfWithoutMask = preg_replace('/[^0-9]/', '', $request->cpf);
-
     try {
-      DB::beginTransaction();
+      DB::transaction(function () use ($request) {
+        $company = Company::create([
+          'name' => $request->company_name,
+          'cnpj' => $request->cnpj,
+          'corporate_name' => $request->corporate_name,
+          'hire_date' => $request->hire_date,
+          'active' => true
+        ]);
 
-      $company = Company::create([
-        'name' => $request->company_name,
-        'hire_date' => $request->hire_date,
-        'active' => true
-      ]);
+        $user = $company->users()->create([
+          'name' => $request->name,
+          'cpf' => $request->cpf,
+          'email' => $request->email,
+          'password' => Hash::make($request->password),
+          'profile_id' => ProfileEnum::MANAGER,
+        ]);
 
-      $user = User::create([
-        'name' => $request->name,
-        'cpf' => $cpfWithoutMask,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'company_id' => $company->id,
-        'profile_id' => ProfileEnum::MANAGER,
-      ]);
+        if ($request->is_collaborator) {
+          $user->collaborators()->create([
+            'active' => true
+          ]);
+        }
+      });
 
-      DB::commit();
       return redirect()->back()->with('success', 'Empresa cadastrada com sucesso!');
     } catch (\Exception $e) {
-      DB::rollBack();
       return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento da empresa.']);
     }
   }
@@ -78,22 +83,24 @@ class CompanyController extends Controller
   {
     $request->validate([
       'company_name' => ['required', 'string', 'max:255'],
+      'cnpj' => ['nullable', 'string', 'regex:/^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-[0-9]{2}$/'],
+      'corporate_name' => ['required', 'string', 'max:255'],
       'hire_date' => ['required', 'date'],
       'status_company' => ['required', 'boolean'],
       'name' => ['required', 'string', 'max:255'],
-      'cpf' => ['required', 'string', 'max:14'],
+      'cpf' => ['required', 'string', 'regex:/^\d{3}\.\d{3}\.\d{3}-\d{2}$/'],
       'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user_id)],
       'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
     ]);
 
-    $cpfWithoutMask = preg_replace('/[^0-9]/', '', $request->cpf);
-
     try {
-      DB::transaction(function () use ($request, $user_id, $cpfWithoutMask) {
+      DB::transaction(function () use ($request, $user_id) {
         $manager = User::findOrFail($user_id);
         $company = $manager->company;
 
         $company->name = $request->company_name;
+        $company->cnpj = $request->cnpj;
+        $company->corporate_name = $request->corporate_name;
         $company->hire_date = $request->hire_date;
         $company->active = $request->status_company;
 
@@ -102,7 +109,7 @@ class CompanyController extends Controller
         }
 
         $manager->name = $request->name;
-        $manager->cpf = $cpfWithoutMask;
+        $manager->cpf = $request->cpf;
         $manager->email = $request->email;
 
         // Adicionar a senha somente se fornecida

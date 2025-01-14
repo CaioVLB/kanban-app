@@ -38,7 +38,7 @@
                class="max-w-full h-[200px] mx-auto opacity-60">
         </div>
         <div class="p-3 mx-0 mt-2">
-          <p class="py-1 px-1 mb-6 text-center text-gray-600 dark:text-gray-100">Aqui você poderá ver todas as avaliações de fisioterapia deste cliente.</p>
+          <p class="py-1 px-1 mb-6 text-center text-gray-600 dark:text-gray-100">Aqui você poderá ver todas as avaliações de fisioterapia deste paciente.</p>
           <div class="flex justify-center items-center">
             <a href="{{ route('client.evaluations.physiotherapy', $client->id) }}" type="button" class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-lg border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700 cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

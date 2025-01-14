@@ -2,7 +2,7 @@ export default (papers) => ({
   papers: [],
   form: {
     paper: '',
-    collaborators: 0,
+    collaborators_count: 0,
   },
   success: '',
   errors: [],

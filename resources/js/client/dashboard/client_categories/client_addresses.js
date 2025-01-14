@@ -28,7 +28,7 @@ export default () => ({
         this.cities = response.data;
       })
       .catch(error => {
-        console.error("Erro ao buscar cidades:", error);
+        console.error("Erro ao buscar cidades");
       })
       .finally(() => {
         this.searching = false;

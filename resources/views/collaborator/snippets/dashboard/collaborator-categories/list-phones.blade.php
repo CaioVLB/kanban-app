@@ -1,7 +1,7 @@
 <div x-data="collaborator_phones()" class="flex-grow">
   @include('collaborator.forms.dashboard.collaborator-categories.phone-form')
   <div class="flex flex-col max-h-[380px] max-h-[380px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-1.5 pe-2 mt-6">
-    @foreach($phones as $phone)
+    @forelse($phones as $phone)
       <div class="flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div class="w-full grid grid-cols-5 gap-x-4 gap-y-1 lg:py-1 px-2">
           <div class="flex flex-col md:col-span-3 col-span-full">
@@ -19,7 +19,11 @@
           </svg>
         </x-danger-button>
       </div>
-    @endforeach
+      @empty
+        <div class="border rounded-lg shadow bg-yellow-100 p-3 mx-2 mt-2 dark:border-yellow-800 dark:bg-yellow-600">
+          <p class="py-1 px-1 text-center text-yellow-700 dark:text-yellow-100">Até o momento, nenhum número de telefone foi cadastrado.</p>
+        </div>
+      @endforelse
   </div>
   @include('collaborator.snippets.dashboard.collaborator-categories.delete-phone-modal', ['show' => true])
 </div>

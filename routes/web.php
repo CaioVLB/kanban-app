@@ -14,23 +14,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\PaperController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 // use App\Modules\Profile\Controllers\ProfileController;
 // use App\Http\Controllers\ProjectController;
 // use App\Http\Controllers\TaskController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
   return redirect()->route('login');
@@ -43,12 +33,9 @@ Route::middleware('auth')->group(function () {
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-  Route::get('/collaborator-dashboard', function () {
-    return view('collaborator.collaborator-dashboard');
-  })->name('collaborator-dashboard');
-  Route::get('/board', function () {
+  /*Route::get('/board', function () {
     return view('board.board');
-  })->name('board');
+  })->name('board');*/
 
   Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
   Route::prefix('client-dashboard')->group(function () {
@@ -73,7 +60,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(EvaluationController::class)->prefix('evaluations')->group(function () {
       Route::get('/physiotherapy/{client_id}', 'physiotherapy')->name('client.evaluations.physiotherapy');
-      Route::post('/{client_id}', 'store')->name('client.evaluations.store');
+      Route::get('/neuro/{client_id}', 'neuro')->name('client.evaluations.neuro');
+      Route::get('/respiratory/{client_id}', 'respiratory')->name('client.evaluations.respiratory');
+      Route::get('/orthopedic/{client_id}', 'orthopedic')->name('client.evaluations.orthopedic');
     });
   });
 
@@ -102,7 +91,20 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/papers', [PaperController::class, 'index'])->middleware(['can:access-collaborators'])->name('papers.index');
 
-  Route::get('/services', [ServiceController::class, 'index'])->middleware(['can:access-collaborators'])->name('services.index');
+  Route::middleware(['can:access-collaborators'])->prefix('categories')->group(function () {
+    Route::controller(CategoryController::class)->group(function () {
+      Route::get('/', 'index')->name('categories.index');
+      Route::post('/', 'store')->name('categories.store');
+      Route::put('/{category_id}', 'update')->name('categories.update');
+      Route::delete('/{category_id}', 'destroy')->name('categories.destroy');
+    });
+    Route::controller(ServiceController::class)->prefix('services')->group(function () {
+      Route::get('/{category_id}', 'index')->name('services.index');
+      Route::post('/{category_id}', 'store')->name('services.store');
+      Route::put('/{service_id}', 'update')->name('services.update');
+      Route::delete('/{service_id}', 'destroy')->name('services.destroy');
+    });
+  });
 
   Route::middleware('can:access-companies')->controller(CompanyController::class)->prefix('companies')->group(function () {
     Route::get('/', 'index')->name('companies.index');
