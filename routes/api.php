@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('client/files/{file_id}/view', [ClientFileController::class, 'view'])->name('client.files.view');
   Route::get('collaborator/files/{file_id}/view', [CollaboratorFileController::class, 'view'])->name('collaborator.files.view');
 
-  Route::put('/category/{category_id}', [CategoryController::class, 'modifyStatus']);
-  Route::put('/service/{service_id}', [ServiceController::class, 'modifyStatus']);
+  Route::put('/collaborator/{user_id}/is_active', [CollaboratorController::class, 'modifyStatus']);
+  Route::put('/category/{category_id}/is_active', [CategoryController::class, 'modifyStatus']);
+  Route::put('/service/{service_id}/is_active', [ServiceController::class, 'modifyStatus']);
 });

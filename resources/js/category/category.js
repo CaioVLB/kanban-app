@@ -36,7 +36,7 @@ export default () => ({
 
     this.isLoadingModifyStatus = true;
 
-    axios.put(`/api/category/${categoryId}`)
+    axios.put(`/api/category/${categoryId}/is_active`)
       .catch(error => {
         document.getElementById(`is_active_category_${categoryId}`).checked = originStatus;
       })

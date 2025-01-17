@@ -16,7 +16,7 @@ class Collaborator extends Model
 
   protected $table = 'collaborators';
   protected $fillable = [
-    'hire_date', 'birthdate', 'nationality', 'gender', 'marital_status', 'active', 'paper_id', 'company_id', 'user_id'
+    'hire_date', 'birthdate', 'nationality', 'gender', 'marital_status', 'paper_id', 'company_id', 'user_id'
   ];
 
   public function company(): belongsTo
@@ -60,14 +60,6 @@ class Collaborator extends Model
       ->withTimestamps();
   }
 
-  protected function active(): Attribute
-  {
-    return Attribute::make(
-      get: fn($value, $attributes) => $attributes['active'] ? 'Ativo' : 'Inativo',
-      //set: fn($value) => $value === 'Ativo' ? 1 : 0
-    );
-  }
-
   public function getAgeAttribute(): ?int
   {
     if (!$this->birthdate) {
@@ -100,5 +92,13 @@ class Collaborator extends Model
       $this->addresses()->findOrFail($newAddressId)->update(['main' => true]);
     }
   }
+
+  /*protected function active(): Attribute
+ {
+   return Attribute::make(
+     get: fn($value, $attributes) => $attributes['active'] ? 'Ativo' : 'Inativo',
+     //set: fn($value) => $value === 'Ativo' ? 1 : 0
+   );
+ }*/
 
 }

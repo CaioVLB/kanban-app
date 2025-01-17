@@ -58,11 +58,12 @@ class CompanyController extends Controller
           'email' => $request->email,
           'password' => Hash::make($request->password),
           'profile_id' => ProfileEnum::MANAGER,
+          'is_active' => true
         ]);
 
         if ($request->is_collaborator) {
           $user->collaborators()->create([
-            'active' => true
+            'company_id' => $company->id,
           ]);
         }
       });

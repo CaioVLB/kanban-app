@@ -63,6 +63,7 @@ class RegisteredUserController extends Controller
         'password' => Hash::make($request->password),
         'company_id' => $company->id,
         'profile_id' => ProfileEnum::MANAGER,
+        'is_active' => true
       ]);
 
       DB::commit();

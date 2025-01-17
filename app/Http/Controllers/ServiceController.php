@@ -82,7 +82,7 @@ class ServiceController extends Controller
 
       return response()->json(["success" => 'Disponibilidade alterada!'], 200);
     } catch (\Exception $e) {
-      return response()->json(["error" => 'Não foi possível alterar a disponibilidade da especialidade. Tente novamente!'], 500);
+      return response()->json(["error" => 'Não foi possível alterar a disponibilidade do Serviço. Tente novamente!'], 500);
     }
   }
 

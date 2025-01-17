@@ -2,7 +2,7 @@
   <div class="py-12">
     <div x-data="{ clientesCount: 0, altaCount: 0, mediaCount: 0, baixaCount: 0 }" class="max-w-7xl grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mx-auto px-4 pb-4">
       <!-- Card Clientes -->
-      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex flex-col items-start">
+      <div @click="window.location.href='{{ route('clients.index') }}'" class="bg-white dark:bg-gray-800 shadow rounded-lg p-4 flex flex-col items-start cursor-pointer">
         <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" class="h-6 w-6 fill-gray-900 dark:fill-white mr-2" viewBox="0 0 256 256">
             <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
@@ -10,7 +10,7 @@
           <h2 class="text-xl font-bold text-gray-900 dark:text-white">Pacientes</h2>
         </div>
         <p class="mt-2 text-gray-600 dark:text-gray-300">Gerencie seus pacientes e visualize suas informações.</p>
-        <div class="w-full flex justify-end mt-1 text-2xl font-bold text-gray-900 dark:text-white" x-text="clientesCount"></div>
+        <div class="w-full flex justify-end mt-1 text-2xl font-bold text-gray-900 dark:text-white">{{ $clients_count }}</div>
       </div>
 
       <!-- Card Prioridade Alta -->

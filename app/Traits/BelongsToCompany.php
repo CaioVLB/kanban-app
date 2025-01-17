@@ -11,10 +11,12 @@ trait BelongsToCompany
     static::addGlobalScope(new CompanyScope);
 
     static::creating(function ($model) {
-      if(session()->has('company_id')) {
-        $model->company_id = session()->get('company_id');
-      } elseif (request()->has('company_id')) {
-        $model->company_id = request()->get('company_id');
+      if (!$model->company_id) {
+        if(session()->has('company_id')) {
+          $model->company_id = session()->get('company_id');
+        } elseif (request()->has('company_id')) {
+          $model->company_id = request()->get('company_id');
+        }
       }
     });
 

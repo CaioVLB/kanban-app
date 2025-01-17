@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(CollaboratorController::class)->group(function () {
       Route::get('/{collaborator_id}', 'show')->name('collaborator.show');
       Route::put('/{collaborator_id}/user/{user_id}', 'update')->name('collaborator.update');
+      Route::patch('/{user_id}/reset-pwd', 'resetPassword')->name('collaborator.resetPassword');
       Route::post('/{collaborator_id}/notes', 'storeNotes')->name('collaborator.storeNotes');
       Route::delete('/notes/{note_id}', 'destroyNotes')->name('collaborator.destroyNotes');
     });

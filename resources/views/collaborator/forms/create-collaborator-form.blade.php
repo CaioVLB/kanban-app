@@ -40,6 +40,13 @@
                   </div>
                 </li>
               </template>
+              <template x-if="papers.length === 0">
+                <li class="text-gray-900 cursor-pointer select-none relative py-2 pl-3 pr-9 hover:rounded-md">
+                  <div class="flex items-center">
+                    <span class="ml-1 block font-normal dark:text-white">Nenhum cargo cadastrado</span>
+                  </div>
+                </li>
+              </template>
             </ul>
           </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Collaborator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Collaborator\CollaboratorResetPasswordRequest;
 use App\Http\Requests\Collaborator\CollaboratorStoreRequest;
 use App\Http\Requests\Collaborator\CollaboratorUpdateRequest;
 use App\Http\Resources\CollaboratorResource;
@@ -19,12 +20,15 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class CollaboratorController extends Controller
 {
 
   public function __construct(
+    protected User $user,
+    protected Collaborator $collaborator,
     protected CollaboratorService $collaboratorService,
   ){}
 
@@ -32,12 +36,12 @@ class CollaboratorController extends Controller
   {
 
     $collaborators = Collaborator::with([
-      'user:id,name,cpf,email',
+      'user:id,name,cpf,email,is_active',
       'paper:id,paper',
       'phones' => function($query) {
         $query->where('main', true)->select('phone_number', 'collaborator_id');
       }
-    ])->select('id', 'user_id', 'paper_id', 'active')->get();
+    ])->select('id', 'user_id', 'paper_id')->get();
 
     $collaboratorsResource = CollaboratorResource::collection($collaborators);
 
@@ -72,8 +76,8 @@ class CollaboratorController extends Controller
 
   public function show(int $id): View
   {
-    $collaborator = Collaborator::with([
-      'user:id,name,cpf,email',
+    $collaborator = $this->collaborator->with([
+      'user:id,name,cpf,email,is_active',
     ])->select([
       'id',
       'hire_date',
@@ -145,7 +149,7 @@ class CollaboratorController extends Controller
   {
     try {
       $validated = $request->validated();
-      $collaborator = Collaborator::with(['user:id,name,cpf,email'])->findOrFail($collaborator_id);
+      $collaborator = $this->collaborator->with(['user:id,name,cpf,email'])->findOrFail($collaborator_id);
 
       $this->collaboratorService->updateCollaborator($collaborator, $validated);
 
@@ -154,6 +158,39 @@ class CollaboratorController extends Controller
       return redirect()->back()->withErrors(['error' => 'Falha ao atualizar os dados do colaborador.']);
     } catch (\Exception $e) {
       return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado.']);
+    }
+  }
+
+  public function resetPassword(CollaboratorResetPasswordRequest $request, int $user_id): RedirectResponse
+  {
+    try {
+      $validated = $request->validated();
+      $user = $this->user->select('id', 'password')->findOrFail($user_id);
+
+      $this->collaboratorService->resetPassword($user, $validated);
+
+      return redirect()->back()->with(['success' => 'Senha do colaborador atualizada com sucesso!']);
+    } catch (ValidationException $e) {
+      return redirect()->back()->withErrors($e->errors());
+    } catch (QueryException $e) {
+      return redirect()->back()->withErrors(['error' => 'Falha ao atualizar a senha do colaborador.']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado.']);
+    }
+  }
+
+  public function modifyStatus(int $id): JsonResponse
+  {
+    try {
+      $user = $this->user->findOrFail($id);
+
+      $user->is_active = !$user->is_active;
+
+      $user->save();
+
+      return response()->json(["is_active" => $user->is_active], 200);
+    } catch (\Exception $e) {
+      return response()->json(["error" => 'Não foi possível alterar o status do colaborador. Tente novamente!'], 500);
     }
   }
 

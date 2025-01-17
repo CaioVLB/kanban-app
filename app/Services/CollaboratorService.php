@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class CollaboratorService {
 
@@ -32,11 +33,11 @@ class CollaboratorService {
         'password' => Hash::make('password'),
         'company_id' => $data['company_id'],
         'profile_id' => ProfileEnum::COLLABORATOR,
+        'is_active' => true
       ]);
 
       $collaborator = $user->collaborators()->create([
-        'paper_id' => $data['paper_id'],
-        'active' => true
+        'paper_id' => $data['paper_id']
       ]);
 
       $collaborator->phones()->create([
@@ -81,6 +82,17 @@ class CollaboratorService {
         $collaborator->updateMainAddress($mainAddress);
       }
     });
+  }
+
+  public function resetPassword(User $user, array $data)
+  {
+    if (Hash::check($data['password'], $user->password)) {
+      throw ValidationException::withMessages(['error' => 'A nova senha não pode ser igual à senha antiga.']);
+    }
+
+    $user->update([
+      'password' => Hash::make($data['password'])
+    ]);
   }
 
   public function storePhone(array $data, int $collaborator_id): void

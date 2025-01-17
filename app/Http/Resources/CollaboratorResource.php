@@ -19,7 +19,7 @@ class CollaboratorResource extends JsonResource
       'name' => $this->user->name,
       'cpf' => $this->user->cpf,
       'email' => $this->user->email,
-      'active' => $this->active,
+      'active' => $this->user->is_active ? 'Ativo' : 'Inativo',
       'paper_id' => $this->paper_id,
       'paper' => $this->paper->paper ?? '---',
       'phone_number' => $this->phones->isNotEmpty()

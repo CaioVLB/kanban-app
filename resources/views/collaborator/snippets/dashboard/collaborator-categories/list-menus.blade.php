@@ -1,7 +1,7 @@
 <section x-data="collaborator_menus()" class="md:flex">
   <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
     <li>
-      <button @click="setMenu('collaborator_record')"
+      <button @click="setMenu('collaborator_record', 'Informações do Colaborador')"
               :class="{ [active_menu]: menu === 'collaborator_record', [inactive_menu]: menu !== 'collaborator_record' }"
               class="w-full inline-flex items-center px-4 py-3" aria-current="page">
         <svg class="w-5 h-5 me-2 lucide lucide-book-user" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -15,7 +15,7 @@
       </button>
     </li>
     <li>
-      <button @click="setMenu('collaborator_address')"
+      <button @click="setMenu('collaborator_address', 'Endereços')"
               :class="{ [active_menu]: menu === 'collaborator_address', [inactive_menu]: menu !== 'collaborator_address' }"
               class="w-full inline-flex items-center px-4 py-3">
         <svg class="w-5 h-5 me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -27,7 +27,7 @@
       </button>
     </li>
     <li>
-      <button @click="setMenu('collaborator_phone')"
+      <button @click="setMenu('collaborator_phone', 'Contatos')"
               :class="{ [active_menu]: menu === 'collaborator_phone', [inactive_menu]: menu !== 'collaborator_phone' }"
               class="w-full inline-flex items-center px-4 py-3">
         <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -40,12 +40,21 @@
         Contatos
       </button>
     </li>
+    <li>
+      <button @click="setMenu('collaborator_access', 'Configurações de Acesso')"
+              :class="{ [active_menu]: menu === 'collaborator_access', [inactive_menu]: menu !== 'collaborator_access' }"
+              class="w-full inline-flex items-center px-4 py-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 me-2 lucide lucide-key-round">
+          <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
+        </svg>
+        Acesso
+      </button>
+    </li>
   </ul>
   <div class="w-full bg-white shadow text-medium text-gray-500 rounded-lg p-6 dark:text-gray-400 dark:bg-gray-800">
     <section class="flex flex-col h-full">
       <header>
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4"
-            x-text="menu === 'collaborator_record' ? 'Informações do Colaborador' : (menu === 'collaborator_address' ? 'Endereços' : 'Contatos')"></h3>
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4" x-text="menu_title"></h3>
       </header>
       <template x-if="menu === 'collaborator_record'">
         @include('collaborator.forms.dashboard.collaborator-categories.details-form')
@@ -55,6 +64,9 @@
       </template>
       <template x-if="menu === 'collaborator_phone'">
         @include('collaborator.snippets.dashboard.collaborator-categories.list-phones')
+      </template>
+      <template x-if="menu === 'collaborator_access'">
+        @include('collaborator.snippets.dashboard.collaborator-categories.access')
       </template>
     </section>
   </div>

@@ -87,6 +87,8 @@ export default (collaborators, papers) => ({
   },
 
   async submitForm() {
+    if (!this.form.paper) return alert('Selecione um cargo para o colaborador.');
+
     this.isSubmitting = true;
     try {
       const response = await this.sendRequest(this.form);
