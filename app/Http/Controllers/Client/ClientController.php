@@ -26,12 +26,13 @@ class ClientController extends Controller
 
   public function __construct(
     protected ClientService $clientService,
+    protected Client $client,
   ){}
 
   public function index(): View
   {
 
-    $clients = Client::with([
+    $clients = $this->client->with([
       'phones' => function($query) {
         $query->where('main', true)->select('phone_number', 'client_id');
       }
@@ -65,7 +66,7 @@ class ClientController extends Controller
 
   public function show(int $id): View
   {
-    $client = Client::findOrFail($id);
+    $client = $this->client->findOrFail($id);
 
     $addresses = ClientAddress::with([
       'city:id,city',
@@ -95,7 +96,16 @@ class ClientController extends Controller
       'phone_number'
     ])->get();
 
-    $evaluations = Evaluation::with(['collaborator.user:id,name'])->get();
+    $evaluations = Evaluation::with(['collaborator.user:id,name'])
+      ->orderBy('created_at', 'desc')
+      ->get()
+      ->groupBy('type')
+      ->mapWithKeys(function ($group, $type) {
+        // Para cada tipo, cria um array com o nome do tipo como chave
+        return [
+          strtolower($type) => $group
+        ];
+      });
 
     $notes = ClientAnnotation::with([
       'createdBy:id,name'
@@ -120,14 +130,25 @@ class ClientController extends Controller
       'created_at'
     ])->get();
 
-    return view('client.client-dashboard', compact('client', 'addresses', 'states', 'phones', 'evaluations', 'notes', 'files'));
+    return view('client.client-dashboard', [
+      'client' => $client,
+      'addresses' => $addresses,
+      'states' => $states,
+      'phones' => $phones,
+      'physiotherapy' => $evaluations->get('physiotherapy', []),
+      'neurological' => $evaluations->get('neurological', []),
+      'respiratory' => $evaluations->get('respiratory', []),
+      'orthopedic' => $evaluations->get('orthopedic', []),
+      'notes' => $notes,
+      'files' => $files,
+    ]);
   }
 
   public function update(ClientUpdateRequest $request, int $id): RedirectResponse
   {
     try {
       $validated = $request->validated();
-      $client = Client::findOrFail($id);
+      $client = $this->client->findOrFail($id);
 
       // Serviço para atualizar os dados do cliente
       $this->clientService->updateClient($client, $validated);

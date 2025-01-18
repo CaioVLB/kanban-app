@@ -58,11 +58,8 @@ Route::middleware('auth')->group(function () {
       Route::delete('/{file_id}', 'destroy')->name('client.files.destroy');
       Route::get('/{file_id}/download', 'download')->name('client.files.download');
     });
-    Route::controller(EvaluationController::class)->prefix('evaluations')->group(function () {
-      Route::get('/physiotherapy/{client_id}', 'physiotherapy')->name('client.evaluations.physiotherapy');
-      Route::get('/neuro/{client_id}', 'neuro')->name('client.evaluations.neuro');
-      Route::get('/respiratory/{client_id}', 'respiratory')->name('client.evaluations.respiratory');
-      Route::get('/orthopedic/{client_id}', 'orthopedic')->name('client.evaluations.orthopedic');
+    Route::controller(EvaluationController::class)->group(function () {
+      Route::post('{client_id}/evaluation/{type}', 'evaluations')->name('client.evaluations.evaluation');
     });
   });
 

@@ -1,3 +1,13 @@
+@section('scripts')
+  <script>
+    window.routes = {
+      evaluation: {
+        create: "{{ route('client.evaluations.evaluation', ['client_id' => ':id', 'type' => ':type']) }}",
+      }
+    };
+  </script>
+@endsection
+
 <x-app-layout>
   <div class="pt-3 pb-12">
     <div class="max-w-7xl flex items-center mx-auto mb-3 px-2 gap-4">

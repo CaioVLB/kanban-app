@@ -13,6 +13,7 @@ import ClientMenus from './client/dashboard/client_categories/client_menus.js';
 import ClientDetails from './client/dashboard/client_categories/client_details.js';
 import ClientAddresses from './client/dashboard/client_categories/client_addresses.js';
 import ClientPhones from './client/dashboard/client_categories/client_phones.js';
+import ClientEvaluations from "./client/dashboard/client_categories/client_evaluations.js";
 import ClientFiles from './client/dashboard/client_files/client_files.js';
 
 import Collaborator from './collaborator/collaborator.js';
@@ -37,6 +38,7 @@ Alpine.data('client_menus', ClientMenus);
 Alpine.data('client_details', ClientDetails);
 Alpine.data('client_addresses', ClientAddresses);
 Alpine.data('client_phones', ClientPhones);
+Alpine.data('client_evaluations', ClientEvaluations);
 Alpine.data('client_files', ClientFiles);
 
 Alpine.data('collaborator', Collaborator);

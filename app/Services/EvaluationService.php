@@ -2,20 +2,77 @@
 
 namespace App\Services;
 
+use App\Models\Client;
+use App\Models\Collaborator;
 use App\Models\Evaluation;
-use App\Models\EvaluationCharacteristicValue;
+use App\Models\EvaluationNeurological;
+use App\Models\EvaluationOrthopedic;
+use App\Models\EvaluationPhysiotherapy;
+use App\Models\EvaluationRespiratory;
 use Illuminate\Support\Facades\DB;
 
 class EvaluationService
 {
 
+  private const VALID_TYPES = [
+    'physiotherapy' => 'evaluations.physiotherapy',
+    'neurological' => 'evaluations.neurological',
+    'respiratory' => 'evaluations.respiratory',
+    'orthopedic' => 'evaluations.orthopedic',
+  ];
+
   public function __construct(
+    protected Client $client,
+    protected Collaborator $collaborator,
     protected Evaluation $evaluation,
-    protected EvaluationCharacteristicValue $ecv,
+    protected EvaluationPhysiotherapy $physiotherapy,
+    protected EvaluationNeurological $neurological,
+    protected EvaluationRespiratory $respiratory,
+    protected EvaluationOrthopedic $orthopedic,
   ){}
 
-  public function store()
+  public function storeEvaluation(array $data, string $type): Evaluation
   {
-    dd($this->evaluation);
+    return DB::transaction(function () use ($data, $type) {
+      $evaluation = $this->evaluation->create($data);
+
+      $this->createSpecificEvaluation($evaluation, $type);
+
+      return $evaluation;
+    });
+  }
+
+  protected function createSpecificEvaluation(Evaluation $evaluation, string $type): void
+  {
+    $relationshipMap = [
+      'physiotherapy' => 'physiotherapy',
+      'neurological' => 'neurological',
+      'respiratory' => 'respiratory',
+      'orthopedic' => 'orthopedic',
+    ];
+
+    $evaluation->{$relationshipMap[$type]}()->create();
+  }
+
+  public function validateEvaluationType(string $type): bool
+  {
+    return array_key_exists($type, self::VALID_TYPES);
+  }
+
+  public function getViewName(string $type): ?string
+  {
+    return self::VALID_TYPES[$type] ?? null;
+  }
+
+
+  public function validateClient(int $client_id): ?Client
+  {
+    return $this->client->basicCustomerData($client_id);
+  }
+
+  public function getAuthenticatedCollaborator(): ?int
+  {
+    $collaborator = $this->collaborator->where('user_id', auth()->user()->id)->first();
+    return $collaborator ? $collaborator->id : null;
   }
 }

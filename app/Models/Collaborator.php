@@ -60,6 +60,11 @@ class Collaborator extends Model
       ->withTimestamps();
   }
 
+  public function evaluations(): HasMany
+  {
+    return $this->hasMany(Evaluation::class);
+  }
+
   public function getAgeAttribute(): ?int
   {
     if (!$this->birthdate) {
