@@ -28,6 +28,7 @@ import Paper from './paper/paper.js';
 import Category from './category/category.js';
 import Service from './service/service.js';
 import Company from './company/company.js';
+import Evaluation from './evaluation/evaluation.js';
 
 Alpine.data('create_board', CreateBoard);
 Alpine.data('kanban_board', KanbanBoard);
@@ -53,6 +54,7 @@ Alpine.data('paper', Paper);
 Alpine.data('category', Category);
 Alpine.data('service', Service);
 Alpine.data('company', Company);
+Alpine.data('evaluation', Evaluation);
 
 window.Alpine = Alpine;
 window.axios = axios;

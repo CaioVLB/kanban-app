@@ -1,8 +1,12 @@
-<form :action="routes.create" method="POST" @submit.prevent="isLoadingEvaluationAdd = true; $el.submit()" class="p-4 md:p-5">
+<form :action="mode === 'create' ? routes.create : routes.update" method="POST" @submit.prevent="isLoadingEvaluationAdd = true; $el.submit()" class="p-4 md:p-5">
   @csrf
+  <template x-if="mode === 'edit'">
+    @method('put')
+  </template>
   <div class="mb-4">
     <label for="evaluation_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" x-text="`Qual o nome você deseja colocar para essa avaliação ${evaluationLabel}?`"></label>
     <input type="text" name="evaluation_name" id="evaluation_name" x-model="form.evaluationName" maxlength="255" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" placeholder="Digite o nome da avaliação aqui" required>
+    <small x-show="mode === 'edit'" class="text-[11.5px] font-bold text-gray-600 cursor-default dark:text-gray-400">Se desejar alterar o nome da avaliação, modifique o campo acima.</small>
   </div>
   <div class="w-full flex items-center justify-center">
     <button type="submit"
@@ -14,7 +18,7 @@
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 100 8v4a8 8 0 01-8-8z"></path>
             </svg>
           </span>
-      <span x-show="!isLoadingEvaluationAdd">Iniciar Avaliação</span>
+      <span x-show="!isLoadingEvaluationAdd" x-text="mode === 'create' ? 'Iniciar Avaliação' : 'Ir Para Avaliação'"></span>
     </button>
   </div>
 </form>

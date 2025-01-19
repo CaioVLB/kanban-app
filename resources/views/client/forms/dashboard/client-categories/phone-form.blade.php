@@ -1,17 +1,17 @@
 <form x-data="{ isLoading: false }" action="{{ route('client.phones.store', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
-  <div class="grid grid-cols-5 gap-y-4">
-    <div class="col-span-full md:col-span-2 lg:col-span-2 md:mr-2">
+  <div class="grid grid-cols-6 gap-x-4 gap-y-3">
+    <div class="col-span-full xl:col-span-3">
       <label for="identifier" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Titular do Número</label>
       <input type="text" id="identifier" name="identifier" autocomplete="name" value="{{ old('identifier') }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
-    <div class="col-span-full md:col-span-2 lg:col-span-2 md:ml-2" x-data>
+    <div class="col-span-full md:col-span-4 xl:col-span-2" x-data>
       <label for="phone" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
       <input type="text" id="phone_number" name="phone_number" autocomplete="tel" value="{{ old('phone_number') }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="(99) 99999-9999" required>
     </div>
-    <div class="col-span-full md:col-span-1 lg:col-span-1 flex items-end md:ml-4">
+    <div class="col-span-full md:col-span-2 xl:col-span-1 flex items-end">
       <button type="submit"
               x-bind:disabled="isLoading"
               class="inline-flex justify-center w-full py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-lg border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">

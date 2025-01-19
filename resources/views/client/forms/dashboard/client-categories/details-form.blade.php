@@ -1,38 +1,38 @@
 <form x-data="client_details({{ json_encode($client) }}, {{ $client->age }})" action="{{ route('client.update', $client->id) }}" method="POST" @submit.prevent="isLoading = true; $el.submit()">
   @csrf
   @method('PUT')
-  <div class="flex-grow grid grid-cols-6 gap-4 mb-6">
+  <div class="flex-grow grid grid-cols-6 gap-x-4 gap-y-3 mb-6">
     <div class="col-span-full">
       <label for="name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nome</label>
       <input type="text" id="name" name="name" value="{{ $client->name }}" autocomplete="name"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>
     </div>
-    <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
+    <div class="xl:col-span-2 lg:col-span-2 md:col-span-2 col-span-full" x-data>
       <label for="cpf" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF</label>
       <input type="text" id="cpf" name="cpf" value="{{ $client->cpf }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="999.999.999-99" required>
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2 col-span-3">
       <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Data de Nascimento</label>
       <input type="date" id="birthdate" name="birthdate" x-model="birthdate" @blur="updateAge"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="xl:col-span-1 lg:col-span-2  md:col-span-1">
+    <div class="xl:col-span-2 lg:col-span-2  md:col-span-2 col-span-3">
       <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Idade</label>
       <input type="text" id="age" x-model="age" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" readonly>
     </div>
-    <div class="col-span-full grid grid-cols-2 gap-4" x-show="isMinor || legalResponsible || cpfLegalResponsible" x-cloak>
+    <div class="col-span-full grid grid-cols-3 gap-4" x-show="isMinor || legalResponsible || cpfLegalResponsible" x-cloak>
       <div class="col-span-full text-center" x-show="'{{ !$client->legal_responsible || !$client->cpf_legal_responsible }}'">
         <span class="py-1 text-yellow-700 dark:text-yellow-100">Lembre-se de preencher os campos do responsável legal, pois são necessários.</span>
       </div>
-      <div class="col-span-1">
-        <label for="legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Responsável Legal/Financeiro</label>
+      <div class="md:col-span-2 col-span-full">
+        <label for="legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 truncate">Responsável Legal/Financeiro</label>
         <input type="text" id="legal_responsible" name="legal_responsible" x-model="legalResponsible"
                class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" :required="isMinor ? true : false">
       </div>
-      <div class="col-span-1">
+      <div class="md:col-span-1 col-span-full">
         <div class="xl:col-span-3 lg:col-span-2 md:col-span-3" x-data>
-          <label for="cpf_legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">CPF do Responsável Legal/Financeiro</label>
+          <label for="cpf_legal_responsible" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 truncate" title="CPF do Responsável Legal/Financeiro">CPF do Responsável Legal/Financeiro</label>
           <input type="text" id="cpf_legal_responsible" name="cpf_legal_responsible" x-model="cpfLegalResponsible"
                  class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" x-mask="999.999.999-99" :required="isMinor ? true : false">
         </div>
@@ -54,7 +54,7 @@
       <input type="text" id="nationality" name="nationality" value="{{ $client->nationality }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="col-span-3">
+    <div class="md:col-span-3 col-span-full">
       <label for="marital_status" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Estado Civil</label>
       <select id="marital_status" name="marital_status"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
@@ -66,12 +66,12 @@
         <option value="União estável" {{ $client->marital_status === 'União estável' ? 'selected' : '' }}>União estável</option>
       </select>
     </div>
-    <div class="col-span-3">
+    <div class="md:col-span-3 col-span-full">
       <label for="occupation" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Profissão</label>
       <input type="text" id="occupation" name="occupation" value="{{ $client->occupation }}"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
     </div>
-    <div class="col-span-3">
+    <div class="md:col-span-3 col-span-full">
       <label for="main_phone_number" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Telefone</label>
       <select id="main_phone_number" name="main_phone_number" aria-labelledby="phone-select-label"
               class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"
@@ -82,7 +82,7 @@
         @endforeach
       </select>
     </div>
-    <div class="col-span-3">
+    <div class="md:col-span-3 col-span-full">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
       <input type="email" id="email" name="email" value="{{ $client->email }}" autocomplete="email"
              class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800" required>

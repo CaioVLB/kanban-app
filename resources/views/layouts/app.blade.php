@@ -22,7 +22,7 @@
         </div>
 
         @if(session()->get('success') || $errors->first())
-          <div x-data="{ show: true, init() { setTimeout(() => this.show = false, 4000) } }" x-show="show"
+          <div x-data="{ show: true, init() { setTimeout(() => this.show = false, 5000) } }" x-show="show"
                x-transition:enter="transform ease-out duration-300 transition"
                x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
                x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"

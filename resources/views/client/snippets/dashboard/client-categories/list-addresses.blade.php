@@ -5,16 +5,16 @@
       <div class="flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-2 gap-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div class="w-full grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 gap-x-4 gap-y-1 lg:py-1 px-2">
           <div class="flex flex-col lg:col-span-3 md:col-span-3 col-span-full">
-            <label class="text-start text-gray-600 dark:text-gray-400">Descrição</label>
-            <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="{{ $address->description }}">{{ $address->description }}</span>
+            <label class="text-start text-sm text-gray-600 dark:text-gray-400">Descrição</label>
+            <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white" title="{{ $address->description }}">{{ $address->description }}</span>
           </div>
           <div class="flex flex-col lg:col-span-1 md:col-span-1 col-span-full">
-            <label class="text-start text-gray-600 dark:text-gray-400">CEP</label>
-            <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="{{ $address->zipcode }}">{{ $address->zipcode }}</span>
+            <label class="text-start text-sm text-gray-600 dark:text-gray-400">CEP</label>
+            <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white" title="{{ $address->zipcode }}">{{ $address->zipcode }}</span>
           </div>
           <div class="flex flex-col col-span-full">
-            <label class="text-start text-gray-600 dark:text-gray-400">Endereço</label>
-            <span class="text-start text-gray-900 font-bold truncate dark:text-white"
+            <label class="text-start text-sm text-gray-600 dark:text-gray-400">Endereço</label>
+            <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white"
                   title="{{ $address->street }} -  {{ $address->number }}, {{ $address->neighborhood }}, {{ $address->city->city }} - {{ $address->state->abbreviation }}">
               {{ $address->street }} -  {{ $address->number }}, {{ $address->neighborhood }}, {{ $address->city->city }} - {{ $address->state->abbreviation }}
             </span>

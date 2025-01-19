@@ -96,7 +96,12 @@ class ClientController extends Controller
       'phone_number'
     ])->get();
 
-    $evaluations = Evaluation::with(['collaborator.user:id,name'])
+    $evaluations = Evaluation::with(['collaborator' => function ($query) {
+        $query->select('id', 'user_id');
+      }, 'collaborator.user' => function ($query) {
+        $query->select('id', 'name');
+      }])
+      ->select('id', 'evaluation_name', 'client_id', 'type', 'collaborator_id', 'date')
       ->orderBy('created_at', 'desc')
       ->get()
       ->groupBy('type')

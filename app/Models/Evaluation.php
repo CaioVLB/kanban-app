@@ -64,4 +64,29 @@ class Evaluation extends Model
     );
   }
 
+  public function getDateForInput(): ?string
+  {
+    return $this->attributes['date']
+      ? Carbon::parse($this->attributes['date'])->format('Y-m-d')
+      : null;
+  }
+
+  public function findEvaluationWithRelation(int $id, string $type): Evaluation
+  {
+    return $this->with([
+      'collaborator:id,user_id',
+      $type
+    ])
+      ->where('type', $type)
+      ->findOrFail($id);
+  }
+
+  public function findEvaluationValidation(int $id, string $type): Evaluation
+  {
+    return $this->with(['collaborator:id,user_id'])
+      ->select('id', 'collaborator_id')
+      ->where('type', $type)
+      ->findOrFail($id);
+  }
+
 }

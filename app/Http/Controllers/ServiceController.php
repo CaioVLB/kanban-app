@@ -47,7 +47,7 @@ class ServiceController extends Controller
 
       return redirect()->back()->with('success', 'Serviço cadastrado com sucesso!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento do serviço. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema no cadastramento do serviço. Tente novamente!']);
     }
   }
 
@@ -67,7 +67,7 @@ class ServiceController extends Controller
     } catch (ModelNotFoundException $e) {
       return redirect()->back()->with('success', 'Serviço não encontrado!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na atualização do Serviço. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na atualização do Serviço. Tente novamente!']);
     }
   }
 
@@ -80,9 +80,9 @@ class ServiceController extends Controller
 
       $category->save();
 
-      return response()->json(["success" => 'Disponibilidade alterada!'], 200);
+      return response()->json(['success' => 'Disponibilidade alterada!'], 200);
     } catch (\Exception $e) {
-      return response()->json(["error" => 'Não foi possível alterar a disponibilidade do Serviço. Tente novamente!'], 500);
+      return response()->json(['error' => 'Não foi possível alterar a disponibilidade do Serviço. Tente novamente!'], 500);
     }
   }
 
@@ -93,9 +93,9 @@ class ServiceController extends Controller
 
       return redirect()->back()->with('success', 'Serviço excluído com sucesso!');
     } catch (ModelNotFoundException $e) {
-      return redirect()->back()->with('success', 'Serviço não encontrado!');
+      return redirect()->back()->with('error', 'Serviço não encontrado!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na exclusão do serviço. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão do serviço. Tente novamente!']);
     }
   }
 }

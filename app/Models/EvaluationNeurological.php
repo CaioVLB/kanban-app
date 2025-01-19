@@ -11,7 +11,7 @@ class EvaluationNeurological extends Model
   use HasFactory;
 
   protected $fillable = [
-    'evaluation_id ', 'physical_assessment', 'inspection_assessment', 'muscle_trophism_characteristic', 'muscle_tone_characteristic'
+    'evaluation_id ', 'blood_pressure', 'heart_rate', 'physical_assessment', 'inspection_assessment', 'muscle_trophism_characteristic', 'muscle_tone_characteristic'
   ];
 
   public function evaluation(): BelongsTo

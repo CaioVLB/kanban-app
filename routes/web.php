@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(EvaluationController::class)->group(function () {
       Route::post('{client_id}/evaluation/{type}', 'evaluations')->name('client.evaluations.evaluation');
+      Route::put('{client_id}/evaluation/{evaluation_id}/{type}', 'updateEvaluationName')->name('client.evaluations.updateEvaluationName');
+      Route::delete('/evaluation/{evaluation_id}/{type}', 'destroy')->name('client.evaluations.destroy');
     });
   });
 

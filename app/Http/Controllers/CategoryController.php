@@ -18,7 +18,6 @@ class CategoryController extends Controller
     protected Category $category
   ){}
 
-
   public function index(): View
   {
     $categories = $this->category->withCount('services')
@@ -38,7 +37,7 @@ class CategoryController extends Controller
 
       return redirect()->back()->with('success', 'Categoria cadastrada com sucesso!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema no cadastramento da categoria. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema no cadastramento da categoria. Tente novamente!']);
     }
   }
 
@@ -55,7 +54,7 @@ class CategoryController extends Controller
     } catch (ModelNotFoundException $e) {
       return redirect()->back()->with('success', 'Categoria não encontrada!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na atualização da categoria. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na atualização da categoria. Tente novamente!']);
     }
   }
 
@@ -68,9 +67,9 @@ class CategoryController extends Controller
 
       $category->save();
 
-      return response()->json(["success" => 'Disponibilidade alterada!'], 200);
+      return response()->json(['success' => 'Disponibilidade alterada!'], 200);
     } catch (\Exception $e) {
-      return response()->json(["error" => 'Não foi possível alterar a disponibilidade da especialidade. Tente novamente!'], 500);
+      return response()->json(['error' => 'Não foi possível alterar a disponibilidade da especialidade. Tente novamente!'], 500);
     }
   }
 
@@ -87,9 +86,9 @@ class CategoryController extends Controller
 
       return redirect()->back()->with('success', 'Categoria excluída com sucesso!');
     } catch (ModelNotFoundException $e) {
-      return redirect()->back()->with('success', 'Categoria não encontrada!');
+      return redirect()->back()->with('error', 'Categoria não encontrada!');
     } catch (\Exception $e) {
-      return redirect()->back()->withErrors(["error" => 'Ocorreu um problema na exclusão da categoria. Tente novamente!']);
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão da categoria. Tente novamente!']);
     }
   }
 }

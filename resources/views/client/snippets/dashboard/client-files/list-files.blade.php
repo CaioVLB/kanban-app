@@ -22,30 +22,30 @@
       </div>
     @endif
   </div>
-  <div class="w-full flex flex-col max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth gap-y-0.5 mt-2 p-1">
+  <div class="w-full flex flex-col max-h-[460px] max-h-[460px]:overflow-scroll scroll-smooth overflow-x-hidden gap-y-0.5 mt-2 p-1">
     @forelse($files as $file)
-      <div x-data="{ isLoading: false }" class="grid grid-cols-6 h-auto max-h-[90px] box-border p-1.5 mt-1.5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <div class="grid grid-cols-5 col-span-5 gap-4 py-1 p-2">
-          <div class="flex flex-col col-span-2">
+      <div class="flex justify-between h-auto box-border p-1.5 mt-1.5 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <div class="w-full grid grid-cols-5 gap-4 py-1 p-2">
+          <div class="flex flex-col md:col-span-2 col-span-full">
             <label class="text-start text-sm text-gray-600 dark:text-gray-400">Descrição</label>
             <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white" title="{{ $file->content }}">{{ $file->content }}</span>
           </div>
-          <div class="flex flex-col col-span-2">
+          <div class="flex flex-col md:col-span-2 col-span-full">
             <label class="text-start text-sm text-gray-600 dark:text-gray-400">Nome do Arquivo</label>
             <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white" title="{{ $file->original_name }}">{{ $file->original_name }}</span>
           </div>
-          <div class="flex flex-col col-span-1 relative group">
+          <div class="flex flex-col md:col-span-1 col-span-full relative group">
             <label class="text-start text-sm text-gray-600 dark:text-gray-400">Detalhes</label>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 stroke-gray-900 dark:stroke-white lucide lucide-folder-clock">
               <circle cx="16" cy="16" r="6"/><path d="M7 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2"/><path d="M16 14v2l1 1"/>
             </svg>
             <!-- Tooltip -->
-            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 p-2 bg-gray-600 text-white text-xs rounded shadow-lg hidden group-hover:block z-50">
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 p-2 bg-gray-600 text-white text-xs rounded shadow-lg hidden group-hover:block z-50 cursor-default">
               Arquivo carregado por <b>{{ $file->createdBy->name }}</b> na data {{ $file->created_at }}
             </div>
           </div>
         </div>
-        <div class="flex col-span-1 gap-2 py-1">
+        <div class="flex md:flex-row flex-col items-center justify-center gap-2 py-1">
           <x-button-modal onclick="openModalViewFile({{ $file->id }}, '{{ $file->original_name }}', '{{$file->content}}')" :title="'Visualizar imagem'" class="flex items-center justify-center p-2 bg-blue-200 rounded-lg border border-blue-300 hover:bg-blue-300 hover:border-blue-400 dark:bg-blue-600 dark:border-blue-700 dark:hover:bg-blue-700 dark:hover:border-blue-800">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256" class="h-5 w-5 fill-blue-400 dark:fill-blue-200 dark:hover:fill-blue-300">
               <path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"></path>

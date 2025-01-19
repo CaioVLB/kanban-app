@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ProfileEnum;
 use App\Models\Client;
 use App\Models\Collaborator;
 use App\Models\Evaluation;
@@ -74,5 +75,11 @@ class EvaluationService
   {
     $collaborator = $this->collaborator->where('user_id', auth()->user()->id)->first();
     return $collaborator ? $collaborator->id : null;
+  }
+
+  public function authorizeActionEvaluation(Evaluation $evaluation)
+  { // Verifica se o usuário é um gestor ou se é o colaborador da avaliação (caso a avaliação tenha colaborador vinculado).
+    return auth()->user()->profile_id === ProfileEnum::MANAGER ||
+      ($evaluation->collaborator && auth()->user()->id === $evaluation->collaborator->user_id);
   }
 }

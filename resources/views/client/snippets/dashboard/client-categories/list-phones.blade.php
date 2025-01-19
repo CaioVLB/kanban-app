@@ -5,12 +5,12 @@
       <div class="flex justify-center items-center border border-gray-200 rounded-lg shadow bg-white p-2 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div class="w-full grid grid-cols-5 gap-x-4 gap-y-1 lg:py-1 px-2">
           <div class="flex flex-col md:col-span-3 col-span-full">
-            <label class="text-start text-gray-600 dark:text-gray-400">Responsável</label>
-            <span class="text-start text-gray-900 font-bold truncate dark:text-white" title="{{ $phone->identifier }}">{{ $phone->identifier }}</span>
+            <label class="text-start text-sm text-gray-600 dark:text-gray-400">Responsável</label>
+            <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white" title="{{ $phone->identifier }}">{{ $phone->identifier }}</span>
           </div>
           <div class="flex flex-col md:col-span-2 col-span-full">
-            <label class="text-start text-gray-600 dark:text-gray-400">Telefone</label>
-            <span class="text-start text-gray-900 font-bold truncate dark:text-white">{{ $phone->phone_number }}</span>
+            <label class="text-start text-sm text-gray-600 dark:text-gray-400">Telefone</label>
+            <span class="text-start text-sm text-gray-900 font-bold truncate dark:text-white">{{ $phone->phone_number }}</span>
           </div>
         </div>
         <x-danger-button onclick="openModal({{ $phone->id }}, '{{ $phone->phone_number }}')" :title="'Excluir telefone'" class="flex items-center justify-center p-2 bg-red-200 rounded-lg border border-red-400 shadow hover:bg-red-300 dark:bg-red-400 dark:border-red-500">
