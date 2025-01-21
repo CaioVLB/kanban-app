@@ -17,20 +17,20 @@ export default () => ({
     this.mode = mode;
     this.evaluationLabel = label;
     if (this.mode === 'edit') {
-      this.routes.update = window.routes.evaluation.update
+      this.routes.update = window.routes.evaluationList.update
         .replace(':client_id', clientId)
         .replace(':evaluation_id', evaluationId)
         .replace(':type', type)
       this.form.evaluationName = evaluationName;
     } else {
-      this.routes.create = this.replaceRouteParams(window.routes.evaluation.create, clientId, type);
+      this.routes.create = this.replaceRouteParams(window.routes.evaluationList.create, clientId, type);
       this.form.evaluationName = '';
     }
     this.$dispatch('open-modal', 'evaluation-create-modal');
   },
 
   openModalDeleteEvaluation(evaluationId, type, evaluationName) {
-    this.routes.delete = this.replaceRouteParams(window.routes.evaluation.delete, evaluationId, type);
+    this.routes.delete = this.replaceRouteParams(window.routes.evaluationList.delete, evaluationId, type);
     this.originEvaluationName = evaluationName;
     this.$dispatch('open-modal', 'evaluation-delete-modal');
   },

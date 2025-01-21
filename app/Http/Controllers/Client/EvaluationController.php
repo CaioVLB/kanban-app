@@ -42,13 +42,15 @@ class EvaluationController extends Controller
       'date' => date('Y-m-d'),
     ];
 
-    $this->store($data, $type);
+    $evaluation = $this->store($data, $type);
+
+    $evaluation->load([$evaluation->type]);
 
     $collaborators = $this->collaborator->getAllCollaborators();
 
     $viewName = $this->evaluationService->getViewName($type);
 
-    return view($viewName, compact('client', 'collaborators'));
+    return view($viewName, compact('client', 'collaborators', 'evaluation'));
   }
 
   protected function store(array $data, string $type): Evaluation|RedirectResponse
@@ -98,9 +100,13 @@ class EvaluationController extends Controller
     } catch (QueryException $e) {
       return redirect()->back()->withErrors(['error' => 'Não foi possível atualizar a avaliação. Verifique os dados e tente novamente.']);
     } catch (\Exception $e) {
-      dd($e->getMessage());
       return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado. Tente novamente em alguns minutos.']);
     }
+  }
+
+  public function updateEvaluation(Request $request, int $evaluation_id, string $type): View|RedirectResponse
+  {
+    dd($request);
   }
 
   public function destroy(int $evaluation_id, $type): RedirectResponse

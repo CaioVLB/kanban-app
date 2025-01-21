@@ -6,11 +6,21 @@
   'type' => ''
 ])
 
+@section('scripts')
+  <script>
+    window.routes = {
+      evaluation: {
+        update: "{{ route('client.evaluations.updateEvaluation', ['evaluation_id' => ':evaluation_id', 'type' => ':type']) }}",
+        redirect: "{{ route('client.show', ['client_id' => ':client_id']) }}"
+      }
+    };
+  </script>
+@endsection
+
 <x-app-layout>
-  @dump($evaluation)
   <div x-data="evaluation({{ json_encode($evaluation->weight) }})" class="pt-3 pb-12">
     <div class="max-w-7xl flex items-center mx-auto mb-3 px-2 gap-4">
-      <a href="{{ route('client.show', $client->id) }}"
+      <x-button-modal onclick="openModalConfirmEvaluation({{ $client->id }})"
          class="inline-flex items-center p-2.5 text-amber-600 focus:outline-none bg-amber-200 rounded-full border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -18,10 +28,12 @@
           <path d="M19 15V9"/>
           <path d="M15 15h-3v4l-7-7 7-7v4h3v6z"/>
         </svg>
-      </a>
+      </x-button-modal>
       <h1 class="font-bold text-gray-500 dark:text-white">Retornar à ficha do paciente</h1>
     </div>
-    <div class="max-w-7xl mx-auto gap-x-4 gap-y-2 w-full bg-white shadow rounded-lg p-6 dark:text-gray-400 dark:bg-gray-800">
+    <form :action="routes.update" method="POST" @submit.prevent="isLoadingAction = true; $el.submit()" class="max-w-7xl mx-auto gap-x-4 gap-y-2 w-full bg-white shadow rounded-lg p-6 dark:text-gray-400 dark:bg-gray-800">
+      @csrf
+      @method('PUT')
       <h1 class="text-center font-bold text-gray-500 dark:text-white">{{ $title }}</h1>
       <h2 class="font-bold text-gray-500 dark:text-white my-4">DADOS PESSOAIS</h2>
       <div class="grid grid-cols-12 gap-4">
@@ -88,6 +100,7 @@
           </div>
         </div>
       </div>
+
       <div class="grid grid-cols-12 gap-4 my-4">
         <div class="flex justify-center items-center col-span-full">
           <h2 class="font-bold text-gray-500 dark:text-white my-2">PREENCHA OS CAMPOS ABAIXO</h2>
@@ -99,7 +112,7 @@
                   required>
             <option selected disabled hidden value="">Selecione o profissional</option>
             @foreach($collaborators as $collaborator)
-              <option value="{{ $collaborator->id }}" {{ $evaluation->collaborator->id === $collaborator->id ? 'selected' : '' }}>{{ $collaborator->user->name }}</option>
+              <option value="{{ $collaborator->id }}" {{ $evaluation->collaborator_id === $collaborator->id ? 'selected' : '' }}>{{ $collaborator->user->name }}</option>
             @endforeach
           </select>
         </div>
@@ -137,26 +150,26 @@
         @if($type === 'physiotherapy' || $type === 'neuro')
           <div class="col-span-full md:col-span-3">
             <label for="blood_pressure" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Pressão Arterial (P.A)</label>
-            <input type="text" id="blood_pressure" name="blood_pressure" value="{{ old('blood_pressure') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
+            <input type="text" id="blood_pressure" name="blood_pressure" value="{{ $evaluation->physiotherapy->blood_pressure ?? $evaluation->neurological->blood_pressure ?? old('blood_pressure') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
           </div>
           @if($type === 'physiotherapy')
             <div class="col-span-full md:col-span-3">
-              <label for="respiratory_rate" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Frequência respiratória (F.R)</label>
-              <input type="text" id="respiratory_rate" name="respiratory_rate" value="{{ old('respiratory_rate') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
+              <label for="respiratory_rate" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Frequência Respiratória (F.R)</label>
+              <input type="text" id="respiratory_rate" name="respiratory_rate" value="{{ $evaluation->physiotherapy->respiratory_rate ?? old('respiratory_rate') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
             </div>
           @endif
           <div class="col-span-full md:col-span-3">
-            <label for="heart_rate" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Frequência cardíaca (F.C)</label>
-            <input type="text" id="heart_rate" name="heart_rate" value="{{ old('heart_rate') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
+            <label for="heart_rate" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Frequência Cardíaca (F.C)</label>
+            <input type="text" id="heart_rate" name="heart_rate" value="{{ $evaluation->physiotherapy->heart_rate ?? $evaluation->neurological->heart_rate ?? old('heart_rate') }}" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800"/>
           </div>
         @endif
         <div class="col-span-full">
           <label for="diagnosis" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Diagnóstico</label>
-          <textarea id="diagnosis" name="diagnosis" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('diagnosis') }}</textarea>
+          <textarea id="diagnosis" name="diagnosis" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->diagnosis ?? old('diagnosis') }}</textarea>
         </div>
         <div class="col-span-full">
           <label for="main_complaint" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Queixa Principal</label>
-          <textarea id="main_complaint" name="main_complaint" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('main_complaint') }}</textarea>
+          <textarea id="main_complaint" name="main_complaint" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->main_complaint ?? old('main_complaint') }}</textarea>
         </div>
         @if($type === 'orthopedic')
           <div class="col-span-full md:col-span-4">
@@ -179,15 +192,15 @@
         @endif
         <div class="col-span-full">
           <label for="history_current_disease" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">História da Doença Atual (HDA)</label>
-          <textarea id="history_current_disease" name="history_current_disease" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('history_current_disease') }}</textarea>
+          <textarea id="history_current_disease" name="history_current_disease" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->history_current_disease ?? old('history_current_disease') }}</textarea>
         </div>
         <div class="col-span-full">
           <label for="history_previous_disease" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">História Patológica Pregressa (HPP)</label>
-          <textarea id="history_previous_disease" name="history_previous_disease" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('history_previous_disease') }}</textarea>
+          <textarea id="history_previous_disease" name="history_previous_disease" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->history_previous_disease ?? old('history_previous_disease') }}</textarea>
         </div>
         <div class="col-span-full">
           <label for="associated_diseases" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Doenças Associadas</label>
-          <textarea id="associated_diseases" name="associated_diseases" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('associated_diseases') }}</textarea>
+          <textarea id="associated_diseases" name="associated_diseases" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->associated_diseases ?? old('associated_diseases') }}</textarea>
         </div>
         @if($type !== 'neuro')
           <div class="col-span-full md:col-span-4">
@@ -195,8 +208,8 @@
             <select id="physical_activity" name="physical_activity"
                     class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800">
               <option selected disabled hidden value="">Selecione uma opção</option>
-              <option value="1">Sim</option>
-              <option value="0">Não</option>
+              <option value="1" {{ $evaluation->physical_activity === 1 ? 'selected' : '' }}>Sim</option>
+              <option value="0" {{ $evaluation->physical_activity === 0 ? 'selected' : '' }}>Não</option>
             </select>
           </div>
           <div class="col-span-full md:col-span-8">
@@ -204,44 +217,46 @@
               Detalhamento
               <small class="text-[11px] text-gray-700 dark:text-gray-300">(Especificar tipo de atividade, quantas vezes por semana e duração)</small>
             </label>
-            <textarea id="details_physical_activity" name="details_physical_activity" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('details_physical_activity') }}</textarea>
+            <textarea id="details_physical_activity" name="details_physical_activity" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->details_physical_activity ?? old('details_physical_activity') }}</textarea>
           </div>
         @endif
         <div class="col-span-full">
           <label for="habits_vices" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Hábitos e Vícios</label>
-          <textarea id="habits_vices" name="habits_vices" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('habits_vices') }}</textarea>
+          <textarea id="habits_vices" name="habits_vices" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->habits_vices ?? old('habits_vices') }}</textarea>
         </div>
         {{ $slot }}
         @if($type !== 'neuro')
           <div class="col-span-full">
             <label for="medications" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Medicações em Uso</label>
-            <textarea id="medications" name="medications" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('medications') }}</textarea>
+            <textarea id="medications" name="medications" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->medications ?? old('medications') }}</textarea>
           </div>
           @if($type !== 'physiotherapy')
               <div class="col-span-full">
                 <label for="complementary_exams" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Exames Complementares</label>
-                <textarea id="complementary_exams" name="complementary_exams" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('complementary_exams') }}</textarea>
+                <textarea id="complementary_exams" name="complementary_exams" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->orthopedic->complementary_exams ?? $evaluation->respiratory->complementary_exams ?? old('complementary_exams') }}</textarea>
               </div>
           @endif
         @endif
-          <div class="col-span-full">
-            <label for="additional_observations" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Observações Adicionais</label>
-            <textarea id="additional_observations" name="additional_observations" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ old('additional_observations') }}</textarea>
-          </div>
+        <div class="col-span-full">
+          <label for="additional_observations" class="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 flex justify-between">Observações Adicionais</label>
+          <textarea id="additional_observations" name="additional_observations" rows="3" class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 truncate">{{ $evaluation->additional_observations ?? old('additional_observations') }}</textarea>
+        </div>
       </div>
-      <div class="w-full flex items-center justify-center mt-4" x-data="{ isLoading: false }">
+      <div class="w-full flex items-center justify-center mt-4">
         <button type="submit"
-                x-bind:disabled="isLoading"
+                x-bind:disabled="isLoadingAction"
+                @click="submitEvaluation({{ $evaluation->id }}, '{{ $evaluation->type }}')"
                 class="inline-flex items-center py-2.5 px-5 text-sm font-bold text-amber-600 focus:outline-none bg-amber-200 rounded-lg border border-amber-300 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
-          <span x-show="isLoading" x-transition>
+          <span x-show="isLoadingAction" x-transition>
             <svg class="animate-spin h-5 w-5 text-amber-600 dark:text-amber-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 100 8v4a8 8 0 01-8-8z"></path>
             </svg>
           </span>
-          <span x-show="!isLoading">Salvar Avaliação</span>
+          <span x-show="!isLoadingAction">Salvar Avaliação</span>
         </button>
       </div>
-    </div>
+    </form>
+    @include('evaluations.snippets.confirm-action-modal')
   </div>
 </x-app-layout>

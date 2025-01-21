@@ -1,7 +1,7 @@
 @section('scripts')
   <script>
     window.routes = {
-      evaluation: {
+      evaluationList: {
         create: "{{ route('client.evaluations.evaluation', ['client_id' => ':id', 'type' => ':type']) }}",
         update: "{{ route('client.evaluations.updateEvaluationName', ['client_id' => ':client_id', 'evaluation_id' => ':evaluation_id', 'type' => ':type']) }}",
         delete: "{{ route('client.evaluations.destroy', ['evaluation_id' => ':id', 'type' => ':type']) }}",

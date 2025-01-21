@@ -78,8 +78,8 @@ class EvaluationService
   }
 
   public function authorizeActionEvaluation(Evaluation $evaluation)
-  { // Verifica se o usuário é um gestor ou se é o colaborador da avaliação (caso a avaliação tenha colaborador vinculado).
-    return auth()->user()->profile_id === ProfileEnum::MANAGER ||
+  { // Verifica se o usuário é um ADMIN/GESTOR ou se é o colaborador da avaliação (caso a avaliação tenha colaborador vinculado).
+    return auth()->user()->profile_id === ProfileEnum::ADMIN || auth()->user()->profile_id === ProfileEnum::MANAGER ||
       ($evaluation->collaborator && auth()->user()->id === $evaluation->collaborator->user_id);
   }
 }

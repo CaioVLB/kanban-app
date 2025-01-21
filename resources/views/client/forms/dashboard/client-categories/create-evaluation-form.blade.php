@@ -1,7 +1,7 @@
 <form :action="mode === 'create' ? routes.create : routes.update" method="POST" @submit.prevent="isLoadingEvaluationAdd = true; $el.submit()" class="p-4 md:p-5">
   @csrf
   <template x-if="mode === 'edit'">
-    @method('put')
+    @method('PUT')
   </template>
   <div class="mb-4">
     <label for="evaluation_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" x-text="`Qual o nome você deseja colocar para essa avaliação ${evaluationLabel}?`"></label>
