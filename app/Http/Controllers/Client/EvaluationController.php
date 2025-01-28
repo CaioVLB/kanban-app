@@ -104,9 +104,32 @@ class EvaluationController extends Controller
     }
   }
 
-  public function updateEvaluation(Request $request, int $evaluation_id, string $type): View|RedirectResponse
+  public function updateEvaluation(EvaluationsRequest $request, int $evaluation_id, string $type): View|RedirectResponse
   {
-    dd($request);
+    try {
+      $commonDataKeys = ['collaborator_id', 'date', 'weight', 'height', 'diagnosis', 'main_complaint', 'history_current_disease', 'history_previous_disease', 'associated_diseases', 'physical_activity', 'details_physical_activity', 'habits_vices', 'medications', 'additional_observations'];
+
+      $commonData = $request->only($commonDataKeys);
+
+      $allData = $request->validated();
+      $specificDataKeys = array_diff(array_keys($allData), $commonDataKeys);
+      $specificData = $request->only($specificDataKeys);
+
+      $evaluation = $this->evaluation->findEvaluationWithRelation($evaluation_id, $type);
+
+      if ($this->evaluationService->authorizeActionEvaluation($evaluation)) {
+        $this->evaluationService->updateEvaluationWithRelation($evaluation, $commonData, $specificData, $type);
+
+        return redirect()->route('client.show', $evaluation->client_id)->with(['success' => 'Dados da avaliação salvo com sucesso.']);
+      }
+
+      return redirect()->back()->withErrors(['error' => 'Você não tem permissão para atualizar essa avaliação. Entre em contato com o profissional responsável pela avaliação ou com administrador.']);
+
+    } catch (QueryException $e) {
+      return redirect()->back()->withErrors(['error' => 'Não foi possível atualizar a avaliação. Verifique os dados e tente novamente.']);
+    } catch (\Exception $e) {
+      return redirect()->back()->withErrors(['error' => 'Ocorreu um problema inesperado. Tente novamente em alguns minutos.']);
+    }
   }
 
   public function destroy(int $evaluation_id, $type): RedirectResponse

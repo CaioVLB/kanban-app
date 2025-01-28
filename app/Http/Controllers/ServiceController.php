@@ -65,7 +65,7 @@ class ServiceController extends Controller
 
       return redirect()->back()->with('success', 'Serviço atualizado com sucesso!');
     } catch (ModelNotFoundException $e) {
-      return redirect()->back()->with('success', 'Serviço não encontrado!');
+      return redirect()->back()->withErrors(['error' => 'Serviço não encontrado!']);
     } catch (\Exception $e) {
       return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na atualização do Serviço. Tente novamente!']);
     }
@@ -93,7 +93,7 @@ class ServiceController extends Controller
 
       return redirect()->back()->with('success', 'Serviço excluído com sucesso!');
     } catch (ModelNotFoundException $e) {
-      return redirect()->back()->with('error', 'Serviço não encontrado!');
+      return redirect()->back()->withErrors(['error' => 'Serviço não encontrado!']);
     } catch (\Exception $e) {
       return redirect()->back()->withErrors(['error' => 'Ocorreu um problema na exclusão do serviço. Tente novamente!']);
     }

@@ -2,6 +2,7 @@ import './bootstrap';
 import 'flowbite';
 import mask from '@alpinejs/mask';
 import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse'
 import axios from 'axios';
 
 import CreateBoard from './board/create_board.js';
@@ -29,6 +30,7 @@ import Category from './category/category.js';
 import Service from './service/service.js';
 import Company from './company/company.js';
 import Evaluation from './evaluation/evaluation.js';
+import Evolutions from './evolution/evolution.js';
 
 Alpine.data('create_board', CreateBoard);
 Alpine.data('kanban_board', KanbanBoard);
@@ -55,6 +57,7 @@ Alpine.data('category', Category);
 Alpine.data('service', Service);
 Alpine.data('company', Company);
 Alpine.data('evaluation', Evaluation);
+Alpine.data('evolution', Evolutions);
 
 window.Alpine = Alpine;
 window.axios = axios;
@@ -65,5 +68,6 @@ axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 //axios.defaults.timeout = 10000;
 
 Alpine.plugin(mask);
+Alpine.plugin(collapse)
 
 Alpine.start();

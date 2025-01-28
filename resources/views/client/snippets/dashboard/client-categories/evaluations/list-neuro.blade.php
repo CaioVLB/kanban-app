@@ -34,6 +34,12 @@
           </div>
         </div>
         <div class="flex md:flex-row flex-col gap-2">
+          <a href="{{ route('client.evaluation.evolutions', ['client_id' => $client->id, 'type' => $neuro->type, 'evaluation_id' => $neuro->id]) }}" title="Evolução do paciente"
+             class="flex items-center justify-center p-2 bg-green-200 rounded-lg text-green-600 border border-green-300 hover:bg-green-300 hover:text-green-700 dark:bg-green-600 dark:text-green-100 dark:border-green-700 dark:hover:text-white dark:hover:bg-green-700">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 lucide lucide-file-clock">
+              <path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><circle cx="8" cy="16" r="6"/><path d="M9.5 17.5 8 16.25V14"/>
+            </svg>
+          </a>
           <x-button-modal onclick="openModalEvaluation('edit', {{ $client->id }}, '{{ $neuro->type }}', 'neurológica', {{ $neuro->id }}, '{{ $neuro->evaluation_name }}')" class="flex items-center justify-center p-2 bg-amber-200 rounded-lg text-amber-600 border border-amber-400 hover:bg-amber-300 hover:text-amber-700 dark:bg-amber-600 dark:text-amber-200 dark:border-amber-700 dark:hover:text-white dark:hover:bg-amber-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />

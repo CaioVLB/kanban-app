@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\ClientFileController;
 use App\Http\Controllers\Client\ClientPhoneController;
 use App\Http\Controllers\Client\EvaluationController;
+use App\Http\Controllers\Client\EvaluationEvolutionController;
 use App\Http\Controllers\Collaborator\CollaboratorAddressController;
 use App\Http\Controllers\Collaborator\CollaboratorController;
 use App\Http\Controllers\Collaborator\CollaboratorFileController;
@@ -63,6 +64,14 @@ Route::middleware('auth')->group(function () {
       Route::put('{client_id}/evaluation/{evaluation_id}/{type}', 'updateEvaluationName')->name('client.evaluations.updateEvaluationName');
       Route::put('/evaluation/{evaluation_id}/{type}', 'updateEvaluation')->name('client.evaluations.updateEvaluation');
       Route::delete('/evaluation/{evaluation_id}/{type}', 'destroy')->name('client.evaluations.destroy');
+    });
+    Route::controller(EvaluationEvolutionController::class)->group(function () {
+      Route::get('{client_id}/evaluation-{type}/{evaluation_id}/evolutions', 'evolutionsList')->name('client.evaluation.evolutions');
+      Route::prefix('evolution')->group(function () {
+        Route::post('{evaluation_id}/evolution', 'store')->name('client.evaluation.evolution.store');
+        Route::put('{evolution_id}', 'update')->name('client.evaluation.evolution.update');
+        Route::delete('{evolution_id}', 'destroy')->name('client.evaluation.evolution.destroy');
+      });
     });
   });
 

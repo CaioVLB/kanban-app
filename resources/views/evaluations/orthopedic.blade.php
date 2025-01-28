@@ -1,1 +1,8 @@
-<x-evaluation-layout :client="$client" :collaborators="$collaborators" title="FICHA DE AVALIAÇÃO ORTOPEDIA" :evaluation="$evaluation" type="orthopedic"></x-evaluation-layout>
+<x-evaluation-layout
+  :client="$client"
+  :collaborators="$collaborators"
+  :evaluation="$evaluation"
+  :evolutions="$evolutions ?? null"
+  title="FICHA DE AVALIAÇÃO ORTOPEDIA"
+  type="orthopedic">
+</x-evaluation-layout>

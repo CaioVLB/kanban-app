@@ -75,10 +75,9 @@ class Evaluation extends Model
   {
     return $this->with([
       'collaborator:id,user_id',
+      'collaborator.user:id,name',
       $type
-    ])
-      ->where('type', $type)
-      ->findOrFail($id);
+    ])->findOrFail($id);
   }
 
   public function findEvaluationValidation(int $id, string $type): Evaluation

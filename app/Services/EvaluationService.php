@@ -55,6 +55,14 @@ class EvaluationService
     $evaluation->{$relationshipMap[$type]}()->create();
   }
 
+  public function updateEvaluationWithRelation(Evaluation $evaluation, array $commonData, array $specificData, string $type): void
+  {
+    DB::transaction(function () use ($evaluation, $commonData, $specificData, $type) {
+      $evaluation->update($commonData);
+      $evaluation->{$type}()->update($specificData);
+    });
+  }
+
   public function validateEvaluationType(string $type): bool
   {
     return array_key_exists($type, self::VALID_TYPES);

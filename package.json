@@ -15,6 +15,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@alpinejs/collapse": "^3.14.8",
         "@alpinejs/mask": "^3.14.1",
         "flowbite": "^2.4.1"
     }

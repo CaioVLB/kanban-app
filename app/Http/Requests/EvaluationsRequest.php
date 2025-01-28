@@ -43,7 +43,7 @@ class EvaluationsRequest extends FormRequest
   {
     return [
       'collaborator_id' => 'required|integer|exists:collaborators,id',
-      'date' => 'required|date',
+      'date' => 'required|date|after:1900-01-01',
       'weight' => 'nullable|numeric|min:0|max:999.99',
       'height' => 'nullable|numeric|min:0|max:3.00',
       'physical_activity' => 'nullable|boolean',
@@ -56,6 +56,18 @@ class EvaluationsRequest extends FormRequest
       'habits_vices' => 'nullable|string',
       'medications' => 'nullable|string',
       'additional_observations' => 'nullable|string',
+      'blood_pressure' => 'nullable|string|max:255',
+      'heart_rate' => 'nullable|string|max:255',
+      'respiratory_rate' => 'nullable|string|max:255',
+      'physical_assessment' => 'nullable|string',
+      'inspection_assessment' => 'nullable|string',
+      'muscle_trophism_characteristic' => 'nullable|string',
+      'muscle_tone_characteristic' => 'nullable|string',
+      'pain_intensity' => 'nullable|string|max:100',
+      'details_affected_local' => 'nullable|string',
+      'family_historic' => 'nullable|string',
+      'complementary_exams' => 'nullable|string',
+      'hospitalization' => 'nullable|string',
     ];
   }
 
@@ -77,6 +89,9 @@ class EvaluationsRequest extends FormRequest
       'height.numeric' => 'A altura deve ser um valor numérico.',
       'height.min' => 'A altura não pode ser negativa.',
       'height.max' => 'A altura não pode ser maior que 3 metros.',
+      'blood_pressure.max' => 'O campo Pressão Arterial deve conter no máximo 255 caracteres.',
+      'heart_rate.max' => 'O campo Frequência Cardíaca deve conter no máximo 255 caracteres.',
+      'respiratory_rate.max' => 'O campo Frequência Respiratória deve conter no máximo 255 caracteres.',
 
       'physical_activity.boolean' => 'A atividade física deve ser selecionada como sim ou não.',
     ];
