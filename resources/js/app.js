@@ -64,6 +64,7 @@ window.axios = axios;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('#__token').getAttribute('content');
+console.log("API URL:", import.meta.env.VITE_APP_URL);
 axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 //axios.defaults.timeout = 10000;
 
