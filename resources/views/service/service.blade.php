@@ -1,7 +1,10 @@
 @section('scripts')
   <script>
     window.routes = {
-      services: {5
+      services: {
+        create: "{{ route('services.store', ':id') }}",
+        update: "{{ route('services.update', ':id') }}",
+        delete: "{{ route('services.destroy', ':id') }}"
       }
     };
   </script>
