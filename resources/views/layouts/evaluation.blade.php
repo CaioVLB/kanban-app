@@ -75,7 +75,7 @@
         <div class="flex flex-col md:col-span-4 col-span-full print:col-span-6">
           <label for="collaborator_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 print:text-black print:dark:text-black print:bg-white">Profissional Responsável</label>
           @if(!empty($evolutions))
-            <input id="collaborator_id" value="{{ $evaluation->collaborator->user->name }}" readonly class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 print:text-black print:dark:text-black print:p-1.5 print:text-[11px]">
+            <input id="collaborator_id" value="{{ isset($evaluation->collaborator) ? $evaluation->collaborator->user->name : 'Não informado' }}" readonly class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 print:text-black print:dark:text-black print:p-1.5 print:text-[11px]">
           @else
             <select id="collaborator_id" name="collaborator_id"
                     class="block mt-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md shadow-sm focus:ring-amber-400 focus:border-amber-200 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-400 dark:focus:border-amber-800 print:text-black print:dark:text-black print:dark:bg-white print:p-1.5 print:text-[11px]"
