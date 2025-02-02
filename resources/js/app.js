@@ -16,6 +16,7 @@ import ClientAddresses from './client/dashboard/client_categories/client_address
 import ClientPhones from './client/dashboard/client_categories/client_phones.js';
 import ClientEvaluations from "./client/dashboard/client_categories/client_evaluations.js";
 import ClientFiles from './client/dashboard/client_files/client_files.js';
+import ClientNotes from './client/dashboard/client_notes/client_notes.js';
 
 import Collaborator from './collaborator/collaborator.js';
 import CollaboratorMenus from './collaborator/dashboard/collaborator_categories/collaborator_menus.js';
@@ -24,6 +25,7 @@ import CollaboratorAddresses from './collaborator/dashboard/collaborator_categor
 import CollaboratorPhones from './collaborator/dashboard/collaborator_categories/collaborator_phones.js';
 import CollaboratorAccess from "./collaborator/dashboard/collaborator_categories/collaborator_access.js";
 import CollaboratorFiles from './collaborator/dashboard/collaborator_files/collaborator_files.js';
+import CollaboratorNotes from "./collaborator/dashboard/collaborator_notes/collaborator_notes.js";
 
 import Paper from './paper/paper.js';
 import Category from './category/category.js';
@@ -43,6 +45,7 @@ Alpine.data('client_addresses', ClientAddresses);
 Alpine.data('client_phones', ClientPhones);
 Alpine.data('client_evaluations', ClientEvaluations);
 Alpine.data('client_files', ClientFiles);
+Alpine.data('client_notes', ClientNotes);
 
 Alpine.data('collaborator', Collaborator);
 Alpine.data('collaborator_menus', CollaboratorMenus);
@@ -51,6 +54,7 @@ Alpine.data('collaborator_addresses', CollaboratorAddresses);
 Alpine.data('collaborator_phones', CollaboratorPhones);
 Alpine.data('collaborator_access', CollaboratorAccess);
 Alpine.data('collaborator_files', CollaboratorFiles);
+Alpine.data('collaborator_notes', CollaboratorNotes);
 
 Alpine.data('paper', Paper);
 Alpine.data('category', Category);
