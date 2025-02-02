@@ -100,7 +100,7 @@ class ClientController extends Controller
         $query->select('id', 'user_id');
       }, 'collaborator.user' => function ($query) {
         $query->select('id', 'name');
-      }])
+      }])->where('client_id', $id)
       ->select('id', 'evaluation_name', 'client_id', 'type', 'collaborator_id', 'date')
       ->orderBy('created_at', 'desc')
       ->get()
