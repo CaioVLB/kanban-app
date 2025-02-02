@@ -109,4 +109,7 @@
       </li>
     </ul>
   </div>
+  <div class="w-full h-auto flex justify-center p-2">
+    <small class="text-gray-900 dark:text-gray-200">Versão 1.0</small>
+  </div>
 </div>
