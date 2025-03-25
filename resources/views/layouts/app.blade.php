@@ -6,48 +6,34 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="{{ csrf_token() }}" id="__token">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        <!-- Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        @yield('styles')
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <body class="font-sans antialiased overflow-y-hidden">
+        <div class="min-h-dvh bg-gray-100 dark:bg-gray-900">
             @include('layouts.main')
         </div>
 
-        {{-- <div class="flex" id="wrapper" x-data="{ isOpen: true }">
-            <div id="sidebar" class="h-screen overflow-y-auto transition-all duraction-200 bg-white dark:bg-gray-900"
-            :class="isOpen ? 'w-48' : 'w-0'">
-                <div class="w-full h-auto flex justify-center p-2 bg-gray-900 dark:bg-gray-100">
-                    <!-- Logo -->
-                    <div class="shrink-0 flex items-center">
-                        <a href="{{ route('dashboard') }}">
-                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                        </a>
-                    </div>
-                </div>
-                <ul>
-                    <li>Board</li>
-                    <li>Clientes</li>
-                </ul>
-            </div> --}}
-            {{-- <div class="w-full h-screen overflow-y-auto transition-all duraction-200 bg-gray-100 dark:bg-gray-900">
-                <div class="w-full h-screen overflow-y-auto bg-gray-900 dark:bg-gray-100">
-                    <button @click.prevent="isOpen = ! isOpen">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#000000" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-                    </button>
-                </div>
-                <div class="p-2">
+        @if(session()->get('success') || $errors->first())
+          <div x-data="{ show: true, init() { setTimeout(() => this.show = false, 5000) } }" x-show="show"
+               x-transition:enter="transform ease-out duration-300 transition"
+               x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+               x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
+               x-transition:leave="transform ease-in duration-100 transition"
+               x-transition:leave-start="opacity-100"
+               x-transition:leave-end="opacity-0"
+               class="fixed top-4 right-4 z-50 max-w-xs w-full {{ session()->get('success') ? 'bg-green-200 border-green-300 text-green-700' : 'bg-red-200 border-red-300 text-red-700' }} border text-sm font-bold p-4 rounded-lg shadow-lg">
+            <span>{{ session()->get('success') ? session()->get('success') : $errors->first() }}</span>
+          </div>
+        @endif
 
-                </div>
-            </div> --}}
-        {{-- </div> --}}
+        @yield('scripts')
     </body>
 </html>

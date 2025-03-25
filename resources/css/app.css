@@ -23,3 +23,7 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.max-h-content {
+    height: calc(100dvh - 65px );
+}

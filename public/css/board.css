@@ -1,0 +1,19 @@
+/* Estilo para o card arrastado */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transições suaves para transformações */
+}
+
+/* Estilo para a coluna ao receber o card */
+.column-body {
+  transition: background-color 0.2s ease; /* Suaviza a transição de cor */
+}
+
+.column-highlight {
+  background-color: rgba(50, 50, 50, 0.25);
+  border: 1px solid rgba(50, 50, 50, 0.5);
+  border-radius: 5px;
+  height: auto;
+  min-height: 50dvh;
+  overflow: hidden; /* Necessário para ocultar conteúdo durante a transição */
+  transition: height 0.5s ease-in-out; /* Use height para transições suaves */
+}

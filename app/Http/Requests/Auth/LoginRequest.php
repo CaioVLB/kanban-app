@@ -49,6 +49,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Verificar se o usuário está ativo
+        $user = Auth::user();
+        if (!$user->is_active) {
+          Auth::logout();
+
+          throw ValidationException::withMessages([
+            'email' => trans('auth.inactive'),
+          ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
